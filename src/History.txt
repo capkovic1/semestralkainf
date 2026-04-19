@@ -1,0 +1,27 @@
+
+Time: 2025-05-15 11:44:30 ,TimeAlive: 00:05, Score: 1000
+Time: 2025-05-15 11:51:00 ,TimeAlive: 02:32, Score: 65690
+Time: 2025-05-15 12:11:18 ,TimeAlive: 00:17, Score: 6500
+Time: 2025-05-15 12:12:44 ,TimeAlive: 01:24, Score: 42420
+Time: 2025-05-15 12:22:16 ,TimeAlive: 00:33, Score: 5143810
+Time: 2025-05-15 12:26:53 ,TimeAlive: 00:09, Score: 2000
+Time: 2025-05-15 12:27:04 ,TimeAlive: 00:10, Score: 6000
+Time: 2025-05-15 12:27:09 ,TimeAlive: 00:03, Score: 6000
+Time: 2025-05-15 12:27:15 ,TimeAlive: 00:05, Score: 6000
+Time: 2025-05-15 12:27:20 ,TimeAlive: 00:03, Score: 6000
+Time: 2025-05-15 12:48:10 ,TimeAlive: 00:25, Score: 9000
+Time: 2025-05-15 12:48:44 ,TimeAlive: 00:03, Score: 9000
+Time: 2025-05-15 12:59:58 ,TimeAlive: 02:11, Score: 64280
+Time: 2025-05-15 13:00:08 ,TimeAlive: 00:03, Score: 0
+Time: 2025-05-15 15:18:24 ,TimeAlive: 00:04, Score: 780
+Time: 2025-05-15 15:19:02 ,TimeAlive: 00:36, Score: 20760
+Time: 2025-05-15 15:21:04 ,TimeAlive: 00:09, Score: 1000
+Time: 2025-05-15 15:21:15 ,TimeAlive: 00:09, Score: 3000
+Time: 2025-05-15 16:40:28 ,TimeAlive: 00:33, Score: 9090
+Time: 2025-05-15 23:36:38 ,TimeAlive: 01:17, Score: 37030
+Time: 2025-06-06 01:53:23 ,TimeAlive: 00:31, Score: 12000
+Time: 2025-06-06 01:54:08 ,TimeAlive: 00:19, Score: 0
+Time: 2025-06-06 01:54:38 ,TimeAlive: 00:04, Score: 0
+Time: 2026-03-27 09:57:04 ,TimeAlive: 00:07, Score: 0
+Time: 2026-03-27 09:57:16 ,TimeAlive: 00:04, Score: 60
+Time: 2026-03-27 10:37:27 ,TimeAlive: 00:07, Score: 810
