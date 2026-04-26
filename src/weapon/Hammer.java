@@ -28,7 +28,7 @@ public class Hammer extends Weapon {
         boolean upgrade = super.upgrade();
         if (upgrade) {
             super.zvysDmgToStructures(5);
-            super.zvysDamage(5);
+            super.increaseDamage(5);
             return true;
         }
         return false;

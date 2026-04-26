@@ -27,7 +27,7 @@ public class Bow extends Weapon {
     public boolean upgrade() {
         boolean upgrade = super.upgrade();
         if (upgrade) {
-            super.zvysDamage(5);
+            super.increaseDamage(5);
             return true;
         }
         return false;

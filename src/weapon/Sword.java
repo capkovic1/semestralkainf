@@ -27,7 +27,7 @@ public class Sword extends Weapon {
     public boolean upgrade() {
         boolean upgrade = super.upgrade();
         if (upgrade) {
-            super.zvysDamage(10);
+            super.increaseDamage(10);
         }
         return upgrade;
     }

@@ -27,7 +27,7 @@ public class Hand extends Weapon {
     public boolean upgrade() {
         boolean upgrade = super.upgrade();
         if (upgrade) {
-            super.zvysDamage(3);
+            super.increaseDamage(3);
             return true;
         }
         return false;

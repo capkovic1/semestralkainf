@@ -15,7 +15,7 @@ public interface EnemyManager {
      * @param cols počet stĺpcov v rozložení nepriateľov
      * @param rows počet riadkov v rozložení nepriateľov
      */
-    void createEnemyes(int count, int cols, int rows);
+    void createEnemies(int count, int cols, int rows);
 
     /**
      * Aktualizuje stav nepriateľov podľa pozície hráča a vykreslí ich na danom grafe.
@@ -23,15 +23,15 @@ public interface EnemyManager {
      * @param player inštancia hráča, ktorú nepriatelia môžu sledovať alebo na ňu reagovať
      * @param g grafický kontext na vykresľovanie nepriateľov
      */
-    void updateEnemyes(Player player , Graphics g);
+    void updateEnemies(Player player , Graphics g);
     /**
      * Vykreslí všetkých nepriateľov na poskytnutom grafickom kontexte.
      *
      * @param g grafický kontext, na ktorý sa nepriatelia vykreslia
      */
-    void drawEnemyes(Graphics g);
+    void drawEnemies(Graphics g);
     /**
      * Odstráni všetkých nepriateľov zo zoznamu.
      */
-    void clearEnemyes();
+    void clearEnemies();
 }

@@ -1,5 +1,6 @@
 package entity;
 
+import resource.ResourceType;
 import weapon.Hand;
 import weapon.Weapon;
 
@@ -85,7 +86,7 @@ public class Player {
     }
 
     /** @return aktuálne zvolená zbraň hráča */
-    public Weapon getZbran() {
+    public Weapon getWeapon() {
         return this.weapon;
     }
 
@@ -103,7 +104,7 @@ public class Player {
      *
      * @param weapon nová zbraň
      */
-    public void setZbran(Weapon weapon) {
+    public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
     }
 
@@ -122,34 +123,14 @@ public class Player {
         return this.gold;
     }
 
-    /**
-     * Pridá hráčovi drevo a zvýši skóre.
-     *
-     * @param amount počet jednotiek dreva
-     */
-    public void addWood(int amount) {
+    public void addResource(ResourceType resourceType , int amount) {
         this.score += amount * 10;
-        this.wood += amount;
-    }
 
-    /**
-     * Pridá hráčovi kameň a zvýši skóre.
-     *
-     * @param amount počet jednotiek kameňa
-     */
-    public void addStone(int amount) {
-        this.score += amount * 10;
-        this.stone += amount;
-    }
-
-    /**
-     * Pridá hráčovi zlato a zvýši skóre.
-     *
-     * @param amount počet jednotiek zlata
-     */
-    public void addGold(int amount) {
-        this.score += amount * 10;
-        this.gold += amount;
+        switch (resourceType) {
+            case WOOD -> this.wood+=amount;
+            case STONE -> this.stone+=amount;
+            case GOLD -> this.gold+=amount;
+        }
     }
 
     /**
@@ -184,6 +165,6 @@ public class Player {
         this.stone = 0;
         this.gold = 0;
         this.score = 0;
-        this.setZbran(new Hand(30, 10));
+        this.setWeapon(new Hand(30, 10));
     }
 }

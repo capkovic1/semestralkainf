@@ -3,6 +3,7 @@ package gameManager.entityManager;
 import entity.*;
 import graphics.entityGraphics.*;
 import projectile.Spear;
+import resource.ResourceType;
 
 import java.awt.Rectangle;
 import java.awt.Graphics;
@@ -27,7 +28,7 @@ public class UnifiedEnemyManager implements EnemyManager {
     /**
      * Vytvorí nepriateľov náhodne - polymorfizmus v akcii!
      */
-    public void createEnemyes(int count, int cols, int rows) {
+    public void createEnemies(int count, int cols, int rows) {
         Random rand = new Random();
         for (int i = 0; i < count; i++) {
             int x = rand.nextInt(cols * 30);
@@ -64,7 +65,7 @@ public class UnifiedEnemyManager implements EnemyManager {
      * Aktualizuje všetkých nepriateľov polymorfne.
      */
     @Override
-    public void updateEnemyes(Player player, Graphics g) {
+    public void updateEnemies(Player player, Graphics g) {
         Iterator<Enemy> enemyIterator = this.enemyList.iterator();
         Iterator<EnemyGraphics> graphicsIterator = this.graphicsList.iterator();
 
@@ -73,7 +74,7 @@ public class UnifiedEnemyManager implements EnemyManager {
             EnemyGraphics graphics = graphicsIterator.next();
 
             if (enemy.isDead()) {
-                player.addGold(enemy.getGoldReward());
+                player.addResource(ResourceType.GOLD,enemy.getGoldReward());
                 graphics.drawDeathEffect(g);
                 enemyIterator.remove();
                 graphicsIterator.remove();
@@ -112,7 +113,7 @@ public class UnifiedEnemyManager implements EnemyManager {
      * Vykreslí všetkých nepriateľov polymorfne.
      */
     @Override
-    public void drawEnemyes(Graphics g) {
+    public void drawEnemies(Graphics g) {
         for (int i = 0; i < this.enemyList.size(); i++) {
             Enemy enemy = this.enemyList.get(i);
             EnemyGraphics graphics = this.graphicsList.get(i);
@@ -133,7 +134,7 @@ public class UnifiedEnemyManager implements EnemyManager {
     }
 
     @Override
-    public void clearEnemyes() {
+    public void clearEnemies() {
         this.enemyList.clear();
         this.graphicsList.clear();
     }

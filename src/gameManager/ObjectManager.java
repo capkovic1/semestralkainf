@@ -160,7 +160,7 @@ public class ObjectManager {
      * @param player hráč, ktorý útočí
      */
     public void removeDestroyedTrees(Player player) {
-        int hitRange = player.getZbran().getRange();
+        int hitRange = player.getWeapon().getRange();
         int size = 50;
 
         Rectangle hitBox = new Rectangle(
@@ -178,7 +178,7 @@ public class ObjectManager {
      * @param player hráč, ktorý útočí
      */
     public void removeDestroyedStones(Player player) {
-        int hitRange = player.getZbran().getRange();
+        int hitRange = player.getWeapon().getRange();
         int size = 50;
 
         Rectangle hitBox = new Rectangle(
@@ -202,7 +202,7 @@ public class ObjectManager {
     public Material canHit(int x, int y , Player player) {
 
         int playerSize = 50;
-        int hitRange = player.getZbran().getRange();
+        int hitRange = player.getWeapon().getRange();
 
         Rectangle playerBounds = new Rectangle(x - hitRange, y - hitRange, playerSize + 2 * hitRange, playerSize + 2 * hitRange);
 
@@ -294,7 +294,7 @@ public class ObjectManager {
             while (zombieIter.hasNext()) {
                 Zombie zombie = zombieIter.next();
                 if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(zombie.getX(), zombie.getY(), 50, 50))) {
-                    zombie.uberHp(ball.getDamage());
+                    zombie.decreaseHp(ball.getDamage());
                     if (zombie.isDead()) {
                         zombieIter.remove();
                     }

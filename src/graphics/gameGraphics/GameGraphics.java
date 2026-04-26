@@ -10,6 +10,7 @@ import graphics.entityGraphics.PlayerGraphics;
 import graphics.infoGraphics.InventoryGraphics;
 import graphics.infoGraphics.PlayerInfoGraphics;
 import graphics.ruka.HammerGraphics;
+import resource.ResourceType;
 import weapon.Hammer;
 import object.Material;
 import object.Stone;
@@ -186,33 +187,33 @@ public class GameGraphics extends JPanel {
         Material material = this.gameManager.getObjectManager().canHit(player.getX(), player.getY(), player);
 
         if (material instanceof Stone stone) {
-            stone.changeHpBy(-player.getZbran().getDmgToStructures());
-            player.addStone(3 * player.getZbran().getDmgToStructures());
+            stone.changeHpBy(-player.getWeapon().getDmgToStructures());
+            player.addResource(ResourceType.STONE,3 * player.getWeapon().getDmgToStructures());
 
             if (stone.isDestroyed()) {
                 this.gameManager.getObjectManager().removeDestroyedStones(player);
             }
 
         } else if (material instanceof Wood tree) {
-            tree.changeHpBy(-player.getZbran().getDmgToStructures());
-            player.addWood(3 * player.getZbran().getDmgToStructures());
+            tree.changeHpBy(-player.getWeapon().getDmgToStructures());
+            player.addResource(ResourceType.WOOD,3 * player.getWeapon().getDmgToStructures());
 
             if (tree.isDestroyed()) {
                 this.gameManager.getObjectManager().removeDestroyedTrees(player);
             }
         } else {
             Rectangle attackArea = new Rectangle(
-                    player.getX() - player.getZbran().getRange(),
-                    player.getY() - player.getZbran().getRange(),
-                    50 + 2 * player.getZbran().getRange(),
-                    50 + 2 * player.getZbran().getRange()
+                    player.getX() - player.getWeapon().getRange(),
+                    player.getY() - player.getWeapon().getRange(),
+                    50 + 2 * player.getWeapon().getRange(),
+                    50 + 2 * player.getWeapon().getRange()
             );
 
             // POLYMORFIZMUS - všetci nepriatelia sú v jednom ArrayList<Enemy>
             for (entity.Enemy enemy : this.gameManager.getEnemyManager().getEnemyList()) {
                 Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
                 if (attackArea.intersects(enemyRect)) {
-                    enemy.uberHp(player.getZbran().getDamage());
+                    enemy.decreaseHp(player.getWeapon().getDamage());
                 }
             }
 
@@ -250,7 +251,7 @@ public class GameGraphics extends JPanel {
      */
     public void setWeaponHammer() {
         this.playerGraphics.setHandGraphics(new HammerGraphics(this::repaint));
-        this.gameManager.getPlayer().setZbran(new Hammer(30, 25));
+        this.gameManager.getPlayer().setWeapon(new Hammer(30, 25));
     }
     /**
      * Použije aktuálnu zbraň hráča a spracuje zásah na materiály alebo nepriateľov.

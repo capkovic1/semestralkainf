@@ -146,19 +146,19 @@ public class InventoryGraphics {
 
             switch (slot) {
                 case 0:
-                    this.player.setZbran(this.hand);
+                    this.player.setWeapon(this.hand);
                     this.playerGraphics.setHandGraphics(this.handGraphics);
                     break;
                 case 1:
-                    this.player.setZbran(this.hammer);
+                    this.player.setWeapon(this.hammer);
                     this.playerGraphics.setHandGraphics(this.hammerGraphics);
                     break;
                 case 2:
-                    this.player.setZbran(this.sword);
+                    this.player.setWeapon(this.sword);
                     this.playerGraphics.setHandGraphics(this.swordGraphics);
                     break;
                 case 3:
-                    this.player.setZbran(this.bow);
+                    this.player.setWeapon(this.bow);
                     this.playerGraphics.setHandGraphics(this.bowGraphics);
                     break;
                 case 4:

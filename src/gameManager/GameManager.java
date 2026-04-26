@@ -41,7 +41,7 @@ public class GameManager {
     public void reset(int cols, int rows) {
         this.waveManager.stopWaves();
 
-        this.enemyManager.clearEnemyes();
+        this.enemyManager.clearEnemies();
 
         this.waveManager = new WaveManager(this.enemyManager, cols, rows);
         this.waveManager.startWaves();
@@ -56,7 +56,7 @@ public class GameManager {
      * @param g grafický kontext na kreslenie efektov
      */
     public void updateEntities(Graphics g) {
-        this.enemyManager.updateEnemyes(this.player , g);
+        this.enemyManager.updateEnemies(this.player , g);
     }
 
     /**
@@ -64,7 +64,7 @@ public class GameManager {
      * @param g grafický kontext na kreslenie
      */
     public void draw(Graphics g) {
-        this.enemyManager.drawEnemyes(g);
+        this.enemyManager.drawEnemies(g);
         this.objectManager.drawObjects(g);
     }
 

@@ -3,6 +3,7 @@ package gameManager;
 import graphics.gameGraphics.GameGraphics;
 import object.Canon;
 import object.Wall;
+import resource.ResourceType;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -76,7 +77,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
         switch (this.game.getInventory().getSelectedSlot()) {
             case 4:
                 if (this.game.getPlayer().getStone() >= 50) {
-                    this.game.getPlayer().addStone(-50);
+                    this.game.getPlayer().addResource(ResourceType.STONE,-50);
                     this.game.getObjectManager().addWall(new Wall(gridX, gridY));
                 } else {
                     this.game.showMessage("Not enough stone! (Need 50)");
@@ -86,7 +87,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
             case 5:
                 if (this.game.getPlayer().getStone() >= 150) {
                     if (this.game.getObjectManager().canPlaceCanon(gridX, gridY, this.game.getPlayer())) {
-                        this.game.getPlayer().addStone(-150);
+                        this.game.getPlayer().addResource(ResourceType.STONE,-150);
                         this.game.getObjectManager().addCanon(new Canon(gridX, gridY, 100));
                     } else {
                         this.game.showMessage("Cannot place canon here!");
@@ -134,11 +135,11 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      * Pri neúspechu (napr. maximálny level) zobrazí príslušnú správu.
      */
     private void upgradeWeapon() {
-        int cost = this.game.getPlayer().getZbran().getLevel() * 200;
+        int cost = this.game.getPlayer().getWeapon().getLevel() * 200;
         if (this.game.getPlayer().getGold() >= cost) {
-            boolean upgraded = this.game.getPlayer().getZbran().upgrade();
+            boolean upgraded = this.game.getPlayer().getWeapon().upgrade();
             if (upgraded) {
-                this.game.getPlayer().addGold(-cost);
+                this.game.getPlayer().addResource(ResourceType.GOLD,-cost);
                 this.game.showMessage("Weapon succesfully upgraded!");
             } else {
                 this.game.showMessage("Weapon already upgraded!");

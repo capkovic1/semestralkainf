@@ -2,8 +2,6 @@ package entity;
 
 import graphics.entityGraphics.EnemyGraphics;
 
-import java.awt.*;
-
 /**
  * Abstraktná trieda Enemy reprezentuje nepriateľa v hre.
  * Obsahuje základné vlastnosti ako zdravie, pozíciu, uhol natočenia, rýchlosť a poškodenie.
@@ -86,10 +84,10 @@ public abstract class Enemy {
     /**
      * Odpočíta nepriateľovi životy.
      *
-     * @param kolko počet životov, o ktoré má prísť (poškodenie)
+     * @param number počet životov, o ktoré má prísť (poškodenie)
      */
-    public void uberHp(int kolko) {
-        this.health -= kolko;
+    public void decreaseHp(int number) {
+        this.health -= number;
     }
     /**
      * Nastaví pozíciu X nepriateľa.

@@ -45,7 +45,7 @@ public class Weapon {
      *
      * @param kolko Hodnota, o ktorú sa zvýši poškodenie.
      */
-    protected void zvysDamage(int kolko) {
+    protected void increaseDamage(int kolko) {
         this.damage += kolko;
     }
 
