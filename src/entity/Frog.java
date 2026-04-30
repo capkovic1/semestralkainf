@@ -64,7 +64,7 @@ public class Frog extends Enemy {
             int y = targetY - super.getY();
 
             double length = Math.sqrt(x * x + y * y);
-            double jumpLenght = this.random.nextInt((int)length) ;
+            double jumpLenght = this.random.nextDouble(length) ;
 
 
             if (jumpLenght > 0) {

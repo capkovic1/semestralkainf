@@ -13,7 +13,7 @@ public class GameManager {
 
     private final Player player;
 
-    private final UnifiedEnemyManager enemyManager;
+    private final EnemyManager enemyManager;
     private WaveManager waveManager;
     private final ObjectManager objectManager;
 
@@ -26,7 +26,7 @@ public class GameManager {
     public GameManager(Player player, int cols, int rows) {
         this.player = player;
 
-        this.enemyManager = new UnifiedEnemyManager();
+        this.enemyManager = new EnemyManager();
 
         this.waveManager = new WaveManager( this.enemyManager, cols, rows);
         this.objectManager = new ObjectManager();
@@ -81,7 +81,7 @@ public class GameManager {
         return this.objectManager;
     }
 
-    public UnifiedEnemyManager getEnemyManager() {
+    public EnemyManager getEnemyManager() {
         return this.enemyManager;
     }
 
