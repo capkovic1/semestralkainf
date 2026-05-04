@@ -1,6 +1,7 @@
 package gameManager;
 
 
+import entity.Enemy;
 import entity.Player;
 import entity.Zombie;
 import graphics.objectGraphics.CanonBallGraphics;
@@ -270,12 +271,13 @@ public class ObjectManager {
      *
      * @param zombies zoznam zombie, ktoré môžu byť zasiahnuté projektilmi
      */
-    public void updateCanons(ArrayList<Zombie> zombies) {
+    public int updateCanons(ArrayList<Enemy> enemies) {
+        int goldReward = 0;
         this.canons.removeIf(Canon::isDestroyed);
 
 
         for (Canon canon : this.canons) {
-            canon.update(zombies);
+            canon.update(enemies);
 
             for (CanonBall ball : canon.getProjectiles()) {
                 if (!this.canonBalls.contains(ball)) {
@@ -290,16 +292,17 @@ public class ObjectManager {
             CanonBall ball = ballIter.next();
             ball.update();
 
-            Iterator<Zombie> zombieIter = zombies.iterator();
-            while (zombieIter.hasNext()) {
-                Zombie zombie = zombieIter.next();
-                if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(zombie.getX(), zombie.getY(), 50, 50))) {
-                    zombie.decreaseHp(ball.getDamage());
-                    if (zombie.isDead()) {
-                        zombieIter.remove();
+            Iterator<Enemy> enemyIterator = enemies.iterator();
+            while (enemyIterator.hasNext()) {
+                Enemy enemy = enemyIterator.next();
+                if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(enemy.getX(), enemy.getY(), 50, 50))) {
+
+                    if (enemy.decreaseHp(ball.getDamage())) {
+                        goldReward = enemy.getGoldReward();
+                        enemyIterator.remove();
                     }
                     ballIter.remove();
-                    break;
+                    return goldReward;
                 }
             }
 
@@ -307,5 +310,13 @@ public class ObjectManager {
                 ballIter.remove();
             }
         }
+        return goldReward;
+    }
+    public void reset() {
+        this.stones.clear();
+        this.trees.clear();
+        this.walls.clear();
+        this.canons.clear();
+        this.canonBalls.clear();
     }
 }

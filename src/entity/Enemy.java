@@ -14,6 +14,7 @@ public abstract class Enemy {
     private int x;
     private int y;
     private double angle;
+    private int goldReward;
 
     /**
      * Konštruktor pre vytvorenie nepriateľa.
@@ -24,7 +25,8 @@ public abstract class Enemy {
      * @param y      počiatočná Y-ová pozícia
      * @param speed  rýchlosť pohybu
      */
-    public Enemy(int health, int damage , int x , int y , int speed) {
+    public Enemy(int health, int damage , int x , int y , int speed , int goldReward) {
+         this.goldReward = goldReward;
         this.x = x;
         this.y = y;
         this.health = health;
@@ -86,8 +88,12 @@ public abstract class Enemy {
      *
      * @param number počet životov, o ktoré má prísť (poškodenie)
      */
-    public void decreaseHp(int number) {
+    public boolean decreaseHp(int number) {
         this.health -= number;
+        if (this.health < 0) {
+            this.health = 0;
+        }
+        return this.health == 0;
     }
     /**
      * Nastaví pozíciu X nepriateľa.
@@ -137,6 +143,9 @@ public abstract class Enemy {
     public int getY() {
         return this.y;
     }
+    public int getGoldReward() {
+        return this.goldReward;
+    };
     /**
      * Abstraktná metóda pre útok nepriateľa na pozíciu x a y.
      *
@@ -144,7 +153,7 @@ public abstract class Enemy {
      * @param targetY Y-ová pozícia
      */
     public abstract void attack(int targetX, int targetY);
-    public abstract int getGoldReward();
+
     public abstract EnemyGraphics getGraphics();
 
 }

@@ -52,7 +52,7 @@ public class WaveManager {
                 int enemyCount = rand.nextInt(1 + WaveManager.this.currentWave);
                 WaveManager.this.enemyManager.createEnemies(enemyCount, WaveManager.this.cols, WaveManager.this.rows);
             }
-        }, 0, 30_000);
+        }, 0, 10_000);
     }
 
     /**

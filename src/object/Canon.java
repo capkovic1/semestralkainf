@@ -1,6 +1,6 @@
 package object;
 
-import entity.Zombie;
+import entity.Enemy;
 import projectile.CanonBall;
 
 import java.util.ArrayList;
@@ -89,13 +89,13 @@ public class Canon {
      *
      * @param zombies Zoznam všetkých zombie v hre.
      */
-    public void update(ArrayList<Zombie> zombies) {
+    public void update(ArrayList<Enemy> enemies) {
         if (this.cooldown > 0) {
             this.cooldown--;
             return;
         }
 
-        Zombie closest = this.findClosestZombie(zombies);
+        Enemy closest = this.findClosestEnemies(enemies);
         if (closest != null) {
             double dx = closest.getX() - (this.x * 20 + 20);
             double dy = closest.getY() - (this.y * 20 + 20);
@@ -118,18 +118,18 @@ public class Canon {
      * @param zombies Zoznam všetkých zombie.
      * @return Najbližší zombie, alebo {@code null}, ak zoznam je prázdny.
      */
-    private Zombie findClosestZombie(ArrayList<Zombie> zombies) {
-        Zombie closest = null;
+    private Enemy findClosestEnemies(ArrayList<Enemy> enemies) {
+        Enemy closest = null;
         double minDistance = Double.MAX_VALUE;
 
-        for (Zombie zombie : zombies) {
+        for (Enemy enemy : enemies) {
             double distance = Math.sqrt(
-                    Math.pow(zombie.getX() - (this.x * 20 + 20), 2) +
-                            Math.pow(zombie.getY() - (this.y * 20 + 20), 2));
+                    Math.pow(enemy.getX() - (this.x * 20 + 20), 2) +
+                            Math.pow(enemy.getY() - (this.y * 20 + 20), 2));
 
             if (distance < minDistance) {
                 minDistance = distance;
-                closest = zombie;
+                closest = enemy;
             }
         }
         return closest;

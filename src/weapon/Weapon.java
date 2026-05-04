@@ -4,7 +4,7 @@ package weapon;
  * Trieda predstavujúca základnú zbraň s úrovňou, dosahom, poškodením
  * a poškodením proti štruktúram.
  */
-public class Weapon {
+public abstract class Weapon {
     private static final int MAXLEVEL = 3;
     private int level;
     private int dmgToStructures;

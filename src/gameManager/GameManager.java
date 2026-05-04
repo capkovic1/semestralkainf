@@ -2,6 +2,7 @@ package gameManager;
 
 import entity.Player;
 import gameManager.entityManager.*;
+import resource.ResourceType;
 
 import java.awt.Graphics;
 
@@ -46,8 +47,7 @@ public class GameManager {
         this.waveManager = new WaveManager(this.enemyManager, cols, rows);
         this.waveManager.startWaves();
 
-        this.objectManager.getStones().clear();
-        this.objectManager.getTrees().clear();
+        this.objectManager.reset();
         this.objectManager.generateObjects(7, 8, cols, rows);
     }
 
@@ -72,7 +72,7 @@ public class GameManager {
      * Aktualizuje objekty v hre, ako sú kanóny a ich strely.
      */
     public void updateObjects() {
-        this.objectManager.updateCanons(null);
+        this.player.addResource(ResourceType.GOLD, this.objectManager.updateCanons(this.enemyManager.getEnemyList()));
         this.objectManager.updateCanonBalls();
     }
 

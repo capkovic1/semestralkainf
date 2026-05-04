@@ -26,7 +26,7 @@ public class Frog extends Enemy {
      * @param speed  rýchlosť pohybu
      */
     public Frog(int health, int damage, int x, int y, int speed) {
-        super(health, damage, x, y, speed);
+        super(health, damage, x, y, speed, 50);
         this.setupJumpTimer();
     }
 
@@ -78,11 +78,6 @@ public class Frog extends Enemy {
             double angle = Math.toDegrees(Math.atan2(y, x));
             super.setAngle(angle);
         }
-    }
-
-    @Override
-    public int getGoldReward() {
-        return 50;
     }
 
     @Override

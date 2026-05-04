@@ -209,7 +209,6 @@ public class GameGraphics extends JPanel {
                     50 + 2 * player.getWeapon().getRange()
             );
 
-            // POLYMORFIZMUS - všetci nepriatelia sú v jednom ArrayList<Enemy>
             for (entity.Enemy enemy : this.gameManager.getEnemyManager().getEnemyList()) {
                 Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
                 if (attackArea.intersects(enemyRect)) {

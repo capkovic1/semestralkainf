@@ -26,7 +26,7 @@ public class SpearThrower extends Enemy {
      * @param speed rýchlosť pohybu
      */
     public SpearThrower(int health, int damage, int x, int y, int speed) {
-        super(health, damage, x, y, speed);
+        super(health, damage, x, y, speed , 100);
         this.attackTimer = new Timer();
     }
     /**
@@ -52,11 +52,6 @@ public class SpearThrower extends Enemy {
                 }
             }, 2000);
         }
-    }
-
-    @Override
-    public int getGoldReward() {
-        return 100;
     }
 
     @Override

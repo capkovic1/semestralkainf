@@ -19,7 +19,7 @@ public class Zombie extends Enemy {
      * @param speed rýchlosť pohybu
      */
     public Zombie(int health, int damage, int x, int y, int speed) {
-        super(health, damage, x, y, speed);
+        super(health, damage, x, y, speed, 50);
     }
     /**
      * Pohne zombíka smerom k cieľu na základe jeho rýchlosti.
@@ -43,11 +43,6 @@ public class Zombie extends Enemy {
 
         double angle = Math.toDegrees(Math.atan2(y, x));
         super.setAngle(angle);
-    }
-
-    @Override
-    public int getGoldReward() {
-        return 50;
     }
 
     @Override

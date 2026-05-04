@@ -20,7 +20,7 @@ public class Wolf extends Enemy {
      * @param speed rýchlosť pohybu
      */
     public Wolf(int health, int damage, int x, int y, int speed) {
-        super(health, damage, x, y, speed);
+        super(health, damage, x, y, speed , 75);
         this.time = System.currentTimeMillis();
     }
     /**
@@ -52,11 +52,6 @@ public class Wolf extends Enemy {
 
         double angle = Math.toDegrees(Math.atan2(y, x));
         super.setAngle(angle);
-    }
-
-    @Override
-    public int getGoldReward() {
-        return 75;
     }
 
     @Override
