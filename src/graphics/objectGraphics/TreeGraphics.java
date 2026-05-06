@@ -1,5 +1,6 @@
 package graphics.objectGraphics;
 
+import object.Material;
 import object.Wood;
 
 import java.awt.Graphics2D;
@@ -18,7 +19,7 @@ import java.util.List;
  * Vykresľuje lístie stromu ako súbor elips rozmiestnených do kruhu.
  * Tiež uchováva entitu Wood, ktorá reprezentuje drevo stromu v hernej logike.
  */
-public class TreeGraphics {
+public class TreeGraphics implements MaterialGraphics {
     /** Entita dreva so základnou hodnotou */
     private final Wood wood = new Wood(100);
     /** X súradnica stromu */
@@ -55,7 +56,7 @@ public class TreeGraphics {
      *
      * @param g Grafický kontext, na ktorý sa strom vykreslí
      */
-    public void drawTree(Graphics g) {
+    public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
 
         g2d.setColor(new Color(77, 189, 77));
@@ -106,7 +107,7 @@ public class TreeGraphics {
      *
      * @return Objekt Wood reprezentujúci drevo stromu
      */
-    public Wood getWood() {
+    public Material getMaterial() {
         return this.wood;
     }
 }

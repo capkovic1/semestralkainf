@@ -1,5 +1,6 @@
 package graphics.objectGraphics;
 
+import object.Material;
 import object.Stone;
 
 import java.awt.Graphics2D;
@@ -15,7 +16,7 @@ import java.util.Random;
  * Trieda StoneGraphic zabezpečuje vykresľovanie kamienka (stone)
  * so "náhodným" nepravidelným tvarom pomocou GeneralPath.
  */
-public class StoneGraphic {
+public class StoneGraphic implements MaterialGraphics {
 
     /** Entita Stone spojená s touto grafikou */
     private final Stone stone = new Stone(100);
@@ -49,7 +50,7 @@ public class StoneGraphic {
      *
      * @param g grafický kontext
      */
-    public void drawStone(Graphics g) {
+    public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
 
         // Nastavenie farby na sivú a vyplnenie tvaru
@@ -107,7 +108,7 @@ public class StoneGraphic {
      *
      * @return Stone entita
      */
-    public Stone getStone() {
+    public Material getMaterial() {
         return this.stone;
     }
 }

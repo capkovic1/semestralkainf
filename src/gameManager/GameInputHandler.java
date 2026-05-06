@@ -80,7 +80,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
                     this.game.getPlayer().addResource(ResourceType.STONE,-50);
                     this.game.getObjectManager().addWall(new Wall(gridX, gridY));
                 } else {
-                    this.game.showMessage("Not enough stone! (Need 50)");
+                    this.game.getMessageDisplay().showMessage("Not enough stone! (Need 50)");
                 }
                 break;
 
@@ -90,10 +90,10 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
                         this.game.getPlayer().addResource(ResourceType.STONE,-150);
                         this.game.getObjectManager().addCanon(new Canon(gridX, gridY, 100));
                     } else {
-                        this.game.showMessage("Cannot place canon here!");
+                        this.game.getMessageDisplay().showMessage("Cannot place canon here!");
                     }
                 } else {
-                    this.game.showMessage("Not enough stone! (Need 150)");
+                    this.game.getMessageDisplay().showMessage("Not enough stone! (Need 150)");
                 }
                 break;
         }
@@ -140,12 +140,12 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
             boolean upgraded = this.game.getPlayer().getWeapon().upgrade();
             if (upgraded) {
                 this.game.getPlayer().addResource(ResourceType.GOLD,-cost);
-                this.game.showMessage("Weapon succesfully upgraded!");
+                this.game.getMessageDisplay().showMessage("Weapon succesfully upgraded!");
             } else {
-                this.game.showMessage("Weapon already upgraded!");
+                this.game.getMessageDisplay().showMessage("Weapon already upgraded!");
             }
         } else {
-            this.game.showMessage("Not enough gold! (Need " + cost + ")");
+            this.game.getMessageDisplay().showMessage("Not enough gold! (Need " + cost + ")");
         }
     }
 

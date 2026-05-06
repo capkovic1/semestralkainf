@@ -31,19 +31,19 @@ public class EnemyManager {
 
             switch (type) {
                 case 0:
-                    enemy = new Wolf(25, 1, x, y, 4);
+                    enemy = new Wolf(100, 1, x, y, 4);
                     break;
                 case 1:
-                    enemy = new Zombie(100, 2, x, y, 2);
+                    enemy = new Zombie(300, 2, x, y, 2);
                     break;
                 case 2:
-                    enemy = new Frog(15, 1, x, y, 200);
+                    enemy = new Frog(150, 1, x, y, 200);
                     break;
                 case 3:
-                    enemy = new SpearThrower(20, 5, x, y, 0);
+                    enemy = new SpearThrower(200, 5, x, y, 0);
                     break;
                 default:
-                    enemy = new Zombie(100, 2, x, y, 2);
+                    enemy = new Zombie(300, 2, x, y, 2);
             }
 
             EnemyGraphics graphics = enemy.getGraphics();

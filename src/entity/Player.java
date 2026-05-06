@@ -17,7 +17,9 @@ public class Player {
     private int gold;
     private int health;
     private double angle;
-    private final int speed;
+    private int speed;
+    private int efficiency;
+    private int damage;
     private Weapon weapon;
     private final int maxHealth = 100;
     private int score;
@@ -35,6 +37,8 @@ public class Player {
         this.y = y;
         this.angle = 0;
         this.speed = speed;
+        this.efficiency = 3;
+        this.damage = 3;
         this.weapon = new Hand(30, 10);
         this.health = this.maxHealth;
     }
@@ -80,11 +84,23 @@ public class Player {
         return this.speed;
     }
 
+    public int getDamage() {
+        return this.damage;
+    }
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
     /** @return aktuálny uhol hráča v stupňoch */
     public double getAngle() {
         return this.angle;
     }
+    public int getEfficiency() {
+        return this.efficiency;
+    }
 
+    public void setEfficiency(int efficiency) {
+        this.efficiency = efficiency;
+    }
     /** @return aktuálne zvolená zbraň hráča */
     public Weapon getWeapon() {
         return this.weapon;
@@ -157,6 +173,9 @@ public class Player {
         return this.score;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
     /**
      * Resetuje hráčove zdroje, skóre a nastaví základnú zbraň.
      */

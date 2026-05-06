@@ -95,7 +95,7 @@ public class Canon {
             return;
         }
 
-        Enemy closest = this.findClosestEnemies(enemies);
+        Enemy closest = this.findClosestEnemy(enemies);
         if (closest != null) {
             double dx = closest.getX() - (this.x * 20 + 20);
             double dy = closest.getY() - (this.y * 20 + 20);
@@ -118,7 +118,7 @@ public class Canon {
      * @param zombies Zoznam všetkých zombie.
      * @return Najbližší zombie, alebo {@code null}, ak zoznam je prázdny.
      */
-    private Enemy findClosestEnemies(ArrayList<Enemy> enemies) {
+    private Enemy findClosestEnemy(ArrayList<Enemy> enemies) {
         Enemy closest = null;
         double minDistance = Double.MAX_VALUE;
 

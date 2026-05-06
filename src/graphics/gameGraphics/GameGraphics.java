@@ -16,15 +16,14 @@ import object.Material;
 import object.Stone;
 import object.Wood;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Toolkit;
 import java.awt.Rectangle;
 import java.awt.Point;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JPanel;
 import javax.swing.Box;
@@ -42,9 +41,6 @@ import javax.swing.Timer;
 public class GameGraphics extends JPanel {
 
     private long startTime;
-    private String message = "";
-    private long messageDisplayTime = 0;
-    private static final long MESSAGEDURATION = 2000;
 
     private int lastDirectionX = 0;
     private int lastDirectionY = 0;
@@ -57,7 +53,7 @@ public class GameGraphics extends JPanel {
     private InventoryGraphics inventoryGraphics;
 
     private final GameManager gameManager;
-
+    private final MessageDisplay messageDisplay;
 
     private GameInputHandler inputHandler;
 
@@ -90,6 +86,8 @@ public class GameGraphics extends JPanel {
         this.startTime = System.currentTimeMillis();
 
         this.inventoryGraphics = new InventoryGraphics(player , this.playerGraphics);
+        
+        this.messageDisplay = new MessageDisplay();
 
         this.inputHandler = new GameInputHandler(this);
         this.setFocusable(true);
@@ -123,6 +121,7 @@ public class GameGraphics extends JPanel {
 
             this.gameManager.updateEntities(this.getGraphics());
 
+
             this.repaint();
         });
         this.movementTimer.start();
@@ -150,7 +149,7 @@ public class GameGraphics extends JPanel {
      * @param g Grafický kontext, do ktorého sa kreslí.
      */
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         this.boardGraphics.paintComponent(g);
@@ -160,20 +159,10 @@ public class GameGraphics extends JPanel {
         this.playerInfoGraphics.drawPlayerResources(g, this.getWidth(), this.getHeight() , this.startTime);
 
         this.inventoryGraphics.draw(g);
-
-        if (System.currentTimeMillis() < this.messageDisplayTime) {
-            g.setColor(Color.RED);
-            g.setFont(new Font("Arial", Font.BOLD, 24));
-            FontMetrics fm = g.getFontMetrics();
-            int x = (this.getWidth() - fm.stringWidth(this.message)) / 2;
-            int y = this.getHeight() / 2;
-
-            g.setColor(new Color(0, 0, 0, 150));
-            g.fillRect(x - 10, y - fm.getHeight(), fm.stringWidth(this.message) + 20, fm.getHeight() + 10);
-
-            g.setColor(Color.WHITE);
-            g.drawString(this.message, x, y);
-        }
+        
+        this.messageDisplay.draw(g,this.getWidth(),this.getHeight());
+        this.repaint();
+        
     }
 
     /**
@@ -188,20 +177,21 @@ public class GameGraphics extends JPanel {
 
         if (material instanceof Stone stone) {
             stone.changeHpBy(-player.getWeapon().getDmgToStructures());
-            player.addResource(ResourceType.STONE,3 * player.getWeapon().getDmgToStructures());
+            player.addResource(ResourceType.STONE,player.getEfficiency() * player.getWeapon().getDmgToStructures());
 
             if (stone.isDestroyed()) {
-                this.gameManager.getObjectManager().removeDestroyedStones(player);
+                this.gameManager.getObjectManager().removeDestroyedMaterial(player);
             }
 
-        } else if (material instanceof Wood tree) {
+        }
+        if (material instanceof Wood tree) {
             tree.changeHpBy(-player.getWeapon().getDmgToStructures());
-            player.addResource(ResourceType.WOOD,3 * player.getWeapon().getDmgToStructures());
+            player.addResource(ResourceType.WOOD,player.getEfficiency() * player.getWeapon().getDmgToStructures());
 
             if (tree.isDestroyed()) {
-                this.gameManager.getObjectManager().removeDestroyedTrees(player);
+                this.gameManager.getObjectManager().removeDestroyedMaterial(player);
             }
-        } else {
+        }
             Rectangle attackArea = new Rectangle(
                     player.getX() - player.getWeapon().getRange(),
                     player.getY() - player.getWeapon().getRange(),
@@ -212,23 +202,13 @@ public class GameGraphics extends JPanel {
             for (entity.Enemy enemy : this.gameManager.getEnemyManager().getEnemyList()) {
                 Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
                 if (attackArea.intersects(enemyRect)) {
-                    enemy.decreaseHp(player.getWeapon().getDamage());
+                    enemy.decreaseHp(player.getWeapon().getDamage() * player.getDamage());
                 }
             }
 
-        }
-    }
 
-    /**
-     * Zobrazí dočasnú správu uprostred herného okna, ktorá zmizne po krátkom čase.
-     *
-     * @param message Text správy, ktorá sa má zobraziť.
-     */
-    public void showMessage(String message) {
-        this.message = message;
-        this.messageDisplayTime = System.currentTimeMillis() + MESSAGEDURATION;
-        this.repaint();
     }
+    
     /**
      * Získava správcu objektov hry.
      *
@@ -397,5 +377,8 @@ public class GameGraphics extends JPanel {
             this.gameManager.getPlayer().setHealth(this.gameManager.getPlayer().getHealth() + 1);
         }
 
+    }
+    public MessageDisplay getMessageDisplay() {
+        return this.messageDisplay;
     }
 }

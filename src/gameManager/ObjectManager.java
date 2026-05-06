@@ -3,12 +3,7 @@ package gameManager;
 
 import entity.Enemy;
 import entity.Player;
-import entity.Zombie;
-import graphics.objectGraphics.CanonBallGraphics;
-import graphics.objectGraphics.CanonGraphics;
-import graphics.objectGraphics.StoneGraphic;
-import graphics.objectGraphics.TreeGraphics;
-import graphics.objectGraphics.WallGraphics;
+import graphics.objectGraphics.*;
 import object.Canon;
 import object.Material;
 import object.Wall;
@@ -27,15 +22,14 @@ import java.util.Random;
  */
 public class ObjectManager {
 
-    private final ArrayList<StoneGraphic> stones ;
-    private final ArrayList<TreeGraphics> trees;
+    private final ArrayList<MaterialGraphics> materials;
+
     private final ArrayList<Wall> walls ;
     private final ArrayList<Canon> canons ;
     private final ArrayList<CanonBall> canonBalls ;
 
     public ObjectManager() {
-        this.stones = new ArrayList<>();
-        this.trees = new ArrayList<>();
+        this.materials = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.canons = new ArrayList<>();
         this.canonBalls = new ArrayList<>();
@@ -51,10 +45,10 @@ public class ObjectManager {
     public void generateObjects(int numStones, int numTrees, int maxCols, int maxRows) {
         Random rand = new Random();
         for (int i = 0; i < numStones; i++) {
-            this.stones.add(new StoneGraphic(rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
+            this.materials.add(new StoneGraphic(rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
         }
         for (int i = 0; i < numTrees; i++) {
-            this.trees.add(new TreeGraphics(rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
+            this.materials.add(new TreeGraphics(rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
         }
     }
     /**
@@ -86,31 +80,16 @@ public class ObjectManager {
                 }
             }
         }
-        for (StoneGraphic stone : this.stones) {
-            if (playerBounds.intersects(stone.getBounds())) {
+        for (MaterialGraphics material : this.materials) {
+            if (playerBounds.intersects(material.getBounds())) {
                 return false;
             }
         }
-        for (TreeGraphics tree : this.trees) {
-            if (playerBounds.intersects(tree.getBounds())) {
-                return false;
-            }
-        }
+
         return true;
     }
 
-    /**
-     * @return zoznam kameňov na mape
-     */
-    public ArrayList<StoneGraphic> getStones() {
-        return this.stones;
-    }
-    /**
-     * @return zoznam stromov na mape
-     */
-    public ArrayList<TreeGraphics> getTrees() {
-        return this.trees;
-    }
+
     /**
      * Pridá nový múr do hry.
      *
@@ -133,12 +112,8 @@ public class ObjectManager {
      * @param g grafický kontext na vykreslenie
      */
     public void drawObjects(Graphics g) {
-        for (TreeGraphics tree : this.trees) {
-            tree.drawTree(g);
-        }
-
-        for (StoneGraphic stone : this.stones) {
-            stone.drawStone(g);
+        for (MaterialGraphics material : this.materials) {
+            material.draw(g);
         }
 
         WallGraphics wallGraphics = new WallGraphics();
@@ -155,12 +130,8 @@ public class ObjectManager {
             canonBallGraphics.draw(g, canonBall);
         }
     }
-    /**
-     * Odstráni stromy, ktoré sú v dosahu útoku hráča.
-     *
-     * @param player hráč, ktorý útočí
-     */
-    public void removeDestroyedTrees(Player player) {
+
+    public void removeDestroyedMaterial(Player player) {
         int hitRange = player.getWeapon().getRange();
         int size = 50;
 
@@ -170,27 +141,9 @@ public class ObjectManager {
                 size + 2 * hitRange,
                 size + 2 * hitRange
         );
-
-        this.trees.removeIf(t -> t.getBounds().intersects(hitBox));
+        this.materials.removeIf(material -> material.getBounds().intersects(hitBox));
     }
-    /**
-     * Odstráni kamene, ktoré sú v dosahu útoku hráča.
-     *
-     * @param player hráč, ktorý útočí
-     */
-    public void removeDestroyedStones(Player player) {
-        int hitRange = player.getWeapon().getRange();
-        int size = 50;
 
-        Rectangle hitBox = new Rectangle(
-                player.getX() - hitRange,
-                player.getY() - hitRange,
-                size + 2 * hitRange,
-                size + 2 * hitRange
-        );
-
-        this.stones.removeIf(s -> s.getBounds().intersects(hitBox));
-    }
     /**
      * Skontroluje, či je možné zasiahnuť nejaký materiál (kameň alebo drevo)
      * na daných súradniciach v dosahu hráča.
@@ -207,17 +160,12 @@ public class ObjectManager {
 
         Rectangle playerBounds = new Rectangle(x - hitRange, y - hitRange, playerSize + 2 * hitRange, playerSize + 2 * hitRange);
 
-        for (StoneGraphic stone : this.stones) {
-            if (playerBounds.intersects(stone.getBounds())) {
-                return stone.getStone();
+        for (MaterialGraphics material : this.materials) {
+            if (playerBounds.intersects(material.getBounds())) {
+                return material.getMaterial();
             }
         }
 
-        for (TreeGraphics tree : this.trees) {
-            if (playerBounds.intersects(tree.getBounds())) {
-                return tree.getWood();
-            }
-        }
         return null;
     }
     /**
@@ -242,14 +190,9 @@ public class ObjectManager {
             }
         }
 
-        for (StoneGraphic stone : this.stones) {
-            if (stone.getBounds().intersects(canonArea)) {
-                return false;
-            }
-        }
 
-        for (TreeGraphics tree : this.trees) {
-            if (tree.getBounds().intersects(canonArea)) {
+        for (MaterialGraphics material : this.materials) {
+            if (material.getBounds().intersects(canonArea)) {
                 return false;
             }
         }
@@ -313,8 +256,7 @@ public class ObjectManager {
         return goldReward;
     }
     public void reset() {
-        this.stones.clear();
-        this.trees.clear();
+        this.materials.clear();
         this.walls.clear();
         this.canons.clear();
         this.canonBalls.clear();
