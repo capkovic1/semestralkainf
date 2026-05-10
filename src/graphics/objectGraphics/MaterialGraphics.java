@@ -1,6 +1,6 @@
 package graphics.objectGraphics;
 
-import object.Material;
+import object.material.Material;
 
 import java.awt.*;
 

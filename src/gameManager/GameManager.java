@@ -2,9 +2,10 @@ package gameManager;
 
 import entity.Player;
 import gameManager.entityManager.*;
+import object.material.Material;
 import resource.ResourceType;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * Trieda GameManager je centrálny manažér pre hernú logiku,
@@ -17,6 +18,7 @@ public class GameManager {
     private final EnemyManager enemyManager;
     private WaveManager waveManager;
     private final ObjectManager objectManager;
+    private  EffectsManager effectsManager;
 
     /**
      * Inicializuje hráča, manažérov nepriateľov, vlny a objekty.
@@ -26,14 +28,15 @@ public class GameManager {
      */
     public GameManager(Player player, int cols, int rows) {
         this.player = player;
+        this.effectsManager = new EffectsManager();
 
         this.enemyManager = new EnemyManager();
 
         this.waveManager = new WaveManager( this.enemyManager, cols, rows);
         this.objectManager = new ObjectManager();
 
-        this.waveManager.startWaves();  // Spustí generovanie vĺn nepriateľov
-        this.objectManager.generateObjects(7, 8, cols, rows);  // Vygeneruje objekty na mape
+        this.waveManager.startWaves();
+        this.objectManager.generateObjects(7, 8, cols, rows);
     }
 
     /**
@@ -42,6 +45,7 @@ public class GameManager {
     public void reset(int cols, int rows) {
         this.waveManager.stopWaves();
 
+        this.effectsManager.clearEffects();
         this.enemyManager.clearEnemies();
 
         this.waveManager = new WaveManager(this.enemyManager, cols, rows);
@@ -51,29 +55,49 @@ public class GameManager {
         this.objectManager.generateObjects(7, 8, cols, rows);
     }
 
-    /**
-     * Aktualizuje všetkých nepriateľov - volá ich update metódy.
-     * @param g grafický kontext na kreslenie efektov
-     */
-    public void updateEntities(Graphics g) {
-        this.enemyManager.updateEnemies(this.player , g);
+    public boolean updateEntities() {
+       return  this.enemyManager.updateEnemies(this.player);
     }
 
-    /**
-     * Vykreslí všetkých nepriateľov a objekty na obrazovku.
-     * @param g grafický kontext na kreslenie
-     */
-    public void draw(Graphics g) {
-        this.enemyManager.drawEnemies(g);
-        this.objectManager.drawObjects(g);
+    public void handleHit() {
+
+        Material material = this.objectManager.canHit(this.player.getX(), this.player.getY(), this.player);
+
+        if (material != null) {
+            ResourceType resourceType = material.changeHpBy(-this.player.getWeapon().getDmgToStructures());
+            this.player.addResource(resourceType, this.player.getEfficiency() * this.player.getWeapon().getDmgToStructures());
+
+            if (material.isDestroyed()) {
+                this.objectManager.removeDestroyedMaterial(this.player);
+            }
+        }
+
+        Rectangle attackArea = new Rectangle(
+                this.player.getX() - this.player.getWeapon().getRange(),
+                this.player.getY() - this.player.getWeapon().getRange(),
+                50 + 2 * this.player.getWeapon().getRange(),
+                50 + 2 * this.player.getWeapon().getRange()
+        );
+
+        for (entity.Enemy enemy : this.enemyManager.getEnemyList()) {
+            Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
+            if (attackArea.intersects(enemyRect)) {
+                int damage = (player.getWeapon().getDamage() * player.getDamage());
+                enemy.decreaseHp(damage);
+                this.enemyManager.addDamageIndicator(enemy.getX() + 25, enemy.getY(), damage);
+            }
+        }
+
     }
 
     /**
      * Aktualizuje objekty v hre, ako sú kanóny a ich strely.
      */
     public void updateObjects() {
-        this.player.addResource(ResourceType.GOLD, this.objectManager.updateCanons(this.enemyManager.getEnemyList()));
-        this.objectManager.updateCanonBalls();
+        this.objectManager.updateCanons(this.enemyManager.getEnemyList(), this.enemyManager);
+    }
+    public void updateEffects() {
+        this.effectsManager.update(this.player);
     }
 
     // Gettery pre prístup k manažérom a hráčovi
@@ -85,9 +109,14 @@ public class GameManager {
         return this.enemyManager;
     }
 
+    public EffectsManager getEffectsManager() {
+        return this.effectsManager;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
+
 }
 
 

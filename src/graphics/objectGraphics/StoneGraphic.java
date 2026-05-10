@@ -1,7 +1,7 @@
 package graphics.objectGraphics;
 
-import object.Material;
-import object.Stone;
+import object.material.Material;
+import object.material.Stone;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;

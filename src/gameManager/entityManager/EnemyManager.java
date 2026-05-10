@@ -1,12 +1,12 @@
 package gameManager.entityManager;
 
 import entity.*;
+import graphics.infoGraphics.DamageIndicator;
 import graphics.entityGraphics.*;
 import projectile.Spear;
 import resource.ResourceType;
 
-import java.awt.Rectangle;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -14,10 +14,12 @@ import java.util.Random;
 public class EnemyManager {
     private final ArrayList<Enemy> enemyList;
     private final ArrayList<EnemyGraphics> graphicsList;
+    private final ArrayList<DamageIndicator> damageIndicators;
 
     public EnemyManager() {
         this.enemyList = new ArrayList<>();
         this.graphicsList = new ArrayList<>();
+        this.damageIndicators = new ArrayList<>();
     }
 
     public void createEnemies(int count, int cols, int rows) {
@@ -53,9 +55,12 @@ public class EnemyManager {
         }
     }
 
-    public void updateEnemies(Player player, Graphics g) {
+    public boolean updateEnemies(Player player) {
         Iterator<Enemy> enemyIterator = this.enemyList.iterator();
         Iterator<EnemyGraphics> graphicsIterator = this.graphicsList.iterator();
+        boolean someoneDied = false;
+
+        this.damageIndicators.removeIf(DamageIndicator::isExpired);
 
         while (enemyIterator.hasNext() && graphicsIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
@@ -63,10 +68,10 @@ public class EnemyManager {
 
             if (enemy.isDead()) {
                 player.addResource(ResourceType.GOLD,enemy.getGoldReward());
-                graphics.drawDeathEffect(g);
                 enemyIterator.remove();
                 graphicsIterator.remove();
-                continue;
+                someoneDied = true;
+                 continue;
             }
 
             int targetX = player.getX() + 25;
@@ -95,9 +100,14 @@ public class EnemyManager {
                 player.takeDamage(enemy.getDamage());
             }
         }
+        return someoneDied;
     }
 
     public void drawEnemies(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        for (DamageIndicator indicator : this.damageIndicators) {
+            indicator.draw(g2d);
+        }
         for (int i = 0; i < this.enemyList.size(); i++) {
             Enemy enemy = this.enemyList.get(i);
             EnemyGraphics graphics = this.graphicsList.get(i);
@@ -113,10 +123,15 @@ public class EnemyManager {
                         }
                     }
                 }
+            } else {
+                graphics.drawDeathEffect(g);
             }
         }
     }
 
+    public void addDamageIndicator(int x, int y, int damage) {
+        this.damageIndicators.add(new DamageIndicator(x, y, damage));
+    }
 
     public void clearEnemies() {
         this.enemyList.clear();

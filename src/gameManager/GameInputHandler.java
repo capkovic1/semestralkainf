@@ -1,8 +1,9 @@
 package gameManager;
 
+import entity.Player;
 import graphics.gameGraphics.GameGraphics;
-import object.Canon;
-import object.Wall;
+import object.structure.Canon;
+import object.structure.Wall;
 import resource.ResourceType;
 
 import java.awt.Point;
@@ -21,13 +22,17 @@ import java.util.Set;
 public class GameInputHandler extends MouseAdapter implements KeyListener {
 
     private final GameGraphics game;
+    private final Player player;
     private final Set<Integer> pressedKeys = new HashSet<>();
+    private int lastDirectionX ;
+    private int lastDirectionY;
 
     /**
      * Konštruktor nastaví referenciu na hernú grafiku pre interakciu s hrou.
      * @param game Inštancia triedy GameGraphics reprezentujúca hru.
      */
     public GameInputHandler(GameGraphics game) {
+        this.player = game.getPlayer();
         this.game = game;
     }
 
@@ -76,8 +81,8 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
 
         switch (this.game.getInventory().getSelectedSlot()) {
             case 4:
-                if (this.game.getPlayer().getStone() >= 50) {
-                    this.game.getPlayer().addResource(ResourceType.STONE,-50);
+                if (this.player.getStone() >= 50) {
+                    this.player.addResource(ResourceType.STONE,-50);
                     this.game.getObjectManager().addWall(new Wall(gridX, gridY));
                 } else {
                     this.game.getMessageDisplay().showMessage("Not enough stone! (Need 50)");
@@ -85,9 +90,9 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
                 break;
 
             case 5:
-                if (this.game.getPlayer().getStone() >= 150) {
+                if (this.player.getStone() >= 150) {
                     if (this.game.getObjectManager().canPlaceCanon(gridX, gridY, this.game.getPlayer())) {
-                        this.game.getPlayer().addResource(ResourceType.STONE,-150);
+                        this.player.addResource(ResourceType.STONE,-150);
                         this.game.getObjectManager().addCanon(new Canon(gridX, gridY, 100));
                     } else {
                         this.game.getMessageDisplay().showMessage("Cannot place canon here!");
@@ -118,7 +123,8 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
             this.game.getInventory().selectSlot(4);
         } else if (this.pressedKeys.contains(KeyEvent.VK_6)) {
             this.game.getInventory().selectSlot(5);
-        } else if (this.pressedKeys.contains(KeyEvent.VK_SPACE)) {
+        }
+        if (this.pressedKeys.contains(KeyEvent.VK_SPACE)) {
             this.game.useWeapon();
         }
         if (this.pressedKeys.contains(KeyEvent.VK_U)) {
@@ -135,11 +141,11 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      * Pri neúspechu (napr. maximálny level) zobrazí príslušnú správu.
      */
     private void upgradeWeapon() {
-        int cost = this.game.getPlayer().getWeapon().getLevel() * 200;
-        if (this.game.getPlayer().getGold() >= cost) {
-            boolean upgraded = this.game.getPlayer().getWeapon().upgrade();
+        int cost = this.player.getWeapon().getLevel() * 200;
+        if (this.player.getGold() >= cost) {
+            boolean upgraded = this.player.getWeapon().upgrade();
             if (upgraded) {
-                this.game.getPlayer().addResource(ResourceType.GOLD,-cost);
+                this.player.addResource(ResourceType.GOLD,-cost);
                 this.game.getMessageDisplay().showMessage("Weapon succesfully upgraded!");
             } else {
                 this.game.getMessageDisplay().showMessage("Weapon already upgraded!");
@@ -154,7 +160,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      * Nastavuje smer pohybu v hernej grafike.
      */
     private void updateDirection() {
-        int step = this.game.getPlayer().getSpeed();
+        int step = this.player.getSpeed();
 
         int dx = 0;
         int dy = 0;
@@ -171,22 +177,28 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
         if (this.pressedKeys.contains(KeyEvent.VK_D) || this.pressedKeys.contains(KeyEvent.VK_RIGHT)) {
             dx += step;
         }
-        this.game.setLastDirection(dx, dy);
+        this.setLastDirection(dx, dy);
     }
-
+    private void setLastDirection(int x, int y) {
+        this.lastDirectionX = x;
+        this.lastDirectionY = y;
+    }
+    private Point getLastDirection() {
+        return new Point(this.lastDirectionX, this.lastDirectionY);
+    }
     /**
      * Spracuje pohyb hráča podľa nastaveného smeru, ak hráč nie je mŕtvy
      * a je možné sa pohybovať na danú pozíciu.
      */
     private void handleMovement() {
-        if (!this.game.getPlayer().isDead()) {
-            Point dir = this.game.getLastDirection();
-            int newX = this.game.getPlayer().getX() + dir.x;
-            int newY = this.game.getPlayer().getY() + dir.y;
+        if (!this.player.isDead()) {
+            Point dir = this.getLastDirection();
+            int newX = this.player.getX() + dir.x;
+            int newY = this.player.getY() + dir.y;
 
             if (this.game.getObjectManager().canMoveTo(newX, newY)) {
-                this.game.getPlayer().setX(newX);
-                this.game.getPlayer().setY(newY);
+                this.player.setX(newX);
+                this.player.setY(newY);
             }
         }
     }

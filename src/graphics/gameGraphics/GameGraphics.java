@@ -2,35 +2,22 @@ package graphics.gameGraphics;
 
 import entity.Player;
 
-import gameManager.GameManager;
-import gameManager.GameHistory;
-import gameManager.GameInputHandler;
-import gameManager.ObjectManager;
+import gameManager.*;
 import graphics.entityGraphics.PlayerGraphics;
+import graphics.infoGraphics.ActiveEffectsGraphics;
 import graphics.infoGraphics.InventoryGraphics;
 import graphics.infoGraphics.PlayerInfoGraphics;
 import graphics.ruka.HammerGraphics;
-import resource.ResourceType;
 import weapon.Hammer;
-import object.Material;
-import object.Stone;
-import object.Wood;
 
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 
 import javax.swing.JPanel;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-import javax.swing.Timer;
+
 /**
  * Trieda zodpovedná za vykresľovanie hlavného herného okna a správu hernej logiky
  * týkajúcej sa vykresľovania, spracovania vstupu, zobrazovania správ, inventára a riadenia
@@ -40,17 +27,17 @@ import javax.swing.Timer;
  */
 public class GameGraphics extends JPanel {
 
-    private long startTime;
+    private long startTime ;
 
     private int lastDirectionX = 0;
     private int lastDirectionY = 0;
 
-    private Timer movementTimer;
     private final BoardGraphics boardGraphics;
 
     private PlayerGraphics playerGraphics;
 
     private InventoryGraphics inventoryGraphics;
+    private ActiveEffectsGraphics activeEffectsGraphics;
 
     private final GameManager gameManager;
     private final MessageDisplay messageDisplay;
@@ -60,8 +47,7 @@ public class GameGraphics extends JPanel {
     private final int rows;
     private final int cols;
 
-    private long lastRegenTime = System.currentTimeMillis();
-    private long objectTimer = System.currentTimeMillis();
+    private GameLoop gameLoop;
 
     private final PlayerInfoGraphics playerInfoGraphics;
     /**
@@ -77,16 +63,15 @@ public class GameGraphics extends JPanel {
         this.rows = screenSize.height / 30;
         this.cols = screenSize.width / 30;
 
-        this.boardGraphics = new BoardGraphics(this.rows, this.cols);
-
-        this.playerGraphics = new PlayerGraphics(player, new HammerGraphics(this::repaint));
-
-        this.gameManager = new GameManager(player , this.cols , this.rows);
-        this.playerInfoGraphics = new PlayerInfoGraphics(player);
         this.startTime = System.currentTimeMillis();
 
+        this.boardGraphics = new BoardGraphics(this.rows, this.cols);
+        this.playerGraphics = new PlayerGraphics(player, new HammerGraphics(this::repaint));
+        this.gameManager = new GameManager(player , this.cols , this.rows);
+
+        this.playerInfoGraphics = new PlayerInfoGraphics(player);
         this.inventoryGraphics = new InventoryGraphics(player , this.playerGraphics);
-        
+        this.activeEffectsGraphics = new ActiveEffectsGraphics();
         this.messageDisplay = new MessageDisplay();
 
         this.inputHandler = new GameInputHandler(this);
@@ -95,36 +80,8 @@ public class GameGraphics extends JPanel {
         this.addMouseListener(this.inputHandler);
         this.addMouseListener(this.inputHandler);
 
-        this.movementTimer = new Timer(20, e -> {
-            this.inputHandler.tick();
-
-            if (this.gameManager.getPlayer().getHealth() <= 0) {
-                this.movementTimer.stop();
-                GameHistory.saveHistory(this.gameManager.getPlayer().getScore(), this.startTime);
-                this.showDeadMenu();
-                return;
-            }
-
-
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - this.lastRegenTime >= 1000) {
-                this.regeneratePlayer();
-                this.lastRegenTime = currentTime;
-            }
-
-            if (currentTime - this.objectTimer >= 30000) {
-                this.gameManager.getObjectManager().generateObjects(1, 1 , this.cols , this.rows);
-                this.objectTimer = currentTime;
-            }
-
-            this.gameManager.updateObjects();
-
-            this.gameManager.updateEntities(this.getGraphics());
-
-
-            this.repaint();
-        });
-        this.movementTimer.start();
+            this.gameLoop = new GameLoop(this.gameManager, this.inputHandler, this::repaint, this::showDeadMenu, this.startTime , this.rows , this.cols);
+            this.gameLoop.start();
     }
 
     /**
@@ -154,61 +111,18 @@ public class GameGraphics extends JPanel {
 
         this.boardGraphics.paintComponent(g);
         this.playerGraphics.getPlayerGrafic(g);
-        this.gameManager.draw(g);
+
+        this.gameManager.getEnemyManager().drawEnemies(g);
+        this.gameManager.getObjectManager().drawObjects(g);
 
         this.playerInfoGraphics.drawPlayerResources(g, this.getWidth(), this.getHeight() , this.startTime);
-
+        this.activeEffectsGraphics.drawActiveEffects((Graphics2D) g , this.gameManager.getEffectsManager());
         this.inventoryGraphics.draw(g);
         
         this.messageDisplay.draw(g,this.getWidth(),this.getHeight());
         this.repaint();
         
     }
-
-    /**
-     * Vnútorná logika spracovania zásahu materiálu (kameň, drevo) alebo nepriateľov
-     * podľa aktuálnej zbrane hráča.
-     * Demonštruje polymorfizmus - všetci nepriatelia sú spracovaní cez rozhraní Enemy.
-     */
-    private void handleMaterialHit() {
-        Player player = this.gameManager.getPlayer();
-
-        Material material = this.gameManager.getObjectManager().canHit(player.getX(), player.getY(), player);
-
-        if (material instanceof Stone stone) {
-            stone.changeHpBy(-player.getWeapon().getDmgToStructures());
-            player.addResource(ResourceType.STONE,player.getEfficiency() * player.getWeapon().getDmgToStructures());
-
-            if (stone.isDestroyed()) {
-                this.gameManager.getObjectManager().removeDestroyedMaterial(player);
-            }
-
-        }
-        if (material instanceof Wood tree) {
-            tree.changeHpBy(-player.getWeapon().getDmgToStructures());
-            player.addResource(ResourceType.WOOD,player.getEfficiency() * player.getWeapon().getDmgToStructures());
-
-            if (tree.isDestroyed()) {
-                this.gameManager.getObjectManager().removeDestroyedMaterial(player);
-            }
-        }
-            Rectangle attackArea = new Rectangle(
-                    player.getX() - player.getWeapon().getRange(),
-                    player.getY() - player.getWeapon().getRange(),
-                    50 + 2 * player.getWeapon().getRange(),
-                    50 + 2 * player.getWeapon().getRange()
-            );
-
-            for (entity.Enemy enemy : this.gameManager.getEnemyManager().getEnemyList()) {
-                Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
-                if (attackArea.intersects(enemyRect)) {
-                    enemy.decreaseHp(player.getWeapon().getDamage() * player.getDamage());
-                }
-            }
-
-
-    }
-    
     /**
      * Získava správcu objektov hry.
      *
@@ -237,25 +151,7 @@ public class GameGraphics extends JPanel {
      */
     public void useWeapon() {
         this.playerGraphics.getHandGraphics().use();
-        this.handleMaterialHit();
-    }
-    /**
-     * Nastaví posledný smer pohybu hráča.
-     *
-     * @param x Smer po osi X.
-     * @param y Smer po osi Y.
-     */
-    public void setLastDirection(int x, int y) {
-        this.lastDirectionX = x;
-        this.lastDirectionY = y;
-    }
-    /**
-     * Získava posledný smer pohybu hráča.
-     *
-     * @return Objekt Point reprezentujúci posledný smer pohybu.
-     */
-    public Point getLastDirection() {
-        return new Point(this.lastDirectionX, this.lastDirectionY);
+        this.gameManager.handleHit();
     }
     /**
      * Získava grafiku inventára.
@@ -311,8 +207,8 @@ public class GameGraphics extends JPanel {
     private void restartGame() {
         Player player = this.gameManager.getPlayer();
 
-        if (this.movementTimer != null && this.movementTimer.isRunning()) {
-            this.movementTimer.stop();
+        if (this.gameLoop != null) {
+            this.gameLoop.stop();
         }
 
         player.reset();
@@ -334,50 +230,14 @@ public class GameGraphics extends JPanel {
         this.addKeyListener(this.inputHandler);
         this.addMouseListener(this.inputHandler);
 
-
-        this.startTime = System.currentTimeMillis();
-        this.lastRegenTime = System.currentTimeMillis();
-
         this.revalidate();
         this.repaint();
 
-        this.movementTimer = new Timer(20, e -> {
-            this.inputHandler.tick();
-
-            if (player.getHealth() <= 0) {
-                this.movementTimer.stop();
-                GameHistory.saveHistory(this.gameManager.getPlayer().getScore(), this.startTime);
-                this.showDeadMenu();
-                return;
-            }
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - this.lastRegenTime >= 1000) {
-                this.regeneratePlayer();
-                this.lastRegenTime = currentTime;
-            }
-
-            if (currentTime - this.objectTimer >= 30000) {
-                this.gameManager.getObjectManager().generateObjects(1, 1 , this.cols , this.rows);
-                this.objectTimer = currentTime;
-            }
-
-            this.gameManager.updateObjects();
-            this.gameManager.updateEntities(this.getGraphics());
-
-            this.repaint();
-        });
-
-        this.movementTimer.start();
-    }
-    /**
-     * Regeneruje zdravie hráča o 1, ak ešte nie je na maximálnej hodnote.
-     */
-    public void regeneratePlayer() {
-        if (this.gameManager.getPlayer().getHealth() < this.gameManager.getPlayer().getMaxHealth()) {
-            this.gameManager.getPlayer().setHealth(this.gameManager.getPlayer().getHealth() + 1);
-        }
+        this.startTime = System.currentTimeMillis();
+        this.gameLoop.restart(this.inputHandler, this.startTime);
 
     }
+
     public MessageDisplay getMessageDisplay() {
         return this.messageDisplay;
     }

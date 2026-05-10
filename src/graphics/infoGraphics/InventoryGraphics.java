@@ -58,10 +58,10 @@ public class InventoryGraphics {
         this.player = player;
         this.playerGraphics = playerGraphics;
 
-        this.bow = new Bow(0, 25);
-        this.hammer = new Hammer(30, 20);
-        this.sword = new Sword(60, 40);
-        this.hand = new Hand(30, 10);
+        this.bow = new Bow(0, 20);
+        this.hammer = new Hammer(30, 5);
+        this.sword = new Sword(60, 20);
+        this.hand = new Hand(30, 3);
 
         this.bowGraphics = new BowGraphics(this.playerGraphics::repaint);
         this.hammerGraphics = new HammerGraphics(this.playerGraphics::repaint);

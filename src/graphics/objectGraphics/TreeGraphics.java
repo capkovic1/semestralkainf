@@ -1,7 +1,7 @@
 package graphics.objectGraphics;
 
-import object.Material;
-import object.Wood;
+import object.material.Material;
+import object.material.Wood;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;

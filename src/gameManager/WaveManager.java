@@ -31,7 +31,7 @@ public class WaveManager {
      */
     public WaveManager(EnemyManager enemyManager, int cols, int rows) {
         this.enemyManager = enemyManager;
-        this.enemyManager.createEnemies(5, cols, rows);  // Predgeneruje základnú skupinu
+        this.enemyManager.createEnemies(5, cols, rows);
         this.cols = cols;
         this.rows = rows;
     }

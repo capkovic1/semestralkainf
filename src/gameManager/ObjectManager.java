@@ -3,10 +3,12 @@ package gameManager;
 
 import entity.Enemy;
 import entity.Player;
+import gameManager.entityManager.EnemyManager;
 import graphics.objectGraphics.*;
-import object.Canon;
-import object.Material;
-import object.Wall;
+import object.structure.Canon;
+import object.material.Material;
+import object.structure.Structure;
+import object.structure.Wall;
 import projectile.CanonBall;
 import java.awt.Rectangle;
 import java.awt.Graphics;
@@ -26,10 +28,14 @@ public class ObjectManager {
 
     private final ArrayList<Wall> walls ;
     private final ArrayList<Canon> canons ;
+
+    private final ArrayList<Structure> structures ;
+
     private final ArrayList<CanonBall> canonBalls ;
 
     public ObjectManager() {
         this.materials = new ArrayList<>();
+        this.structures = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.canons = new ArrayList<>();
         this.canonBalls = new ArrayList<>();
@@ -68,13 +74,10 @@ public class ObjectManager {
             for (int j = 0; j < playerSize; j += 10) {
                 int checkX = (x + i) / 20;
                 int checkY = (y + j) / 20;
-                for (Wall wall : this.walls) {
-                    if (wall.getX() == checkX && wall.getY() == checkY) {
-                        return false;
-                    }
-                }
-                for (Canon canon : this.canons) {
-                    if (canon.getX() == checkX && canon.getY() == checkY) {
+
+
+                for (Structure structure : this.structures) {
+                    if (structure.getX() == checkX && structure.getY() == checkY) {
                         return false;
                     }
                 }
@@ -96,6 +99,7 @@ public class ObjectManager {
      * @param wall múr, ktorý sa má pridať
      */
     public void addWall(Wall wall) {
+        this.structures.add(wall);
         this.walls.add(wall);
     }
     /**
@@ -104,6 +108,7 @@ public class ObjectManager {
      * @param canon kanón, ktorý sa má pridať
      */
     public void addCanon(Canon canon) {
+        this.structures.add(canon);
         this.canons.add(canon);
     }
     /**
@@ -120,6 +125,7 @@ public class ObjectManager {
         for (Wall wall : this.walls) {
             wallGraphics.getWallGrafics(g, wall.getX(), wall.getY());
         }
+
         CanonGraphics canonGraphics = new CanonGraphics();
         for (Canon canon : this.canons) {
             canonGraphics.getCanonGraphics(g, canon.getX() , canon.getY() , canon.getAngle());
@@ -183,13 +189,11 @@ public class ObjectManager {
         if (new Rectangle(player.getX(), player.getY(), 50, 50).intersects(canonArea)) {
             return false;
         }
-
-        for (Wall wall : this.walls) {
-            if (new Rectangle(wall.getX() * 20, wall.getY() * 20, 20, 20).intersects(canonArea)) {
+        for (Structure structure : this.structures) {
+            if (new Rectangle(structure.getX() * 20, structure.getY() * 20, 20, 20).intersects(canonArea)) {
                 return false;
             }
         }
-
 
         for (MaterialGraphics material : this.materials) {
             if (material.getBounds().intersects(canonArea)) {
@@ -200,24 +204,13 @@ public class ObjectManager {
         return true;
     }
     /**
-     * Aktualizuje všetky kanónové projektily a odstraňuje tie, ktoré sa majú vymazať.
-     */
-    public void updateCanonBalls() {
-        for ( CanonBall canonBall : this.canonBalls) {
-            canonBall.update();
-        }
-        this.canonBalls.removeIf(CanonBall::shouldRemove);
-    }
-    /**
      * Aktualizuje všetky kanóny, ich stav a projektily.
      * Tiež kontroluje kolízie projektilov s nepriateľmi (zombie).
      *
-     * @param zombies zoznam zombie, ktoré môžu byť zasiahnuté projektilmi
+     * @param enemies zoznam nepriateľov, ktoré môžu byť zasiahnuté projektilmi
      */
-    public int updateCanons(ArrayList<Enemy> enemies) {
-        int goldReward = 0;
+    public void updateCanons(ArrayList<Enemy> enemies, EnemyManager enemyManager) {
         this.canons.removeIf(Canon::isDestroyed);
-
 
         for (Canon canon : this.canons) {
             canon.update(enemies);
@@ -229,23 +222,18 @@ public class ObjectManager {
             }
         }
 
-
         Iterator<CanonBall> ballIter = this.canonBalls.iterator();
         while (ballIter.hasNext()) {
             CanonBall ball = ballIter.next();
             ball.update();
 
-            Iterator<Enemy> enemyIterator = enemies.iterator();
-            while (enemyIterator.hasNext()) {
-                Enemy enemy = enemyIterator.next();
+            for (Enemy enemy : enemies) {
                 if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(enemy.getX(), enemy.getY(), 50, 50))) {
-
-                    if (enemy.decreaseHp(ball.getDamage())) {
-                        goldReward = enemy.getGoldReward();
-                        enemyIterator.remove();
-                    }
+                    int damage = ball.getDamage();
+                    enemy.decreaseHp(damage);
+                    enemyManager.addDamageIndicator(enemy.getX() + 25, enemy.getY(), damage);
                     ballIter.remove();
-                    return goldReward;
+                    break;
                 }
             }
 
@@ -253,10 +241,10 @@ public class ObjectManager {
                 ballIter.remove();
             }
         }
-        return goldReward;
     }
     public void reset() {
         this.materials.clear();
+        this.structures.clear();
         this.walls.clear();
         this.canons.clear();
         this.canonBalls.clear();
