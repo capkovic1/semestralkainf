@@ -1,5 +1,9 @@
 package object.structure;
 
+import entity.Enemy;
+
+import java.util.ArrayList;
+
 /**
  * Trieda reprezentuje stenu v hre, umiestnenú na súradniciach (x, y).
  * Aktuálne neobsahuje informácie o životoch alebo poškodení.
@@ -18,6 +22,21 @@ public class Wall implements Structure {
     public Wall(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public void update(ArrayList<Enemy> enemies) {
+
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return false;
+    }
+
+    @Override
+    public int getPrice() {
+        return 50;
     }
 
     /**

@@ -94,7 +94,7 @@ public class GameManager {
      * Aktualizuje objekty v hre, ako sú kanóny a ich strely.
      */
     public void updateObjects() {
-        this.objectManager.updateCanons(this.enemyManager.getEnemyList(), this.enemyManager);
+        this.objectManager.updateStructures(this.enemyManager.getEnemyList(), this.enemyManager);
     }
     public void updateEffects() {
         this.effectsManager.update(this.player);

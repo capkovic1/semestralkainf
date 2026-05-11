@@ -64,3 +64,14 @@ Time: 2026-05-09 13:09:46 ,TimeAlive: 00:05, Score: 1250
 Time: 2026-05-10 11:27:02 ,TimeAlive: 00:07, Score: 750
 Time: 2026-05-10 11:27:08 ,TimeAlive: 00:04, Score: 0
 Time: 2026-05-10 11:30:39 ,TimeAlive: 01:02, Score: 27360
+Time: 2026-05-11 16:47:47 ,TimeAlive: 00:25, Score: 2620
+Time: 2026-05-11 16:48:21 ,TimeAlive: 00:32, Score: 6180
+Time: 2026-05-11 17:05:56 ,TimeAlive: 00:31, Score: 4890
+Time: 2026-05-11 17:07:32 ,TimeAlive: 01:34, Score: 14570
+Time: 2026-05-11 17:08:44 ,TimeAlive: 01:10, Score: 14490
+Time: 2026-05-11 17:15:29 ,TimeAlive: 00:48, Score: 10640
+Time: 2026-05-11 17:35:18 ,TimeAlive: 00:21, Score: 4880
+Time: 2026-05-11 17:38:45 ,TimeAlive: 00:56, Score: 2750
+Time: 2026-05-11 17:42:58 ,TimeAlive: 00:23, Score: 4190
+Time: 2026-05-11 17:50:33 ,TimeAlive: 00:50, Score: 7610
+Time: 2026-05-11 17:56:34 ,TimeAlive: 00:31, Score: 4530

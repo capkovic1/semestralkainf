@@ -1,9 +1,12 @@
 package object.structure;
 
 import entity.Enemy;
+import gameManager.entityManager.EnemyManager;
 import projectile.CanonBall;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Trieda predstavujúca delo (kanón), ktoré môže zamerať a vystreliť na zombie.
@@ -31,7 +34,7 @@ public class Canon implements Structure {
      */
     public Canon(int x, int y, int hp) {
         this.angle = 0;
-        this.damage = 10;
+        this.damage = 25;
         this.x = x;
         this.y = y;
         this.hp = hp;
@@ -44,6 +47,11 @@ public class Canon implements Structure {
      */
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    @Override
+    public int getPrice() {
+        return 150;
     }
 
     /**
@@ -103,13 +111,15 @@ public class Canon implements Structure {
 
             if (Math.sqrt(dx * dx + dy * dy) < RANGE) {
                 this.lifetime++;
-                if (this.lifetime > 20) {
+                if (this.lifetime > 30) {
                     this.hp = 0;
                 }
                 this.shoot();
                 this.cooldown = COOLDOWN_MAX;
             }
         }
+
+
     }
 
     /**
@@ -153,6 +163,31 @@ public class Canon implements Structure {
         ));
     }
 
+    public void updateProjectiles(ArrayList<Enemy> enemies, EnemyManager enemyManager) {
+
+
+    Iterator<CanonBall> ballIter = this.projectiles.iterator();
+
+    while (ballIter.hasNext()) {
+        CanonBall ball = ballIter.next();
+        ball.update();
+
+        for (Enemy enemy : enemies) {
+            if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(enemy.getX(), enemy.getY(), 50, 50))) {
+                int damage = ball.getDamage();
+                enemy.decreaseHp(damage);
+                enemyManager.addDamageIndicator(enemy.getX() + 25, enemy.getY(), damage);
+                ballIter.remove();
+                break;
+            }
+        }
+
+        if (ball.shouldRemove()) {
+            ballIter.remove();
+        }
+    }
+    }
+
     /**
      * Získá zoznam všetkých aktuálnych projektílov vystrelených kanónom.
      *
@@ -161,5 +196,6 @@ public class Canon implements Structure {
     public ArrayList<CanonBall> getProjectiles() {
         return this.projectiles;
     }
+
 
 }

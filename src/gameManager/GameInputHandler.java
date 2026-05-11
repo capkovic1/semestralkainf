@@ -3,6 +3,7 @@ package gameManager;
 import entity.Player;
 import graphics.gameGraphics.GameGraphics;
 import object.structure.Canon;
+import object.structure.Structure;
 import object.structure.Wall;
 import resource.ResourceType;
 
@@ -81,30 +82,28 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
 
         switch (this.game.getInventory().getSelectedSlot()) {
             case 4:
-                if (this.player.getStone() >= 50) {
-                    this.player.addResource(ResourceType.STONE,-50);
-                    this.game.getObjectManager().addWall(new Wall(gridX, gridY));
-                } else {
-                    this.game.getMessageDisplay().showMessage("Not enough stone! (Need 50)");
-                }
+                handleBuilding("wall", 50, new Wall(gridX, gridY), gridX, gridY);
                 break;
 
             case 5:
-                if (this.player.getStone() >= 150) {
-                    if (this.game.getObjectManager().canPlaceCanon(gridX, gridY, this.game.getPlayer())) {
-                        this.player.addResource(ResourceType.STONE,-150);
-                        this.game.getObjectManager().addCanon(new Canon(gridX, gridY, 100));
-                    } else {
-                        this.game.getMessageDisplay().showMessage("Cannot place canon here!");
-                    }
-                } else {
-                    this.game.getMessageDisplay().showMessage("Not enough stone! (Need 150)");
-                }
+                handleBuilding("canon", 150, new Canon(gridX, gridY , 100), gridX, gridY);
                 break;
         }
         this.game.repaint();
     }
 
+    public void handleBuilding(String name , int price , Structure structure , int gridX , int gridY) {
+        if (this.player.getStone() >= price) {
+            if (this.game.getObjectManager().canPlaceStructure(gridX, gridY, this.game.getPlayer())) {
+                this.player.addResource(ResourceType.STONE,-price);
+                this.game.getObjectManager().addStructure(structure);
+            } else {
+                this.game.getMessageDisplay().showMessage("Cannot place " + name + " here!");
+            }
+        } else {
+            this.game.getMessageDisplay().showMessage("Not enough stone! (Need " + structure.getPrice() + ")");
+        }
+    }
     /**
      * Aktualizuje vybraný slot inventára podľa stlačených kláves (1-6),
      * spúšťa použitie zbrane (space) a upgrade zbrane (U).

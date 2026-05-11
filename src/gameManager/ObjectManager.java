@@ -13,7 +13,6 @@ import projectile.CanonBall;
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -25,20 +24,12 @@ import java.util.Random;
 public class ObjectManager {
 
     private final ArrayList<MaterialGraphics> materials;
-
-    private final ArrayList<Wall> walls ;
-    private final ArrayList<Canon> canons ;
-
     private final ArrayList<Structure> structures ;
 
-    private final ArrayList<CanonBall> canonBalls ;
 
     public ObjectManager() {
         this.materials = new ArrayList<>();
         this.structures = new ArrayList<>();
-        this.walls = new ArrayList<>();
-        this.canons = new ArrayList<>();
-        this.canonBalls = new ArrayList<>();
     }
     /**
      * Generuje náhodné kamene a stromy v rámci určených hraníc mapy.
@@ -92,25 +83,6 @@ public class ObjectManager {
         return true;
     }
 
-
-    /**
-     * Pridá nový múr do hry.
-     *
-     * @param wall múr, ktorý sa má pridať
-     */
-    public void addWall(Wall wall) {
-        this.structures.add(wall);
-        this.walls.add(wall);
-    }
-    /**
-     * Pridá nový kanón do hry.
-     *
-     * @param canon kanón, ktorý sa má pridať
-     */
-    public void addCanon(Canon canon) {
-        this.structures.add(canon);
-        this.canons.add(canon);
-    }
     /**
      * Vykreslí všetky herné objekty (stromy, kamene, múry, kanóny a projektily).
      *
@@ -122,19 +94,21 @@ public class ObjectManager {
         }
 
         WallGraphics wallGraphics = new WallGraphics();
-        for (Wall wall : this.walls) {
-            wallGraphics.getWallGrafics(g, wall.getX(), wall.getY());
-        }
-
         CanonGraphics canonGraphics = new CanonGraphics();
-        for (Canon canon : this.canons) {
-            canonGraphics.getCanonGraphics(g, canon.getX() , canon.getY() , canon.getAngle());
+        CanonBallGraphics canonBallGraphics = new CanonBallGraphics();
+
+        for (Structure structure : this.structures) {
+            if (structure instanceof Canon) {
+                canonGraphics.getCanonGraphics(g, structure.getX() , structure.getY() ,((Canon) structure).getAngle());
+                for (CanonBall canonBall : ((Canon) structure).getProjectiles()) {
+                    canonBallGraphics.draw(g, canonBall);
+                }
+            } else if (structure instanceof Wall) {
+                wallGraphics.getWallGrafics(g, structure.getX(), structure.getY());
+            }
+
         }
 
-        CanonBallGraphics canonBallGraphics = new CanonBallGraphics();
-        for (CanonBall canonBall : this.canonBalls) {
-            canonBallGraphics.draw(g, canonBall);
-        }
     }
 
     public void removeDestroyedMaterial(Player player) {
@@ -183,7 +157,7 @@ public class ObjectManager {
      * @param player hráč (pre kontrolu kolízie)
      * @return {@code true}, ak je možné kanón postaviť, inak {@code false}
      */
-    public boolean canPlaceCanon(int x, int y , Player player) {
+    public boolean canPlaceStructure(int x, int y , Player player) {
         Rectangle canonArea = new Rectangle(x * 20, y * 20, 40, 40);
 
         if (new Rectangle(player.getX(), player.getY(), 50, 50).intersects(canonArea)) {
@@ -203,50 +177,22 @@ public class ObjectManager {
 
         return true;
     }
-    /**
-     * Aktualizuje všetky kanóny, ich stav a projektily.
-     * Tiež kontroluje kolízie projektilov s nepriateľmi (zombie).
-     *
-     * @param enemies zoznam nepriateľov, ktoré môžu byť zasiahnuté projektilmi
-     */
-    public void updateCanons(ArrayList<Enemy> enemies, EnemyManager enemyManager) {
-        this.canons.removeIf(Canon::isDestroyed);
+    public void updateStructures(ArrayList<Enemy> enemies , EnemyManager enemyManager) {
+        this.structures.removeIf(Structure::isDestroyed);
 
-        for (Canon canon : this.canons) {
-            canon.update(enemies);
-
-            for (CanonBall ball : canon.getProjectiles()) {
-                if (!this.canonBalls.contains(ball)) {
-                    this.canonBalls.add(ball);
-                }
-            }
-        }
-
-        Iterator<CanonBall> ballIter = this.canonBalls.iterator();
-        while (ballIter.hasNext()) {
-            CanonBall ball = ballIter.next();
-            ball.update();
-
-            for (Enemy enemy : enemies) {
-                if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(enemy.getX(), enemy.getY(), 50, 50))) {
-                    int damage = ball.getDamage();
-                    enemy.decreaseHp(damage);
-                    enemyManager.addDamageIndicator(enemy.getX() + 25, enemy.getY(), damage);
-                    ballIter.remove();
-                    break;
-                }
-            }
-
-            if (ball.shouldRemove()) {
-                ballIter.remove();
+        for (Structure structure : this.structures) {
+            structure.update(enemies);
+            if (structure instanceof Canon) {
+                ((Canon) structure).updateProjectiles(enemies, enemyManager);
             }
         }
     }
+
     public void reset() {
         this.materials.clear();
         this.structures.clear();
-        this.walls.clear();
-        this.canons.clear();
-        this.canonBalls.clear();
+    }
+    public void addStructure(Structure structure) {
+        this.structures.add(structure);
     }
 }
