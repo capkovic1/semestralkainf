@@ -1,6 +1,6 @@
 package graphics.entityGraphics;
 
-import entity.SpearThrower;
+import entities.enemies.SpearThrower;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;

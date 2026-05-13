@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public class Fatigue extends Effects {
     public Fatigue(long duration) {
@@ -9,7 +9,7 @@ public class Fatigue extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()) {
+        if (!this.isActive()) {
             this.setActivateState(true);
             super.setStartTime(System.currentTimeMillis());
             player.setSpeed(3);
@@ -20,7 +20,7 @@ public class Fatigue extends Effects {
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);
-        player.setSpeed(5);
-        player.setEfficiency(3);
+        player.setDefaultEfficiency();
+        player.setDefaultSpeed();
     }
 }

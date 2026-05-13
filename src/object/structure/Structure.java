@@ -1,7 +1,8 @@
 package object.structure;
 
-import entity.Enemy;
+import entities.enemies.Enemy;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public interface Structure {
@@ -11,4 +12,5 @@ public interface Structure {
     int getX();
 
     int getY();
+    void draw(Graphics g);
 }

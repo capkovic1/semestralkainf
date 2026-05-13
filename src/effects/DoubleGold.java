@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 import resource.ResourceType;
 
 public class DoubleGold extends Effects {
@@ -12,7 +12,7 @@ public class DoubleGold extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()){
+        if (!this.isActive()){
             this.setActivateState(true);
             super.setStartTime(System.currentTimeMillis());
             this.goldAmount = player.getGold();

@@ -75,3 +75,15 @@ Time: 2026-05-11 17:38:45 ,TimeAlive: 00:56, Score: 2750
 Time: 2026-05-11 17:42:58 ,TimeAlive: 00:23, Score: 4190
 Time: 2026-05-11 17:50:33 ,TimeAlive: 00:50, Score: 7610
 Time: 2026-05-11 17:56:34 ,TimeAlive: 00:31, Score: 4530
+Time: 2026-05-11 20:43:39 ,TimeAlive: 00:06, Score: 4220
+Time: 2026-05-11 20:44:33 ,TimeAlive: 00:52, Score: 12070
+Time: 2026-05-13 13:10:59 ,TimeAlive: 00:13, Score: 1750
+Time: 2026-05-13 13:11:03 ,TimeAlive: 00:03, Score: 0
+Time: 2026-05-13 14:45:05 ,TimeAlive: 00:21, Score: 1710
+Time: 2026-05-13 15:14:38 ,TimeAlive: 00:33, Score: -2940
+Time: 2026-05-13 15:57:20 ,TimeAlive: 00:15, Score: 1440
+Time: 2026-05-13 15:57:48 ,TimeAlive: 00:27, Score: 4850
+Time: 2026-05-13 16:03:29 ,TimeAlive: 00:45, Score: 7560
+Time: 2026-05-13 16:21:14 ,TimeAlive: 00:59, Score: 9950
+Time: 2026-05-13 17:50:15 ,TimeAlive: 00:06, Score: 2630
+Time: 2026-05-13 17:51:14 ,TimeAlive: 00:58, Score: 19720

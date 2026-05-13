@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public class Weakness extends Effects {
 
@@ -10,7 +10,7 @@ public class Weakness extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()) {
+        if (!this.isActive()) {
             this.setActivateState(true);
             super.setStartTime(System.currentTimeMillis());
             player.setDamage(1);
@@ -20,6 +20,6 @@ public class Weakness extends Effects {
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);
-        player.setDamage(3);
+        player.setDefaultStrength();
     }
 }

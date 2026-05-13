@@ -1,6 +1,6 @@
 package graphics.infoGraphics;
 
-import entity.Player;
+import entities.player.Player;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;

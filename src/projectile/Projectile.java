@@ -1,5 +1,7 @@
 package projectile;
 
+import java.awt.*;
+
 /**
  * Abstraktná trieda reprezentujúca projektil s vlastnosťami ako pozícia, rýchlosť,
  * poškodenie, uhol a stav aktivity.
@@ -9,8 +11,13 @@ package projectile;
  * </p>
  */
 public abstract class Projectile {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
+    private double dx;
+    private double dy;
+    
+    private int lifetime;
+    
     private final int speed;
     private boolean active = true;
     private double angle;
@@ -24,19 +31,28 @@ public abstract class Projectile {
      * @param speed   rýchlosť pohybu projektilu
      * @param damage  množstvo poškodenia, ktoré projektil spôsobuje
      */
-    public Projectile(int x, int y, int speed, int damage) {
+    public Projectile(double x, double y, int speed, int damage) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.damage = damage;
     }
 
+    public int getLifetime() {
+        return lifetime;
+    }
+    public void setLifetime(int lifetime) {
+        this.lifetime = lifetime;
+    }
+    public void decreaseLifetime() {
+        this.lifetime--;
+    }
     /**
      * Získa aktuálnu X súradnicu projektilu.
      *
      * @return aktuálna X súradnica
      */
-    public int getX() {
+    public double getX() {
         return this.x;
     }
 
@@ -45,7 +61,7 @@ public abstract class Projectile {
      *
      * @return aktuálna Y súradnica
      */
-    public int getY() {
+    public double getY() {
         return this.y;
     }
 
@@ -76,6 +92,18 @@ public abstract class Projectile {
         return this.damage;
     }
 
+    protected void setDx(double dx) {
+        this.dx = dx;
+    }
+    protected void setDy(double dy) {
+        this.dy = dy;
+    }
+    protected double getDx() {
+        return this.dx;
+    }
+    protected double getDy() {
+        return this.dy;
+    }
     /**
      * Získa uhol, pod ktorým sa projektil pohybuje.
      *
@@ -90,7 +118,7 @@ public abstract class Projectile {
      *
      * @param x nová X súradnica
      */
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -99,7 +127,7 @@ public abstract class Projectile {
      *
      * @param y nová Y súradnica
      */
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -129,4 +157,19 @@ public abstract class Projectile {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    /**
+     * Aktualizuje stav projektilu (pohyb, znižovanie lifetime, atď.).
+     * Každá podtrieda musí implementovať svoju vlastnú logiku.
+     */
+    public abstract void update();
+
+    /**
+     * Určuje, či by mal byť projektil odstránený z hry.
+     * Každá podtrieda musí implementovať svoju vlastnú logiku.
+     *
+     * @return {@code true}, ak by mal byť projektil odstránený, inak {@code false}
+     */
+    public abstract boolean shouldRemove();
+    public abstract void draw(Graphics g);
 }

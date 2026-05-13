@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public class Efficiency extends Effects {
     public Efficiency(long duration) {
@@ -9,7 +9,7 @@ public class Efficiency extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()) {
+        if (!this.isActive()) {
             this.setActivateState(true);
             super.setStartTime(System.currentTimeMillis());
             player.setEfficiency(5);
@@ -19,6 +19,6 @@ public class Efficiency extends Effects {
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);
-        player.setEfficiency(3);
+        player.setDefaultEfficiency();
     }
 }

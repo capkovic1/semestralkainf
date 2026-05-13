@@ -43,20 +43,20 @@ public abstract class Weapon {
      * Zvýši poškodenie zbrane o zadanú hodnotu.
      * Chránená metóda, určená pre vnútorné použitie v triedach dedičných od {@code Zbran}.
      *
-     * @param kolko Hodnota, o ktorú sa zvýši poškodenie.
+     * @param number Hodnota, o ktorú sa zvýši poškodenie.
      */
-    protected void increaseDamage(int kolko) {
-        this.damage += kolko;
+    protected void increaseDamage(int number) {
+        this.damage += number;
     }
 
     /**
      * Zvýši poškodenie proti štruktúram o zadanú hodnotu.
      * Chránená metóda, určená pre vnútorné použitie v triedach dedičných od {@code Zbran}.
      *
-     * @param kolko Hodnota, o ktorú sa zvýši poškodenie proti štruktúram.
+     * @param number Hodnota, o ktorú sa zvýši poškodenie proti štruktúram.
      */
-    protected void zvysDmgToStructures(int kolko) {
-        this.dmgToStructures += kolko;
+    protected void increaseDmgToStructures(int number) {
+        this.dmgToStructures += number;
     }
 
     /**

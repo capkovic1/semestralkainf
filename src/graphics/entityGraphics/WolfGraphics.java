@@ -1,6 +1,6 @@
 package graphics.entityGraphics;
 
-import entity.Wolf;
+import entities.enemies.Wolf;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;

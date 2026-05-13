@@ -1,7 +1,7 @@
 package graphics.entityGraphics;
 
-import entity.Player;
-import graphics.ruka.HandGraphics;
+import entities.player.Player;
+import graphics.handGraphics.HandGraphics;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public class Haste extends Effects {
     public Haste(long duration) {
@@ -9,7 +9,7 @@ public class Haste extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()) {
+        if (!this.isActive()) {
             this.setActivateState(true);
             super.setStartTime(System.currentTimeMillis());
             player.setSpeed(7);
@@ -19,6 +19,6 @@ public class Haste extends Effects {
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);
-        player.setSpeed(5);
+        player.setDefaultEfficiency();
     }
 }

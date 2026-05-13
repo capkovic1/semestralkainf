@@ -1,12 +1,12 @@
 package graphics.infoGraphics;
 
-import entity.Player;
+import entities.player.Player;
 import graphics.entityGraphics.PlayerGraphics;
-import graphics.ruka.BowGraphics;
-import graphics.ruka.EmptyHandGraphics;
-import graphics.ruka.HandGraphics;
-import graphics.ruka.HammerGraphics;
-import graphics.ruka.SwordGraphics;
+import graphics.handGraphics.BowGraphics;
+import graphics.handGraphics.EmptyHandGraphics;
+import graphics.handGraphics.HandGraphics;
+import graphics.handGraphics.HammerGraphics;
+import graphics.handGraphics.SwordGraphics;
 import weapon.Bow;
 import weapon.Hammer;
 import weapon.Hand;

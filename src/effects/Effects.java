@@ -1,11 +1,11 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public abstract class Effects {
-    private long duration;
+    private final long duration;
     private long startTime;
-    private String name;
+    private final String name;
     private boolean isActive;
 
     public Effects(long duration , String name) {
@@ -32,7 +32,7 @@ public abstract class Effects {
     protected void setActivateState(boolean activate) {
         this.isActive = activate;
     }
-    protected boolean getActivate() {
+    protected boolean isActive() {
         return  this.isActive;
     }
 

@@ -1,6 +1,6 @@
 package main;
 
-import entity.Player;
+import entities.player.Player;
 import graphics.gameGraphics.GameGraphics;
 
 import java.awt.Dimension;

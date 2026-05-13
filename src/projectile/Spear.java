@@ -1,5 +1,9 @@
 package projectile;
 
+import graphics.projectilesGraphics.SpearGraphics;
+
+import java.awt.*;
+
 /**
  * Trieda {@code Spear} reprezentuje vrhací oštep, ktorý je podtriedou {@link Projectile}.
  * <p>
@@ -7,9 +11,6 @@ package projectile;
  * </p>
  */
 public class Spear extends Projectile {
-    private int targetX;
-    private int targetY;
-
     /**
      * Vytvorí novú inštanciu {@code Spear} s danou počiatočnou pozíciou, rýchlosťou a poškodením.
      *
@@ -28,9 +29,9 @@ public class Spear extends Projectile {
      * @param targetX cieľová X súradnica
      * @param targetY cieľová Y súradnica
      */
-    public void throwSpear(int targetX, int targetY) {
-        this.targetX = targetX;
-        this.targetY = targetY;
+    public void throwSpear(double targetX, double targetY) {
+        super.setDx(targetX);
+        super.setDy(targetY);
         super.setActive(true);
 
         double dx = targetX - this.getX();
@@ -43,7 +44,8 @@ public class Spear extends Projectile {
      * Aktualizuje pozíciu oštepu na základe jeho rýchlosti a uhla.
      * Keď oštep dosiahne cieľovú pozíciu alebo je dostatočne blízko, deaktivuje sa.
      */
-    public void updateSpear() {
+    @Override
+    public void update() {
         if (!super.isActive()) {
             return;
         }
@@ -54,11 +56,21 @@ public class Spear extends Projectile {
         this.setX(newX);
         this.setY(newY);
 
-        if (Math.hypot(this.targetX - newX, this.targetY - newY) <= this.getSpeed()) {
-            this.setX(this.targetX);
-            this.setY(this.targetY);
+        if (Math.hypot(super.getDx() - newX, super.getDy() - newY) <= this.getSpeed()) {
+            this.setX(super.getDx());
+            this.setY(super.getDy());
             super.setActive(false);
         }
+    }
+
+    /**
+     * Určuje, či by mal byť oštep odstránený.
+     *
+     * @return {@code true}, ak je oštep neaktívny, inak {@code false}
+     */
+    @Override
+    public boolean shouldRemove() {
+        return !super.isActive();
     }
 
     /**
@@ -68,6 +80,10 @@ public class Spear extends Projectile {
      */
     public boolean isActive() {
         return super.isActive();
+    }
+
+    public void draw(Graphics g) {
+        new SpearGraphics(this).draw(g);
     }
 }
 

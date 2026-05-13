@@ -1,12 +1,11 @@
 package object.structure;
 
-import entity.Enemy;
-import gameManager.entityManager.EnemyManager;
-import projectile.CanonBall;
+import entities.enemies.Enemy;
+import graphics.objectGraphics.structureGraphics.CanonGraphics;
+import managers.ProjectileManager;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Trieda predstavujúca delo (kanón), ktoré môže zamerať a vystreliť na zombie.
@@ -21,7 +20,6 @@ public class Canon implements Structure {
     private int cooldown = 0;
     private static final int COOLDOWN_MAX = 30;
     private final int damage;
-    private final ArrayList<CanonBall> projectiles = new ArrayList<>();
 
     private int lifetime;
 
@@ -39,6 +37,7 @@ public class Canon implements Structure {
         this.y = y;
         this.hp = hp;
     }
+
 
     /**
      * Nastaví uhol natočenia kanóna v stupňoch.
@@ -70,6 +69,11 @@ public class Canon implements Structure {
      */
     public int getY() {
         return this.y;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        new CanonGraphics(this).draw(g);
     }
 
     /**
@@ -147,55 +151,24 @@ public class Canon implements Structure {
 
     /**
      * Vystrelí kanón na aktuálny uhol.
-     * Vytvorí nový projektíl (CanonBall) a pridá ho do zoznamu projektílov.
+     * Vytvorí nový projektíl (CanonBall) a pridá ho do ProjectileManager.
      */
     private void shoot() {
         double angleRad = Math.toRadians(this.angle);
         int startX = this.x * 20 + 20;
         int startY = this.y * 20 + 20;
         int projectileSpeed = 8;
-        this.projectiles.add(new CanonBall(
+        projectile.CanonBall ball = new projectile.CanonBall(
                 startX,
                 startY,
                 projectileSpeed * Math.cos(angleRad),
                 projectileSpeed * Math.sin(angleRad),
                 this.damage
-        ));
+        );
+        ProjectileManager.getInstance().addProjectile(ball);
     }
 
-    public void updateProjectiles(ArrayList<Enemy> enemies, EnemyManager enemyManager) {
 
-
-    Iterator<CanonBall> ballIter = this.projectiles.iterator();
-
-    while (ballIter.hasNext()) {
-        CanonBall ball = ballIter.next();
-        ball.update();
-
-        for (Enemy enemy : enemies) {
-            if (new Rectangle((int)ball.getX() - 5, (int)ball.getY() - 5, 10, 10).intersects(new Rectangle(enemy.getX(), enemy.getY(), 50, 50))) {
-                int damage = ball.getDamage();
-                enemy.decreaseHp(damage);
-                enemyManager.addDamageIndicator(enemy.getX() + 25, enemy.getY(), damage);
-                ballIter.remove();
-                break;
-            }
-        }
-
-        if (ball.shouldRemove()) {
-            ballIter.remove();
-        }
-    }
-    }
-
-    /**
-     * Získá zoznam všetkých aktuálnych projektílov vystrelených kanónom.
-     *
-     * @return Zoznam projektílov.
-     */
-    public ArrayList<CanonBall> getProjectiles() {
-        return this.projectiles;
-    }
 
 
 }

@@ -1,7 +1,9 @@
 package object.structure;
 
-import entity.Enemy;
+import entities.enemies.Enemy;
+import graphics.objectGraphics.structureGraphics.WallGraphics;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -31,7 +33,7 @@ public class Wall implements Structure {
 
     @Override
     public boolean isDestroyed() {
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -55,5 +57,10 @@ public class Wall implements Structure {
      */
     public int getY() {
         return this.y;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+            new WallGraphics(this).draw(g);
     }
 }

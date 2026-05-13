@@ -1,6 +1,6 @@
 package effects;
 
-import entity.Player;
+import entities.player.Player;
 
 public class Slowness extends Effects {
     public Slowness(long duration) {
@@ -9,9 +9,9 @@ public class Slowness extends Effects {
 
     @Override
     public void useEffect(Player player) {
-        if (!this.getActivate()) {
+        if (!this.isActive()) {
             this.setActivateState(true);
-            if (!this.getActivate()) {
+            if (!this.isActive()) {
                 this.setActivateState(true);
                 super.setStartTime(System.currentTimeMillis());
                 player.setSpeed(3);
@@ -22,7 +22,6 @@ public class Slowness extends Effects {
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);
-
-        player.setSpeed(5);
+        player.setDefaultSpeed();
     }
 }

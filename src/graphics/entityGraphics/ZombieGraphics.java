@@ -1,6 +1,6 @@
 package graphics.entityGraphics;
 
-import entity.Zombie;
+import entities.enemies.Zombie;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Color;

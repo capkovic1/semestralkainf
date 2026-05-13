@@ -1,13 +1,13 @@
 package graphics.gameGraphics;
 
-import entity.Player;
+import entities.player.Player;
 
-import gameManager.*;
+import managers.*;
 import graphics.entityGraphics.PlayerGraphics;
 import graphics.infoGraphics.ActiveEffectsGraphics;
 import graphics.infoGraphics.InventoryGraphics;
 import graphics.infoGraphics.PlayerInfoGraphics;
-import graphics.ruka.HammerGraphics;
+import graphics.handGraphics.HammerGraphics;
 import weapon.Hammer;
 
 import java.awt.*;

@@ -2,6 +2,8 @@ package object.material;
 
 import resource.ResourceType;
 
+import java.awt.*;
+
 /**
  * Rozhranie reprezentujúce materiál alebo objekt, ktorý má životy (HP) a môže byť zničený.
  */
@@ -20,4 +22,7 @@ public interface Material {
      * @param hp Hodnota, o ktorú sa zmenia životy (môže byť napr. poškodenie alebo liečenie).
      */
     ResourceType changeHpBy(int hp);
+    Rectangle getBounds() ;
+
+    void draw(Graphics g);
 }

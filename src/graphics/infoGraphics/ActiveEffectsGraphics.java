@@ -1,7 +1,7 @@
 package graphics.infoGraphics;
 
 import effects.Effects;
-import gameManager.EffectsManager;
+import managers.EffectsManager;
 
 import java.awt.*;
 import java.util.ArrayList;
