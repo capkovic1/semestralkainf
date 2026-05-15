@@ -2,7 +2,7 @@ package projectile;
 
 import graphics.projectilesGraphics.CanonBallGraphics;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * Trieda reprezentuje projektil typu kanónová guľa,

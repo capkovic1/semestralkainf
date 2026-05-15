@@ -2,15 +2,25 @@ package graphics.gameGraphics;
 
 import entities.player.Player;
 
-import managers.*;
-import graphics.entityGraphics.PlayerGraphics;
+import managers.GameManager;
+import managers.ObjectManager;
+import managers.CollisionDetector;
+import managers.GameHistory;
+import managers.GameLoop;
+import managers.GameInputHandler;
 import graphics.infoGraphics.ActiveEffectsGraphics;
 import graphics.infoGraphics.InventoryGraphics;
 import graphics.infoGraphics.PlayerInfoGraphics;
 import graphics.handGraphics.HammerGraphics;
 import weapon.Hammer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 import javax.swing.Box;
@@ -29,15 +39,10 @@ public class GameGraphics extends JPanel {
 
     private long startTime ;
 
-    private int lastDirectionX = 0;
-    private int lastDirectionY = 0;
-
     private final BoardGraphics boardGraphics;
 
-    private PlayerGraphics playerGraphics;
-
     private InventoryGraphics inventoryGraphics;
-    private ActiveEffectsGraphics activeEffectsGraphics;
+    private final ActiveEffectsGraphics activeEffectsGraphics;
 
     private final GameManager gameManager;
     private final MessageDisplay messageDisplay;
@@ -47,7 +52,7 @@ public class GameGraphics extends JPanel {
     private final int rows;
     private final int cols;
 
-    private GameLoop gameLoop;
+    private final GameLoop gameLoop;
 
     private final PlayerInfoGraphics playerInfoGraphics;
     /**
@@ -66,11 +71,10 @@ public class GameGraphics extends JPanel {
         this.startTime = System.currentTimeMillis();
 
         this.boardGraphics = new BoardGraphics(this.rows, this.cols);
-        this.playerGraphics = new PlayerGraphics(player, new HammerGraphics(this::repaint));
         this.gameManager = new GameManager(player , this.cols , this.rows);
 
         this.playerInfoGraphics = new PlayerInfoGraphics(player);
-        this.inventoryGraphics = new InventoryGraphics(player , this.playerGraphics);
+        this.inventoryGraphics = new InventoryGraphics(player);
         this.activeEffectsGraphics = new ActiveEffectsGraphics();
         this.messageDisplay = new MessageDisplay();
 
@@ -80,8 +84,8 @@ public class GameGraphics extends JPanel {
         this.addMouseListener(this.inputHandler);
         this.addMouseListener(this.inputHandler);
 
-            this.gameLoop = new GameLoop(this.gameManager, this.inputHandler, this::repaint, this::showDeadMenu, this.startTime , this.rows , this.cols);
-            this.gameLoop.start();
+        this.gameLoop = new GameLoop(this.gameManager, this.inputHandler, this::repaint, this::showDeadMenu, this.startTime , this.rows , this.cols);
+        this.gameLoop.start();
     }
 
     /**
@@ -110,18 +114,18 @@ public class GameGraphics extends JPanel {
         super.paintComponent(g);
 
         this.boardGraphics.paintComponent(g);
-        this.playerGraphics.getPlayerGrafic(g);
+        this.gameManager.getPlayer().getPlayerGraphics().draw(g);
 
         this.gameManager.getEnemyManager().drawEnemies(g);
         this.gameManager.getObjectManager().drawObjects(g);
 
         this.playerInfoGraphics.drawPlayerResources(g, this.getWidth(), this.getHeight() , this.startTime);
-        this.activeEffectsGraphics.drawActiveEffects((Graphics2D) g , this.gameManager.getEffectsManager());
+        this.activeEffectsGraphics.drawActiveEffects((Graphics2D)g , this.gameManager.getEffectsManager());
         this.inventoryGraphics.draw(g);
-        
-        this.messageDisplay.draw(g,this.getWidth(),this.getHeight());
+
+        this.messageDisplay.draw(g, this.getWidth(), this.getHeight());
         this.repaint();
-        
+
     }
     /**
      * Získava správcu objektov hry.
@@ -143,15 +147,15 @@ public class GameGraphics extends JPanel {
      * Nastaví hráčovu zbraň na kladivo.
      */
     public void setWeaponHammer() {
-        this.playerGraphics.setHandGraphics(new HammerGraphics(this::repaint));
+        this.gameManager.getPlayer().getPlayerGraphics().setHandGraphics(new HammerGraphics());
         this.gameManager.getPlayer().setWeapon(new Hammer(30, 25));
     }
     /**
      * Použije aktuálnu zbraň hráča a spracuje zásah na materiály alebo nepriateľov.
      */
     public void useWeapon() {
-        this.playerGraphics.getHandGraphics().use();
-        this.gameManager.handleHit();
+        this.gameManager.getPlayer().getPlayerGraphics().getHandGraphics().use();
+        CollisionDetector.handleWeaponHit(this.gameManager.getObjectManager(),  this.gameManager.getPlayer(), this.gameManager.getEnemyManager());
     }
     /**
      * Získava grafiku inventára.
@@ -179,12 +183,12 @@ public class GameGraphics extends JPanel {
         JButton restartButton = new JButton("Restart");
         restartButton.setFont(new Font("Arial", Font.PLAIN, 24));
         restartButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        restartButton.addActionListener(e -> this.restartGame());
+        restartButton.addActionListener(_ -> this.restartGame());
 
         JButton historyButton = new JButton("Show History");
         historyButton.setFont(new Font("Arial", Font.PLAIN, 24));
         historyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        historyButton.addActionListener(e -> GameHistory.showHistory(this));
+        historyButton.addActionListener(_ -> GameHistory.showHistory(this));
 
         deadPanel.add(Box.createVerticalGlue());
         deadPanel.add(deadLabel);
@@ -220,8 +224,7 @@ public class GameGraphics extends JPanel {
 
         this.setWeaponHammer();
 
-        this.playerGraphics = new PlayerGraphics(player, new HammerGraphics(this::repaint));
-        this.inventoryGraphics = new InventoryGraphics(player, this.playerGraphics);
+        this.inventoryGraphics = new InventoryGraphics(player);
 
         this.removeAll();
 
@@ -234,8 +237,9 @@ public class GameGraphics extends JPanel {
         this.repaint();
 
         this.startTime = System.currentTimeMillis();
-        this.gameLoop.restart(this.inputHandler, this.startTime);
-
+        if (this.gameLoop != null) {
+            this.gameLoop.restart(this.inputHandler, this.startTime);
+        }
     }
 
     public MessageDisplay getMessageDisplay() {

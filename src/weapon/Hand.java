@@ -1,5 +1,8 @@
 package weapon;
 
+import graphics.handGraphics.EmptyHandGraphics;
+import graphics.handGraphics.HandGraphics;
+
 /**
  * Trieda predstavujúca zbraň typu Ruka (Hand).
  * Rozširuje základnú triedu {@link Weapon} a umožňuje jednoduché vylepšenie
@@ -31,5 +34,10 @@ public class Hand extends Weapon {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public HandGraphics getWeaponGraphics() {
+        return new EmptyHandGraphics();
     }
 }

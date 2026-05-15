@@ -1,12 +1,6 @@
 package managers;
 
 import entities.player.Player;
-import entities.enemies.Enemy;
-import object.material.Material;
-import resource.ResourceType;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Trieda GameManager je centrálny manažér pre hernú logiku,
@@ -57,34 +51,7 @@ public class GameManager {
     }
 
     public boolean updateEntities() {
-       return  this.enemyManager.updateEnemies(this.player);
-    }
-
-    public void handleHit() {
-
-        Material material = this.objectManager.getHitableMaterial( this.player);
-
-        if (material != null) {
-            ResourceType resourceType = material.changeHpBy(-this.player.getWeapon().getDmgToStructures());
-            this.player.addResource(resourceType, this.player.getEfficiency() * this.player.getWeapon().getDmgToStructures());
-
-            if (material.isDestroyed()) {
-                this.objectManager.removeDestroyedMaterial(this.player);
-            }
-        }
-
-        this.handleHitToEnemy();
-
-
-    }
-    private void handleHitToEnemy() {
-        ArrayList<Enemy> hitEnemies = CollisionDetector.getEnemiesInRange(this.player.getX(), this.player.getY(), this.player.getWeapon().getRange(), this.enemyManager.getEnemyList());
-
-        for (Enemy enemy : hitEnemies) {
-            int damage = (this.player.getWeapon().getDamage() * this.player.getDamage());
-            enemy.takeDamage(damage);
-            this.enemyManager.addDamageIndicator(enemy, damage);
-        }
+        return  this.enemyManager.updateEnemies(this.player);
     }
 
     /**

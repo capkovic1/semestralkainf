@@ -1,28 +1,37 @@
-package graphics.handGraphics;
+package graphics.projectilesGraphics;
 
-import java.awt.Graphics2D;
+import projectile.Arrow;
+
 import java.awt.Color;
-import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 
 /**
  * Trieda ArrowGraphics zodpovedá za vykreslenie grafickej reprezentácie šípu.
  * Umožňuje vykresliť šíp s danou pozíciou, uhlom natočenia a dĺžkou.
  */
-public class ArrowGraphics {
+public class ArrowGraphics implements ProjectileGraphics {
+    private final Arrow arrow;
+
+    public  ArrowGraphics(Arrow arrow) {
+        this.arrow = arrow;
+    }
     /**
      * Vykreslí šíp na zadaný grafický kontext.
      * Šíp je vykreslený ako čiara s trojuholníkovou šípkou a malým obdĺžnikom na násade.
      * Pozícia, uhol natočenia a dĺžka šípu sú parametre metódy.
      *
-     * @param g2d Grafický kontext, na ktorý sa šíp vykreslí
-     * @param x X súradnica začiatku šípu
-     * @param y Y súradnica začiatku šípu
-     * @param angle Uhol natočenia šípu v stupňoch (0 stupňov je horizontálne doprava)
-     * @param length Dĺžka hlavnej čiary šípu v pixeloch
      */
-    public void draw(Graphics2D g2d, int x, int y, double angle, int length) {
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g;
+        int x = (int)Math.round(this.arrow.getX());
+        int y = (int)Math.round(this.arrow.getY());
+        int length = 20;
+        double angle = (int)Math.round(Math.toDegrees(Math.atan2(this.arrow.getDy(), this.arrow.getDx())));
+
         AffineTransform oldTransform = g2d.getTransform();
 
         g2d.translate(x, y);

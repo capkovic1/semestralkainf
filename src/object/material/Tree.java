@@ -3,7 +3,8 @@ package object.material;
 import graphics.objectGraphics.materialGraphics.TreeGraphics;
 import resource.ResourceType;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * Trieda reprezentuje materiál typu drevo s určitým množstvom životov (hp).
@@ -25,10 +26,10 @@ public class Tree implements Material {
         this.y = y;
     }
     public int getX() {
-        return x;
+        return this.x;
     }
     public int getY() {
-        return y;
+        return this.y;
     }
 
     /**
@@ -48,8 +49,8 @@ public class Tree implements Material {
     }
 
     public Rectangle getBounds() {
-        int SIZE = 40;
-        return new Rectangle(this.x - SIZE, this.y - SIZE, SIZE * 2, SIZE * 2);
+        int size = 40;
+        return new Rectangle(this.x - size, this.y - size, size * 2, size * 2);
     }
 
     /**

@@ -2,7 +2,7 @@ package projectile;
 
 import graphics.projectilesGraphics.SpearGraphics;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * Trieda {@code Spear} reprezentuje vrhací oštep, ktorý je podtriedou {@link Projectile}.

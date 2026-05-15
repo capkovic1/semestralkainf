@@ -2,7 +2,7 @@ package managers;
 
 import entities.player.Player;
 
-import javax.swing.*;
+import javax.swing.Timer;
 
 
 public class GameLoop {
@@ -36,8 +36,9 @@ public class GameLoop {
         this.initTimer();
     }
     private void initTimer() {
-        this.gameTimer = new Timer(20, e -> this.update());
+        this.gameTimer = new Timer(20, _ -> this.update());
     }
+
     private void update() {
         this.inputHandler.update();
 
@@ -50,7 +51,7 @@ public class GameLoop {
 
 
         long currentTime = System.currentTimeMillis();
-        if (currentTime - this.lastRegenTime >= 1000) {
+        if (currentTime - this.lastRegenTime >= 500) {
             this.regeneratePlayer();
             this.lastRegenTime = currentTime;
         }
@@ -76,7 +77,7 @@ public class GameLoop {
         }
     }
     public void start() {
-            this.gameTimer.start();
+        this.gameTimer.start();
     }
     public void stop() {
         if (this.gameTimer != null && this.gameTimer.isRunning()) {
@@ -89,7 +90,7 @@ public class GameLoop {
         this.startTime = newStartTime;
         this.lastRegenTime = System.currentTimeMillis();
         this.objectTimer = System.currentTimeMillis();
-        this.gameTimer = new Timer(20, e -> this.update());
+        this.gameTimer = new Timer(20, _ -> this.update());
         this.start();
     }
 }

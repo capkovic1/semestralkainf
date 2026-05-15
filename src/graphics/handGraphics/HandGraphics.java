@@ -17,7 +17,7 @@ public interface HandGraphics {
      * @param player inštancia hráča, na základe ktorej sa určuje pozícia a orientácia
      * @param armOffset posunutie ramena, ktoré môže slúžiť na animácie alebo efekty
      */
-    void drawGraphics(Graphics2D g2d, Player player, int armOffset);
+    void draw(Graphics2D g2d, Player player, int armOffset);
 
     /**
      * Aktivuje použitie ruky alebo predmetu (napríklad útok, animáciu atď.).

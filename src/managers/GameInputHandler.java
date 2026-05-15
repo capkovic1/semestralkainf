@@ -24,6 +24,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
 
     private final GameGraphics game;
     private final Player player;
+
     private final Set<Integer> pressedKeys = new HashSet<>();
     private int lastDirectionX ;
     private int lastDirectionY;
@@ -82,11 +83,11 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
 
         switch (this.game.getInventory().getSelectedSlot()) {
             case 4:
-                handleBuilding("wall", new Wall(gridX, gridY), gridX, gridY);
+                this.handleBuilding("wall", new Wall(gridX, gridY), gridX, gridY);
                 break;
 
             case 5:
-                handleBuilding("canon", new Canon(gridX, gridY , 100), gridX, gridY);
+                this.handleBuilding("canon", new Canon(gridX, gridY , 100), gridX, gridY);
                 break;
         }
         this.game.repaint();
@@ -95,7 +96,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
     public void handleBuilding(String name  , Structure structure , int gridX , int gridY) {
         if (this.player.getStone() >= structure.getPrice()) {
             if (this.game.getObjectManager().canPlaceStructure(gridX, gridY, this.game.getPlayer())) {
-                this.player.addResource(ResourceType.STONE,-structure.getPrice());
+                this.player.addResource(ResourceType.STONE, -structure.getPrice());
                 this.game.getObjectManager().addStructure(structure);
             } else {
                 this.game.getMessageDisplay().showMessage("Cannot place " + name + " here!");
@@ -144,7 +145,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
         if (this.player.getGold() >= cost) {
             boolean upgraded = this.player.getWeapon().upgrade();
             if (upgraded) {
-                this.player.addResource(ResourceType.GOLD,-cost);
+                this.player.addResource(ResourceType.GOLD, -cost);
                 this.game.getMessageDisplay().showMessage("Weapon succesfully upgraded!");
             } else {
                 this.game.getMessageDisplay().showMessage("Weapon already upgraded!");

@@ -54,7 +54,7 @@ public class WallGraphics {
         g2d.drawRect(startX, startY, SIZE, SIZE);
 
         // Získanie alebo generovanie kamienkov pre danú pozíciu
-        List<Ellipse2D> pebbles = STONECACHE.computeIfAbsent(new Point(this.wall.getX(), this.wall.getY()), k -> generatePebbles(startX, startY));
+        List<Ellipse2D> pebbles = STONECACHE.computeIfAbsent(new Point(this.wall.getX(), this.wall.getY()), _ -> generatePebbles(startX, startY));
 
         // Vykreslenie kamienkov s náhodným odtieňom šedej
         Random rand = new Random(this.wall.getX() * 1000L + this.wall.getY() * 500L);

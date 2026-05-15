@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,11 +38,8 @@ public class EmptyHandGraphics implements HandGraphics {
 
     /**
      * Konštruktor triedy EmptyHandGraphics.
-     *
-     * @param repaintCallback Callback funkcia, ktorá sa zavolá pri každom kroku animácie,
-     *                        typicky na prekreslenie herného plátna.
      */
-    public EmptyHandGraphics(Runnable repaintCallback) {
+    public EmptyHandGraphics() {
         this.punchTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +53,7 @@ public class EmptyHandGraphics implements HandGraphics {
                     EmptyHandGraphics.this.punching = false;
                 }
                 EmptyHandGraphics.this.punchStep++;
-                repaintCallback.run();
+                repaintAllFrames();
             }
         });
     }
@@ -69,7 +67,7 @@ public class EmptyHandGraphics implements HandGraphics {
      * @param armOffset Posunutie paží (môže slúžiť na ďalšie animácie alebo efekty)
      */
     @Override
-    public void drawGraphics(Graphics2D g2d, Player player, int armOffset) {
+    public void draw(Graphics2D g2d, Player player, int armOffset) {
         int leftArmY = player.getY() - 10 - armOffset - this.punchOffset;
         int rightArmY = player.getY() - 10 - armOffset - this.punchOffset;
 
@@ -91,6 +89,18 @@ public class EmptyHandGraphics implements HandGraphics {
             this.punchStep = 0;
             this.punchTimer.start();
         }
+    }
+
+    /**
+     * Triggeruje repaint všetkých JFrame a JPanel komponentov.
+     * Používa se na prekreslenie scény počas animácie.
+     */
+    private static void repaintAllFrames() {
+        SwingUtilities.invokeLater(() -> {
+            for (var frame : javax.swing.JFrame.getFrames()) {
+                frame.repaint();
+            }
+        });
     }
 }
 

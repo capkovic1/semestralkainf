@@ -6,8 +6,7 @@ import managers.ProjectileManager;
 import projectile.Spear;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  * Trieda SpearThrower reprezentuje nepriateľa, ktorý vrhá oštepy smerom k cieľu.
  * Dedí z triedy {@link Enemy}

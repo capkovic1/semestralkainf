@@ -43,7 +43,7 @@ public class EmptyCellGraphics {
         g2d.fillRect(startX, startY, SIZE, SIZE);
 
         // Získanie alebo vygenerovanie polygónov trávy pre danú bunku
-        List<Polygon> grassBlades = GRASSCACHE.computeIfAbsent(new Point(x, y), k -> generateGrass(startX, startY));
+        List<Polygon> grassBlades = GRASSCACHE.computeIfAbsent(new Point(x, y), _ -> generateGrass(startX, startY));
 
         // Vykreslenie trávy tmavšou zelenou farbou
         g2d.setColor(new Color(52, 117, 52));

@@ -3,7 +3,8 @@ package object.structure;
 import entities.enemies.Enemy;
 import graphics.objectGraphics.structureGraphics.WallGraphics;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -61,7 +62,7 @@ public class Wall implements Structure {
 
     @Override
     public void draw(Graphics g) {
-            new WallGraphics(this).draw(g);
+        new WallGraphics(this).draw(g);
     }
     public Rectangle getBounds() {
         return new Rectangle(this.x - 10, this.y - 10, 20, 20);

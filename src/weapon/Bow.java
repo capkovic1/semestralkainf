@@ -1,12 +1,14 @@
 package weapon;
 
+import graphics.handGraphics.BowGraphics;
+import graphics.handGraphics.HandGraphics;
+
 /**
  * Trieda predstavujúca zbraň typu Luk (Bow).
  * Rozširuje základnú triedu {@link Weapon} a implementuje špecifické správanie luku,
  * vrátane možnosti vylepšenia, ktoré zvyšuje poškodenie.
  */
 public class Bow extends Weapon {
-
     /**
      * Konštruktor vytvárajúci nový luk so zadaným dosahom a poškodením.
      *
@@ -32,4 +34,10 @@ public class Bow extends Weapon {
         }
         return false;
     }
+
+    @Override
+    public HandGraphics getWeaponGraphics() {
+        return new BowGraphics();
+    }
+
 }

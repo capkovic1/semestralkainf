@@ -3,10 +3,22 @@ package graphics.infoGraphics;
 import effects.Effects;
 import managers.EffectsManager;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
+/**
+ * Trieda zodpovedná za vykresľovanie aktívnych efektov hráča.
+ * Zobrazuje názvy efektov a zostávajúci čas ich pôsobenia.
+ */
 public class ActiveEffectsGraphics {
+    /**
+     * Vykreslí všetky aktívne efekty na obrazovku s ich zostávajúcim časom.
+     *
+     * @param g            grafický 2D kontext
+     * @param effectsManager manažér efektov, z ktorého sa získajú aktívne efekty
+     */
     public void drawActiveEffects(Graphics2D g, EffectsManager effectsManager) {
         ArrayList<Effects> activeEffects = effectsManager.getActiveEffects();
         int x = 10;

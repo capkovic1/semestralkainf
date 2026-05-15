@@ -1,13 +1,11 @@
 package graphics.objectGraphics.materialGraphics;
 
-import object.material.Material;
 import object.material.Stone;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.BasicStroke;
-import java.awt.Rectangle;
 
 import java.awt.geom.GeneralPath;
 import java.util.Random;
@@ -53,7 +51,7 @@ public class StoneGraphic implements MaterialGraphics {
      * @param g grafický kontext
      */
     public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D)g.create();
 
         // Nastavenie farby na sivú a vyplnenie tvaru
         g2d.setColor(new Color(169, 169, 169));
@@ -87,8 +85,8 @@ public class StoneGraphic implements MaterialGraphics {
             double radius = SIZE + rand.nextInt(SIZE / 2);
 
             // Vypočítanie súradníc s pridanou náhodnou odchýlkou ±5 pixelov
-            int newX = (int) (this.x + radius * Math.cos(angle) + rand.nextInt(10) - 5);
-            int newY = (int) (this.y + radius * Math.sin(angle) + rand.nextInt(10) - 5);
+            int newX = (int)(this.x + radius * Math.cos(angle) + rand.nextInt(10) - 5);
+            int newY = (int)(this.y + radius * Math.sin(angle) + rand.nextInt(10) - 5);
 
             this.stoneShape.lineTo(newX, newY);
         }

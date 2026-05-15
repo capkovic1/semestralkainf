@@ -57,27 +57,24 @@ public class Frog extends Enemy {
             return;
         }
 
-            this.isJumping = true;
+        this.isJumping = true;
+        int x = targetX - super.getX();
+        int y = targetY - super.getY();
 
-            int x = targetX - super.getX();
-            int y = targetY - super.getY();
-
-            double length = Math.sqrt(x * x + y * y);
-            if (length > 0) {
-                double jumpLenght = this.random.nextDouble(length);
-
-
-                if (jumpLenght > 0) {
-                    x = (int) (x / jumpLenght * super.getSpeed()) + this.random.nextInt(5) - 2;
-                    y = (int) (y / jumpLenght * super.getSpeed()) + this.random.nextInt(5) - 2;
-                }
-
-                super.addToX(x);
-                super.addToY(y);
-
-                double angle = Math.toDegrees(Math.atan2(y, x));
-                super.setAngle(angle);
+        double length = Math.sqrt(x * x + y * y);
+        if (length > 0) {
+            double jumpLenght = this.random.nextDouble(length);
+            if (jumpLenght > 0) {
+                x = (int)(x / jumpLenght * super.getSpeed()) + this.random.nextInt(5) - 2;
+                y = (int)(y / jumpLenght * super.getSpeed()) + this.random.nextInt(5) - 2;
             }
+
+            super.addToX(x);
+            super.addToY(y);
+
+            double angle = Math.toDegrees(Math.atan2(y, x));
+            super.setAngle(angle);
+        }
     }
 
     @Override

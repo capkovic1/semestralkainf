@@ -15,7 +15,6 @@ public class PlayerGraphics {
 
     private final Player player;
     private HandGraphics handGraphics;
-    private Runnable repaintCallback;
 
     /**
      * Konštruktor inicializuje grafiku hráča so základnou grafikou ruky.
@@ -34,7 +33,7 @@ public class PlayerGraphics {
      *
      * @param g Grafický kontext, na ktorý sa hráč vykreslí.
      */
-    public void getPlayerGrafic(Graphics g) {
+    public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         double angle = this.player.getAngle() + 90;
 
@@ -46,7 +45,7 @@ public class PlayerGraphics {
         g2d.translate(-centerX, -centerY);
 
         int armOffset = 0;
-        this.handGraphics.drawGraphics(g2d, this.player, armOffset);
+        this.handGraphics.draw(g2d, this.player, armOffset);
 
         g2d.setColor(new Color(238, 188, 156));
         g2d.fillOval(this.player.getX(), this.player.getY(), 50, 50);
@@ -72,13 +71,5 @@ public class PlayerGraphics {
         return this.handGraphics;
     }
 
-    /**
-     * Vyvolá callback na prekreslenie obrazovky, ak je nastavený.
-     */
-    public void repaint() {
-        if (this.repaintCallback != null) {
-            this.repaintCallback.run();
-        }
-    }
 }
 

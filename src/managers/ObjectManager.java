@@ -41,7 +41,7 @@ public class ObjectManager {
     public void generateObjects(int numStones, int numTrees, int maxCols, int maxRows) {
         Random rand = new Random();
         for (int i = 0; i < numStones; i++) {
-            this.materials.add(new Stone(100,rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
+            this.materials.add(new Stone(100, rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));
         }
         for (int i = 0; i < numTrees; i++) {
             this.materials.add(new Tree(100 , rand.nextInt(maxCols * 30), rand.nextInt(maxRows * 30)));

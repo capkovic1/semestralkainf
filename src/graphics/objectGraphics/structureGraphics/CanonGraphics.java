@@ -31,7 +31,7 @@ public class CanonGraphics {
     /** Cache pre uloženie generovaných platní pre jednotlivé pozície. */
     private static final HashMap<Point, List<Rectangle2D>> PLATECACHE = new HashMap<>();
 
-    private Canon canon;
+    private final Canon canon;
 
     public CanonGraphics(Canon canon) {
         this.canon = canon;
@@ -55,9 +55,9 @@ public class CanonGraphics {
         g2d.translate(-SIZE / 2, -SIZE / 2);
 
         // Generovanie a získanie textúr z cache
-        Point key = new Point(canon.getX(), canon.getY());
-        List<Ellipse2D> bolts = METALCACHE.computeIfAbsent(key, k -> this.generateBolts(startX, startY));
-        List<Rectangle2D> plates = PLATECACHE.computeIfAbsent(key, k -> this.generatePlates(startX, startY));
+        Point key = new Point(this.canon.getX(), this.canon.getY());
+        List<Ellipse2D> bolts = METALCACHE.computeIfAbsent(key, _ -> this.generateBolts(startX, startY));
+        List<Rectangle2D> plates = PLATECACHE.computeIfAbsent(key, _ -> this.generatePlates(startX, startY));
 
         // Hlavné telo kanónu (tmavá oceľ)
         g2d.setColor(new Color(80, 80, 80));

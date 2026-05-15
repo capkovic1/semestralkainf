@@ -1,31 +1,98 @@
 package managers;
 
-import entities.Entity;
+
 import entities.enemies.Enemy;
 import entities.player.Player;
 import object.material.Material;
 import object.structure.Structure;
+import resource.ResourceType;
 
-import java.awt.*;
+import java.awt.Rectangle;
+
 import java.util.ArrayList;
 
 
 /**
  * Trieda zodpovedná za detekciu všetkých kolízií v hre.
- * Centralizuje všetky kontroly kolízií medzi entitami, projektilmi, štruktúrami a materiálmi.
+ * Centralizuje kontroly kolízií medzi hráčom, nepriateľmi, objektmi a stavbami.
  */
 public class CollisionDetector {
 
     private CollisionDetector() {
     }
 
+    /**
+     * Spracuje zásah hráča zbraňou na materiál a nepriateľov v dosahu.
+     *
+     * @param objectManager manažér objektov
+     * @param player hráč, ktorý útočí
+     * @param enemyManager manažér nepriateľov
+     */
+    public static void handleWeaponHit(ObjectManager objectManager, Player player, EnemyManager enemyManager) {
+
+        Material material = objectManager.getHitableMaterial( player);
+
+        if (material != null) {
+            ResourceType resourceType = material.changeHpBy(-player.getWeapon().getDmgToStructures());
+            player.addResource(resourceType, player.getEfficiency() * player.getWeapon().getDmgToStructures());
+
+            if (material.isDestroyed()) {
+                objectManager.removeDestroyedMaterial(player);
+            }
+        }
+
+        CollisionDetector.handleHitToEnemy(player , enemyManager);
+
+    }
 
     /**
-     * Skontroluje či sa hráč môže pohybovať na danú pozíciu.
+     * Spracuje zásah nepriateľov v dosahu hráčovej zbrane.
+     *
+     * @param player hráč, ktorý útočí
+     * @param enemyManager manažér nepriateľov
+     */
+    public static void handleHitToEnemy(Player player , EnemyManager enemyManager) {
+        ArrayList<Enemy> hitEnemies = getEnemiesInRange(player.getX(), player.getY(), player.getWeapon().getRange(), enemyManager.getEnemyList());
+
+        for (Enemy enemy : hitEnemies) {
+            int damage = (player.getWeapon().getDamage() * player.getDamage());
+            enemy.takeDamage(damage);
+            enemyManager.addDamageIndicator(enemy, damage);
+        }
+    }
+
+    /**
+     * Skontroluje, či sa hráč zrazil s nepriateľom.
+     *
+     * @param player hráč na kontrolu
+     * @param enemy nepriateľ na kontrolu
+     * @return {@code true}, ak sa ich obdĺžniky prekrývajú, inak {@code false}
+     */
+    public static boolean checkPlayerCollidesWithEnemy(Player player, Enemy enemy) {
+        if (player == null || enemy == null) {
+            return false;
+        }
+        Rectangle playerRect = new Rectangle(player.getX(), player.getY(), 50, 50);
+        Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
+        return playerRect.intersects(enemyRect);
+
+    }
+    /**
+     * Skontroluje, či sa hráč môže pohybovať na danú pozíciu.
+     *
+     * @param x nová X súradnica hráča
+     * @param y nová Y súradnica hráča
+     * @param structures zoznam stavieb na mape
+     * @param materials zoznam materiálov na mape
+     * @return {@code true}, ak sa hráč môže pohybovať, inak {@code false}
      */
     public static boolean checkPlayerCanMoveTo(int x, int y, ArrayList<Structure> structures, ArrayList<Material> materials) {
-        if (structures == null) structures = new ArrayList<>();
-        if (materials == null) materials = new ArrayList<>();
+        if (structures == null) {
+            structures = new ArrayList<>();
+        }
+        if (materials == null) {
+            materials = new ArrayList<>();
+        }
         
         int playerSize = 50;
         Rectangle playerBounds = new Rectangle(x, y, playerSize, playerSize);
@@ -53,12 +120,25 @@ public class CollisionDetector {
     }
 
     /**
-     * Skontroluje či sa dá stavba postaviť na danú pozíciu.
+     * Skontroluje, či sa dá stavba postaviť na danú pozíciu.
+     *
+     * @param x X súradnica na mriežke
+     * @param y Y súradnica na mriežke
+     * @param player hráč, ktorý stavia
+     * @param structures zoznam existujúcich stavieb
+     * @param materials zoznam materiálov na mape
+     * @return {@code true}, ak je možné stavbu umiestniť, inak {@code false}
      */
     public static boolean checkCanPlaceStructure(int x, int y, Player player, ArrayList<Structure> structures, ArrayList<Material> materials) {
-        if (player == null) return false;
-        if (structures == null) structures = new ArrayList<>();
-        if (materials == null) materials = new ArrayList<>();
+        if (player == null) {
+            return false;
+        }
+        if (structures == null) {
+            structures = new ArrayList<>();
+        }
+        if (materials == null) {
+            materials = new ArrayList<>();
+        }
         
         Rectangle structureArea = new Rectangle(x * 20, y * 20, 40, 40);
 
@@ -82,7 +162,13 @@ public class CollisionDetector {
 
 
     /**
-     * Vráti materiál ktorý je v dosahu zbrane hráča.
+     * Vráti materiál, ktorý je v dosahu zbrane hráča.
+     *
+     * @param playerX X súradnica hráča
+     * @param playerY Y súradnica hráča
+     * @param range dosah zbrane
+     * @param materials zoznam materiálov na kontrolu
+     * @return materiál v dosahu alebo {@code null}, ak žiadny nie je
      */
     public static Material getHitMaterial(int playerX, int playerY, int range, ArrayList<Material> materials) {
         if (materials == null) {
@@ -102,6 +188,12 @@ public class CollisionDetector {
 
     /**
      * Vráti všetkých nepriateľov v dosahu zbrane.
+     *
+     * @param playerX X súradnica hráča
+     * @param playerY Y súradnica hráča
+     * @param range dosah zbrane
+     * @param enemies zoznam nepriateľov na kontrolu
+     * @return zoznam nepriateľov v dosahu, prípadne prázdny zoznam
      */
     public static ArrayList<Enemy> getEnemiesInRange(int playerX, int playerY, int range, ArrayList<Enemy> enemies) {
         ArrayList<Enemy> hitEnemies = new ArrayList<>();

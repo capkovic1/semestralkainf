@@ -3,8 +3,10 @@ package object.structure;
 import entities.enemies.Enemy;
 import graphics.objectGraphics.structureGraphics.CanonGraphics;
 import managers.ProjectileManager;
+import projectile.CanonBall;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -161,13 +163,7 @@ public class Canon implements Structure {
         int startX = this.x * 20 + 20;
         int startY = this.y * 20 + 20;
         int projectileSpeed = 8;
-        projectile.CanonBall ball = new projectile.CanonBall(
-                startX,
-                startY,
-                projectileSpeed * Math.cos(angleRad),
-                projectileSpeed * Math.sin(angleRad),
-                this.damage
-        );
+        CanonBall ball = new CanonBall(startX, startY, projectileSpeed * Math.cos(angleRad), projectileSpeed * Math.sin(angleRad), this.damage);
         ProjectileManager.getInstance().addProjectile(ball);
     }
 

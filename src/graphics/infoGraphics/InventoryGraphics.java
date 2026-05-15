@@ -51,22 +51,20 @@ public class InventoryGraphics {
      * spolu s ich grafickými reprezentáciami.
      *
      * @param player Referencia na hráča, ktorému inventár patrí.
-     * @param playerGraphics Referencia na grafiku hráča, umožňuje meniť
-     *                       zobrazenie zbrane v rukách hráča.
      */
-    public InventoryGraphics(Player player , PlayerGraphics playerGraphics) {
+    public InventoryGraphics(Player player ) {
         this.player = player;
-        this.playerGraphics = playerGraphics;
+        this.playerGraphics = player.getPlayerGraphics();
 
         this.bow = new Bow(0, 20);
         this.hammer = new Hammer(30, 5);
         this.sword = new Sword(60, 20);
         this.hand = new Hand(30, 3);
 
-        this.bowGraphics = new BowGraphics(this.playerGraphics::repaint);
-        this.hammerGraphics = new HammerGraphics(this.playerGraphics::repaint);
-        this.swordGraphics = new SwordGraphics(this.playerGraphics::repaint);
-        this.handGraphics = new EmptyHandGraphics(this.playerGraphics::repaint);
+        this.bowGraphics = new BowGraphics();
+        this.hammerGraphics = new HammerGraphics();
+        this.swordGraphics = new SwordGraphics();
+        this.handGraphics = new EmptyHandGraphics();
     }
     /**
      * Vykreslí inventár na spodnú časť obrazovky.

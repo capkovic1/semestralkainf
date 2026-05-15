@@ -1,15 +1,19 @@
 package managers;
 
 import entities.Entity;
-import entities.enemies.*;
+import entities.enemies.Enemy;
+import entities.enemies.Frog;
+import entities.enemies.SpearThrower;
+import entities.enemies.Wolf;
+import entities.enemies.Zombie;
 import entities.player.Player;
 import graphics.infoGraphics.DamageIndicator;
-import graphics.entityGraphics.*;
-import graphics.projectilesGraphics.SpearGraphics;
-import projectile.Spear;
+import graphics.entityGraphics.EnemyGraphics;
+
 import resource.ResourceType;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -32,24 +36,12 @@ public class EnemyManager {
             int y = rand.nextInt(rows * 30);
 
             int type = rand.nextInt(4);
-            Enemy enemy;
-
-            switch (type) {
-                case 0:
-                    enemy = new Wolf(100, 1, x, y, 4);
-                    break;
-                case 1:
-                    enemy = new Zombie(300, 2, x, y, 2);
-                    break;
-                case 2:
-                    enemy = new Frog(150, 1, x, y, 200);
-                    break;
-                case 3:
-                    enemy = new SpearThrower(200, 5, x, y, 0 );
-                    break;
-                default:
-                    enemy = new Zombie(300, 2, x, y, 2);
-            }
+            Enemy enemy = switch (type) {
+                case 0 -> new Wolf(100, 1, x, y, 4);
+                case 1 -> new SpearThrower(200, 5, x, y, 0);
+                case 2 -> new Frog(150, 1, x, y, 200);
+                default -> new Zombie(300, 2, x, y, 2);
+            };
 
             EnemyGraphics graphics = enemy.getGraphics();
 
@@ -67,14 +59,14 @@ public class EnemyManager {
 
         while (enemyIterator.hasNext() && graphicsIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
-            EnemyGraphics  graphics = graphicsIterator.next();
+            graphicsIterator.next();
 
             if (enemy.isDead()) {
-                player.addResource(ResourceType.GOLD,enemy.getGoldReward());
+                player.addResource(ResourceType.GOLD, enemy.getGoldReward());
                 enemyIterator.remove();
                 graphicsIterator.remove();
                 someoneDied = true;
-                 continue;
+                continue;
             }
 
             int targetX = player.getX() + 25;
@@ -82,10 +74,7 @@ public class EnemyManager {
 
             enemy.attack(targetX, targetY);
 
-            Rectangle playerRect = new Rectangle(player.getX(), player.getY(), 50, 50);
-            Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
-
-            if (playerRect.intersects(enemyRect)) {
+            if (CollisionDetector.checkPlayerCollidesWithEnemy(player, enemy)) {
                 player.takeDamage(enemy.getDamage());
             }
         }
@@ -93,7 +82,7 @@ public class EnemyManager {
     }
 
     public void drawEnemies(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D)g;
         for (DamageIndicator indicator : this.damageIndicators) {
             indicator.draw(g2d);
         }

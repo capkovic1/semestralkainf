@@ -1,6 +1,6 @@
 package projectile;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * Abstraktná trieda reprezentujúca projektil s vlastnosťami ako pozícia, rýchlosť,
@@ -39,7 +39,7 @@ public abstract class Projectile {
     }
 
     public int getLifetime() {
-        return lifetime;
+        return this.lifetime;
     }
     public void setLifetime(int lifetime) {
         this.lifetime = lifetime;
@@ -98,10 +98,10 @@ public abstract class Projectile {
     protected void setDy(double dy) {
         this.dy = dy;
     }
-    protected double getDx() {
+    public double getDx() {
         return this.dx;
     }
-    protected double getDy() {
+    public double getDy() {
         return this.dy;
     }
     /**

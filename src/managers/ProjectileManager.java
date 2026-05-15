@@ -5,7 +5,7 @@ import entities.enemies.Enemy;
 import entities.player.Player;
 import projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 

@@ -1,12 +1,27 @@
 package graphics.gameGraphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 
+
+/**
+ * Trieda zodpovedná za zobrazenie dočasných správ na obrazovke.
+ * Správy sa zobrazujú na strede obrazovky s polopriehľadným pozadím.
+ */
 public class MessageDisplay {
     private String message = "";
     private long messageDisplayTime = 0;
     private static final long MESSAGEDURATION = 2000;
     
+    /**
+     * Vykreslí správu na obrazovku, ak je čas jej zobrazenia ešte aktívny.
+     *
+     * @param g grafický kontext na kreslenie
+     * @param width šírka obrazovky
+     * @param height výška obrazovky
+     */
     public void draw(Graphics g , int width, int height) {
         if (System.currentTimeMillis() < this.messageDisplayTime) {
             g.setColor(Color.RED);
@@ -24,6 +39,11 @@ public class MessageDisplay {
         
     }
     
+    /**
+     * Nastaví správu na zobrazenie s predvoleným trvaním (2 sekundy).
+     *
+     * @param message text správy na zobrazenie
+     */
     public void showMessage(String message) {
         this.message = message;
         this.messageDisplayTime = System.currentTimeMillis() + MESSAGEDURATION;

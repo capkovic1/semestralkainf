@@ -11,7 +11,7 @@ import java.awt.BasicStroke;
  * Trieda zodpovedná za vykresľovanie grafiky guľky kanónu.
  */
 public class CanonBallGraphics implements ProjectileGraphics {
-    private CanonBall canonBall;
+    private final CanonBall canonBall;
     public CanonBallGraphics(CanonBall canonBall) {
         this.canonBall = canonBall;
     }

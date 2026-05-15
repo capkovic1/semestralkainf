@@ -7,6 +7,7 @@ import java.awt.Polygon;
 
 import java.awt.geom.AffineTransform;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,11 +31,8 @@ public class SwordGraphics implements HandGraphics {
 
     /**
      * Vytvorí novú inštanciu SwordGraphics.
-     *
-     * @param repaintCallback Callback, ktorý sa zavolá po každom kroku animácie
-     *                        na prekreslenie komponentu.
      */
-    public SwordGraphics(Runnable repaintCallback) {
+    public SwordGraphics() {
         this.swingTimer = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,7 +46,7 @@ public class SwordGraphics implements HandGraphics {
                     SwordGraphics.this.swinging = false;
                 }
                 SwordGraphics.this.swingStep++;
-                repaintCallback.run();
+                repaintAllFrames();
             }
         });
     }
@@ -61,7 +59,7 @@ public class SwordGraphics implements HandGraphics {
      * @param armOffset Posun ramena pre animácie.
      */
     @Override
-    public void drawGraphics(Graphics2D g2d, Player player, int armOffset) {
+    public void draw(Graphics2D g2d, Player player, int armOffset) {
         int centerX = player.getX() + 15;
         int centerY = player.getY() + 10 + armOffset;
 
@@ -110,6 +108,18 @@ public class SwordGraphics implements HandGraphics {
             this.swingStep = 0;
             this.swingTimer.start();
         }
+    }
+
+    /**
+     * Triggeruje repaint všetkých JFrame a JPanel komponentov.
+     * Používa se na prekreslenie scény počas animácie.
+     */
+    private static void repaintAllFrames() {
+        SwingUtilities.invokeLater(() -> {
+            for (var frame : javax.swing.JFrame.getFrames()) {
+                frame.repaint();
+            }
+        });
     }
 }
 

@@ -27,7 +27,7 @@ public abstract class Enemy implements Entity {
      * @param speed  rýchlosť pohybu
      */
     public Enemy(int health, int damage , int x , int y , int speed , int goldReward) {
-         this.goldReward = goldReward;
+        this.goldReward = goldReward;
         this.x = x;
         this.y = y;
         this.health = health;
@@ -143,9 +143,16 @@ public abstract class Enemy implements Entity {
     public int getY() {
         return this.y;
     }
+
+    /**
+     * Získa množstvo zlata, ktoré nepriateľ vráti pri eliminácii.
+     *
+     * @return množstvo zlata ako odmena
+     */
     public int getGoldReward() {
         return this.goldReward;
-    };
+    }
+
     /**
      * Abstraktná metóda pre útok nepriateľa na pozíciu x a y.
      *
@@ -154,6 +161,12 @@ public abstract class Enemy implements Entity {
      */
     public abstract void attack(int targetX, int targetY);
 
+    /**
+     * Vracia grafiku pre vizuálne znázornenie nepriateľa.
+     * Implementuje ju každá konkrétna podtrieda nepriateľa.
+     *
+     * @return {@link EnemyGraphics} objekt zodpovedný za vykresľovanie
+     */
     public abstract EnemyGraphics getGraphics();
 
 }

@@ -38,8 +38,8 @@ public class SpearGraphics implements ProjectileGraphics {
         Graphics2D g2d = (Graphics2D)g.create();
 
         // Stred rotácie - približne stred násady oštepu
-        int centerX = (int) this.spear.getX() + 20;
-        int centerY = (int) this.spear.getY() + 2;
+        int centerX = (int)this.spear.getX() + 20;
+        int centerY = (int)this.spear.getY() + 2;
 
         // Posunutie súradníc do stredu a rotácia o uhol oštepu
         g2d.translate(centerX, centerY);
@@ -72,7 +72,7 @@ public class SpearGraphics implements ProjectileGraphics {
         g2d.setColor(this.tipColor);
         Polygon tip = new Polygon(
                 new int[]{(int)this.spear.getX() + 40, (int)this.spear.getX() + 45, (int)this.spear.getX() + 40},
-                new int[]{(int)this.spear.getY() + 2, (int)this.spear.getY() + 4,(int) this.spear.getY() + 6},
+                new int[]{(int)this.spear.getY() + 2, (int)this.spear.getY() + 4, (int)this.spear.getY() + 6},
                 3
         );
         g2d.fillPolygon(tip);

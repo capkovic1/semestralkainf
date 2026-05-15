@@ -2,7 +2,8 @@ package object.structure;
 
 import entities.enemies.Enemy;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public interface Structure {

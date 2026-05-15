@@ -1,5 +1,8 @@
 package weapon;
 
+import graphics.handGraphics.HandGraphics;
+import graphics.handGraphics.SwordGraphics;
+
 /**
  * Trieda predstavujúca zbraň typu Meč (Sword).
  * Rozširuje základnú triedu {@link Weapon} a umožňuje vylepšenie
@@ -30,6 +33,11 @@ public class Sword extends Weapon {
             super.increaseDamage(10);
         }
         return upgrade;
+    }
+
+    @Override
+    public HandGraphics getWeaponGraphics() {
+        return new SwordGraphics();
     }
 }
 

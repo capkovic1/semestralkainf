@@ -2,11 +2,24 @@ package effects;
 
 import entities.player.Player;
 
+/**
+ * Efekt Haste zvyšuje rýchlosť hráča na určitý čas.
+ */
 public class Haste extends Effects {
+    /**
+     * Vytvorí efekt Haste so zadaným trvaním.
+     *
+     * @param duration trvanie efektu v milisekundách
+     */
     public Haste(long duration) {
         super(duration , "Haste");
     }
 
+    /**
+     * Aktivuje efekt - zvýši rýchlosť hráča.
+     *
+     * @param player hráč, na ktorého sa efekt aplikuje
+     */
     @Override
     public void useEffect(Player player) {
         if (!this.isActive()) {
@@ -16,6 +29,11 @@ public class Haste extends Effects {
         }
     }
 
+    /**
+     * Odstráni efekt - obnoví predvolené hodnoty.
+     *
+     * @param player hráč, z ktorého sa efekt odstraňuje
+     */
     @Override
     public void removeEffect(Player player) {
         super.setActivateState(false);

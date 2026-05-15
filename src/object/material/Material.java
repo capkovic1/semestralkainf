@@ -2,7 +2,8 @@ package object.material;
 
 import resource.ResourceType;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * Rozhranie reprezentujúce materiál alebo objekt, ktorý má životy (HP) a môže byť zničený.

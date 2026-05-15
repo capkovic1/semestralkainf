@@ -1,6 +1,9 @@
 package graphics.handGraphics;
 
 import entities.player.Player;
+import managers.ProjectileManager;
+import projectile.Arrow;
+
 
 import java.awt.Graphics2D;
 import java.awt.Color;
@@ -11,6 +14,7 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Path2D;
 
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,24 +39,13 @@ public class BowGraphics implements HandGraphics {
      */
     private int drawProgress = 0;
 
-    /**
-     * Inštancia triedy na vykreslenie šípu.
-     */
-    private final ArrowGraphics arrowGraphics;
-
-    /**
-     * Určuje, či je šíp aktuálne viditeľný (natiahnutý).
-     */
-    private boolean arrowVisible = false;
+    private Player player;
 
     /**
      * Konštruktor triedy BowGraphics.
-     *
-     * @param repaintCallback Callback funkcia, ktorá sa zavolá pri každom kroku animácie,
-     *                        napríklad na prekreslenie komponentu.
      */
-    public BowGraphics(Runnable repaintCallback) {
-        this.arrowGraphics = new ArrowGraphics();
+    public BowGraphics() {
+
 
         this.drawTimer = new Timer(20, new ActionListener() {
             @Override
@@ -62,18 +55,16 @@ public class BowGraphics implements HandGraphics {
                         BowGraphics.this.drawProgress += 5;
                     } else {
                         BowGraphics.this.drawState = 2;
-                        BowGraphics.this.arrowVisible = true;
                     }
                 } else if (BowGraphics.this.drawState == 2) {
                     if (BowGraphics.this.drawProgress > 0) {
                         BowGraphics.this.drawProgress -= 10;
                     } else {
                         BowGraphics.this.drawState = 0;
-                        BowGraphics.this.arrowVisible = false;
                         BowGraphics.this.drawTimer.stop();
                     }
                 }
-                repaintCallback.run();
+                repaintAllFrames();
             }
         });
     }
@@ -87,7 +78,9 @@ public class BowGraphics implements HandGraphics {
      * @param armOffset Nepoužívaný parameter na prípadné posunutie paže (môže byť rozšírený)
      */
     @Override
-    public void drawGraphics(Graphics2D g2d, Player player, int armOffset) {
+    public void draw(Graphics2D g2d, Player player, int armOffset) {
+        this.player = player;
+
         int playerCenterX = player.getX() + 25;
         int playerCenterY = player.getY() + 25;
         int bowOffsetX = 40;
@@ -132,9 +125,6 @@ public class BowGraphics implements HandGraphics {
             stringPath.quadTo(pullX, pullY, bowX + (double)bowLength / 2, bowY);
             g2d.draw(stringPath);
 
-            if (this.arrowVisible) {
-                this.arrowGraphics.draw(g2d, pullX, pullY, player.getAngle(), bowLength / 2 + 15);
-            }
         } else {
             g2d.drawLine(bowX - bowLength / 2, bowY, bowX + bowLength / 2, bowY);
         }
@@ -157,5 +147,30 @@ public class BowGraphics implements HandGraphics {
         } else if (this.drawState == 2) {
             this.drawState = 1;
         }
+
+        double angleRad = Math.toRadians(this.player.getAngle());
+        double speed = 10;
+        double dx = Math.cos(angleRad) * speed;
+        double dy = Math.sin(angleRad) * speed;
+
+        int playerCenterX = this.player.getX() + 25;
+        int playerCenterY = this.player.getY() + 25;
+        int spawnDistance = 32;
+        int x = playerCenterX + (int)(spawnDistance * Math.cos(angleRad));
+        int y = playerCenterY + (int)(spawnDistance * Math.sin(angleRad));
+
+        ProjectileManager.getInstance().addProjectile(new Arrow(x, y, (int)speed, this.player.getWeapon().getDamage(), dx, dy));
+    }
+
+    /**
+     * Triggeruje repaint všetkých JFrame a JPanel komponentov.
+     * Používa se na prekreslenie scény počas animácie.
+     */
+    private static void repaintAllFrames() {
+        SwingUtilities.invokeLater(() -> {
+            for (var frame : javax.swing.JFrame.getFrames()) {
+                frame.repaint();
+            }
+        });
     }
 }

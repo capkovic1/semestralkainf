@@ -1,5 +1,8 @@
 package weapon;
 
+import graphics.handGraphics.HammerGraphics;
+import graphics.handGraphics.HandGraphics;
+
 /**
  * Trieda predstavujúca zbraň typu Kladivo (Hammer).
  * Rozširuje základnú triedu {@link Weapon} a poskytuje špecifické vylepšenia,
@@ -32,6 +35,11 @@ public class Hammer extends Weapon {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public HandGraphics getWeaponGraphics() {
+        return new HammerGraphics();
     }
 }
 

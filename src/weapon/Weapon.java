@@ -1,5 +1,7 @@
 package weapon;
 
+import graphics.handGraphics.HandGraphics;
+
 /**
  * Trieda predstavujúca základnú zbraň s úrovňou, dosahom, poškodením
  * a poškodením proti štruktúram.
@@ -94,4 +96,5 @@ public abstract class Weapon {
     public int getDmgToStructures() {
         return this.dmgToStructures;
     }
+    public abstract HandGraphics getWeaponGraphics();
 }

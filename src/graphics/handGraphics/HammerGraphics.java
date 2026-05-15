@@ -7,6 +7,7 @@ import java.awt.Color;
 
 import java.awt.geom.AffineTransform;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -39,10 +40,8 @@ public class HammerGraphics implements HandGraphics {
 
     /**
      * Konštruktor triedy HammerGraphics.
-     *
-     * @param repaintCallback Callback funkcia na prekreslenie scény pri každom kroku animácie.
      */
-    public HammerGraphics(Runnable repaintCallback) {
+    public HammerGraphics() {
         this.swingTimer = new Timer(30, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,7 +55,7 @@ public class HammerGraphics implements HandGraphics {
                     HammerGraphics.this.swinging = false;
                 }
                 HammerGraphics.this.swingStep++;
-                repaintCallback.run();
+                repaintAllFrames();
             }
         });
     }
@@ -69,7 +68,7 @@ public class HammerGraphics implements HandGraphics {
      * @param armOffset Posunutie paží (môže slúžiť na ďalšie animácie alebo efekty)
      */
     @Override
-    public void drawGraphics(Graphics2D g2d, Player player, int armOffset) {
+    public void draw(Graphics2D g2d, Player player, int armOffset) {
         int centerX = player.getX() + 15;
         int centerY = player.getY() + 10 + armOffset;
 
@@ -107,6 +106,18 @@ public class HammerGraphics implements HandGraphics {
             this.swingStep = 0;
             this.swingTimer.start();
         }
+    }
+
+    /**
+     * Triggeruje repaint všetkých JFrame a JPanel komponentov.
+     * Používa se na prekreslenie scény počas animácie.
+     */
+    private static void repaintAllFrames() {
+        SwingUtilities.invokeLater(() -> {
+            for (var frame : javax.swing.JFrame.getFrames()) {
+                frame.repaint();
+            }
+        });
     }
 }
 
