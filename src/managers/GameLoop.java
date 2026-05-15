@@ -16,11 +16,11 @@ public class GameLoop {
     private long objectTimer = System.currentTimeMillis();
     private long startTime;
 
-    private Runnable onRepaint;
-    private Runnable onGameOver;
+    private final Runnable onRepaint;
+    private final Runnable onGameOver;
 
-    private int rows;
-    private int cols;
+    private final int rows;
+    private final int cols;
 
     public GameLoop(GameManager gameManager, GameInputHandler inputHandler, Runnable onRepaint, Runnable onGameOver, long startTime , int rows, int cols) {
         this.rows = rows;

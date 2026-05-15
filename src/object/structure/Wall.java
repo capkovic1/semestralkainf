@@ -33,7 +33,7 @@ public class Wall implements Structure {
 
     @Override
     public boolean isDestroyed() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
@@ -62,5 +62,8 @@ public class Wall implements Structure {
     @Override
     public void draw(Graphics g) {
             new WallGraphics(this).draw(g);
+    }
+    public Rectangle getBounds() {
+        return new Rectangle(this.x - 10, this.y - 10, 20, 20);
     }
 }

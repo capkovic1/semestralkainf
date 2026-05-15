@@ -13,4 +13,5 @@ public interface Structure {
 
     int getY();
     void draw(Graphics g);
+    Rectangle getBounds();
 }

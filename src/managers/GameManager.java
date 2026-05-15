@@ -6,6 +6,7 @@ import object.material.Material;
 import resource.ResourceType;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Trieda GameManager je centrálny manažér pre hernú logiku,
@@ -18,8 +19,7 @@ public class GameManager {
     private final EnemyManager enemyManager;
     private WaveManager waveManager;
     private final ObjectManager objectManager;
-    private  EffectsManager effectsManager;
-    private final ProjectileManager projectileManager;
+    private final EffectsManager effectsManager;
 
     /**
      * Inicializuje hráča, manažérov nepriateľov, vlny a objekty.
@@ -32,10 +32,9 @@ public class GameManager {
         this.effectsManager = new EffectsManager();
 
         this.enemyManager = new EnemyManager();
-        this.projectileManager = new ProjectileManager();
 
         this.waveManager = new WaveManager( this.enemyManager, cols, rows);
-        this.objectManager = new ObjectManager(this.projectileManager);
+        this.objectManager = new ObjectManager();
 
         this.waveManager.startWaves();
         this.objectManager.generateObjects(7, 8, cols, rows);
@@ -63,7 +62,7 @@ public class GameManager {
 
     public void handleHit() {
 
-        Material material = this.objectManager.canHit(this.player.getX(), this.player.getY(), this.player);
+        Material material = this.objectManager.getHitableMaterial( this.player);
 
         if (material != null) {
             ResourceType resourceType = material.changeHpBy(-this.player.getWeapon().getDmgToStructures());
@@ -79,21 +78,12 @@ public class GameManager {
 
     }
     private void handleHitToEnemy() {
+        ArrayList<Enemy> hitEnemies = CollisionDetector.getEnemiesInRange(this.player.getX(), this.player.getY(), this.player.getWeapon().getRange(), this.enemyManager.getEnemyList());
 
-        Rectangle attackArea = new Rectangle(
-                this.player.getX() - this.player.getWeapon().getRange(),
-                this.player.getY() - this.player.getWeapon().getRange(),
-                50 + 2 * this.player.getWeapon().getRange(),
-                50 + 2 * this.player.getWeapon().getRange()
-        );
-
-        for (Enemy enemy : this.enemyManager.getEnemyList()) {
-            Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), 50, 50);
-            if (attackArea.intersects(enemyRect)) {
-                int damage = (player.getWeapon().getDamage() * player.getDamage());
-                enemy.takeDamage(damage);
-                this.enemyManager.addDamageIndicator(enemy, damage);
-            }
+        for (Enemy enemy : hitEnemies) {
+            int damage = (this.player.getWeapon().getDamage() * this.player.getDamage());
+            enemy.takeDamage(damage);
+            this.enemyManager.addDamageIndicator(enemy, damage);
         }
     }
 
@@ -107,7 +97,6 @@ public class GameManager {
         this.effectsManager.update(this.player);
     }
 
-    // Gettery pre prístup k manažérom a hráčovi
     public ObjectManager getObjectManager() {
         return this.objectManager;
     }
@@ -124,9 +113,6 @@ public class GameManager {
         return this.player;
     }
 
-    public ProjectileManager getProjectileManager() {
-        return this.projectileManager;
-    }
 
 }
 

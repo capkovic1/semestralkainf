@@ -87,3 +87,6 @@ Time: 2026-05-13 16:03:29 ,TimeAlive: 00:45, Score: 7560
 Time: 2026-05-13 16:21:14 ,TimeAlive: 00:59, Score: 9950
 Time: 2026-05-13 17:50:15 ,TimeAlive: 00:06, Score: 2630
 Time: 2026-05-13 17:51:14 ,TimeAlive: 00:58, Score: 19720
+Time: 2026-05-14 11:45:30 ,TimeAlive: 00:23, Score: 4570
+Time: 2026-05-14 11:50:41 ,TimeAlive: 00:17, Score: 4570
+Time: 2026-05-14 12:01:54 ,TimeAlive: 01:04, Score: 18280

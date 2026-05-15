@@ -22,6 +22,8 @@ public class Stone implements Material {
      */
     public Stone(int hp , int x, int y) {
         this.hp = hp;
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {

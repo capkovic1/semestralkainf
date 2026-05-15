@@ -70,8 +70,7 @@ public class ProjectileManager {
      * @return {@code true}, ak došlo k zrážke, inak {@code false}
      */
     private boolean checkProjectileCollision(Projectile projectile, Entity entity) {
-        if (new Rectangle((int)projectile.getX() - 5, (int)projectile.getY() - 5, 10, 10)
-                .intersects(new Rectangle(entity.getX(), entity.getY(), 50, 50))) {
+        if (new Rectangle((int)projectile.getX() - 5, (int)projectile.getY() - 5, 10, 10).intersects(new Rectangle(entity.getX(), entity.getY(), 50, 50))) {
             int damage = projectile.getDamage();
             entity.takeDamage(damage);
             return true;
@@ -88,11 +87,5 @@ public class ProjectileManager {
         return this.projectiles;
     }
 
-    /**
-     * Vyčistí všetky projektily (napríklad pri inom update cykle).
-     */
-    public void clear() {
-        this.projectiles.clear();
-    }
 }
 

@@ -3,9 +3,6 @@ package managers;
 
 import entities.enemies.Enemy;
 import entities.player.Player;
-import graphics.objectGraphics.materialGraphics.MaterialGraphics;
-import graphics.objectGraphics.materialGraphics.StoneGraphic;
-import graphics.objectGraphics.materialGraphics.TreeGraphics;
 import object.material.Material;
 import object.material.Stone;
 import object.material.Tree;
@@ -29,7 +26,7 @@ public class ObjectManager {
     private final ArrayList<Structure> structures ;
 
 
-    public ObjectManager(ProjectileManager projectileManager) {
+    public ObjectManager() {
         this.materials = new ArrayList<>();
         this.structures = new ArrayList<>();
     }
@@ -59,31 +56,7 @@ public class ObjectManager {
      * @return {@code true}, ak je možné sa pohybovať, inak {@code false}
      */
     public boolean canMoveTo(int x, int y) {
-
-        int playerSize = 50;
-
-        Rectangle playerBounds = new Rectangle(x, y, playerSize, playerSize);
-
-        for (int i = 0; i < playerSize; i += 10) {
-            for (int j = 0; j < playerSize; j += 10) {
-                int checkX = (x + i) / 20;
-                int checkY = (y + j) / 20;
-
-
-                for (Structure structure : this.structures) {
-                    if (structure.getX() == checkX && structure.getY() == checkY) {
-                        return false;
-                    }
-                }
-            }
-        }
-        for (Material material : this.materials) {
-            if (playerBounds.intersects(material.getBounds())) {
-                return false;
-            }
-        }
-
-        return true;
+        return CollisionDetector.checkPlayerCanMoveTo(x, y, this.structures, this.materials);
     }
 
     /**
@@ -108,12 +81,8 @@ public class ObjectManager {
         int hitRange = player.getWeapon().getRange();
         int size = 50;
 
-        Rectangle hitBox = new Rectangle(
-                player.getX() - hitRange,
-                player.getY() - hitRange,
-                size + 2 * hitRange,
-                size + 2 * hitRange
-        );
+        Rectangle hitBox = new Rectangle(player.getX() - hitRange, player.getY() - hitRange, size + 2 * hitRange, size + 2 * hitRange);
+
         this.materials.removeIf(material -> material.getBounds().intersects(hitBox));
     }
 
@@ -121,25 +90,11 @@ public class ObjectManager {
      * Skontroluje, či je možné zasiahnuť nejaký materiál (kameň alebo drevo)
      * na daných súradniciach v dosahu hráča.
      *
-     * @param x x-súradnica útoku
-     * @param y y-súradnica útoku
      * @param player hráč, ktorý útočí
      * @return materiál, ktorý je možné zasiahnuť, alebo {@code null}, ak žiadny nie je
      */
-    public Material canHit(int x, int y , Player player) {
-
-        int playerSize = 50;
-        int hitRange = player.getWeapon().getRange();
-
-        Rectangle playerBounds = new Rectangle(x - hitRange, y - hitRange, playerSize + 2 * hitRange, playerSize + 2 * hitRange);
-
-        for (Material material : this.materials) {
-            if (playerBounds.intersects(material.getBounds())) {
-                return material;
-            }
-        }
-
-        return null;
+    public Material getHitableMaterial(Player player) {
+        return CollisionDetector.getHitMaterial(player.getX(), player.getY(), player.getWeapon().getRange(), this.materials);
     }
     /**
      * Overí, či je možné postaviť kanón na dané súradnice.
@@ -151,31 +106,16 @@ public class ObjectManager {
      * @return {@code true}, ak je možné kanón postaviť, inak {@code false}
      */
     public boolean canPlaceStructure(int x, int y , Player player) {
-        Rectangle structureArea = new Rectangle(x * 20, y * 20, 40, 40);
-
-        if (new Rectangle(player.getX(), player.getY(), 50, 50).intersects(structureArea)) {
-            return false;
-        }
-        for (Structure structure : this.structures) {
-            if (new Rectangle(structure.getX() * 20, structure.getY() * 20, 20, 20).intersects(structureArea)) {
-                return false;
-            }
-        }
-
-        for (Material material : this.materials) {
-            if (material.getBounds().intersects(structureArea)) {
-                return false;
-            }
-        }
-
-        return true;
+        return CollisionDetector.checkCanPlaceStructure(x, y, player, this.structures, this.materials);
     }
+
     public void updateStructures(ArrayList<Enemy> enemies , EnemyManager enemyManager , Player player) {
         this.structures.removeIf(Structure::isDestroyed);
 
         for (Structure structure : this.structures) {
             structure.update(enemies);
         }
+        ProjectileManager.getInstance().updateProjectiles(enemies, enemyManager, player);
     }
 
     public void reset() {
