@@ -29,6 +29,9 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
     private int lastDirectionX ;
     private int lastDirectionY;
 
+    private long lastClickTime = 0;
+    private static final long CLICK_DEBOUNCE_MS = 200;
+
     /**
      * Konštruktor nastaví referenciu na hernú grafiku pre interakciu s hrou.
      *
@@ -73,10 +76,19 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
     /**
      * Metóda spracuje uvoľnenie tlačidla myši - rotuje hráča smerom k myši a
      * umožňuje stavať objekty (stenu, kanón) podľa vybranej položky v inventári a dostupných zdrojov.
+     * Debouncing zabezpečuje, že sa stavba skúša iba raz za {@code CLICK_DEBOUNCE_MS} milisekúnd.
      * @param e informácie o udalosti myši (pozícia kliknutia)
      */
     @Override
     public void mouseReleased(MouseEvent e) {
+
+        // Debouncing - ignoruj kliknutia, ktoré prichádzajú príliš rýchlo za sebou
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - this.lastClickTime < CLICK_DEBOUNCE_MS) {
+            return;
+        }
+        this.lastClickTime = currentTime;
+
         this.rotatePlayerToMouse(e.getX(), e.getY());
 
         int gridX = e.getX() / 20;
