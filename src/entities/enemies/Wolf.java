@@ -42,6 +42,7 @@ public class Wolf extends Enemy {
         if (difference % 5000 < 2000) {
             effectiveSpeed *= 2;
         }
+
         if (length > 0) {
             x = (int)(x / length * effectiveSpeed);
             y = (int)(y / length * effectiveSpeed);

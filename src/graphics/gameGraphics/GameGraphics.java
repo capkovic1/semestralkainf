@@ -2,17 +2,16 @@ package graphics.gameGraphics;
 
 import entities.player.Player;
 
+import managers.EnemyManager;
+import managers.GameInputHandler;
+import managers.GameLoop;
 import managers.GameManager;
 import managers.ObjectManager;
-import managers.CollisionDetector;
 import managers.GameHistory;
-import managers.GameLoop;
-import managers.GameInputHandler;
+
 import graphics.infoGraphics.ActiveEffectsGraphics;
 import graphics.infoGraphics.InventoryGraphics;
 import graphics.infoGraphics.PlayerInfoGraphics;
-import graphics.handGraphics.HammerGraphics;
-import weapon.Hammer;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -30,10 +29,8 @@ import javax.swing.BoxLayout;
 
 /**
  * Trieda zodpovedná za vykresľovanie hlavného herného okna a správu hernej logiky
- * týkajúcej sa vykresľovania, spracovania vstupu, zobrazovania správ, inventára a riadenia
- * pohybu hráča.
- * Využíva aj GameManager pre logiku hry, GameInputHandler pre spracovanie vstupov a obsahuje
- * rôzne podtriedy grafiky ako PlayerGraphics, BoardGraphics a InventoryGraphics.
+ * týkajúcej sa vykresľovania
+ *
  */
 public class GameGraphics extends JPanel {
 
@@ -89,21 +86,6 @@ public class GameGraphics extends JPanel {
     }
 
     /**
-     * Nastaví uhol natočenia hráča tak, aby smeroval k pozícii myši.
-     * Následne sa prekreslí herná plocha.
-     *
-     * @param mouseX X súradnica myši v pixeloch.
-     * @param mouseY Y súradnica myši v pixeloch.
-     */
-    public void rotatePlayerToMouse(int mouseX, int mouseY) {
-        int playerPixelX = this.gameManager.getPlayer().getX();
-        int playerPixelY = this.gameManager.getPlayer().getY();
-        double angle = Math.atan2(mouseY - playerPixelY, mouseX - playerPixelX);
-        this.gameManager.getPlayer().setAngle(Math.toDegrees(angle));
-        this.repaint();
-    }
-
-    /**
      * Metóda na vykreslenie všetkých prvkov hry: hernej dosky, hráča, entít, informácií o hráčovi,
      * inventára a dočasnej správy.
      *
@@ -143,19 +125,9 @@ public class GameGraphics extends JPanel {
     public Player getPlayer() {
         return this.gameManager.getPlayer();
     }
-    /**
-     * Nastaví hráčovu zbraň na kladivo.
-     */
-    public void setWeaponHammer() {
-        this.gameManager.getPlayer().getPlayerGraphics().setHandGraphics(new HammerGraphics());
-        this.gameManager.getPlayer().setWeapon(new Hammer(30, 25));
-    }
-    /**
-     * Použije aktuálnu zbraň hráča a spracuje zásah na materiály alebo nepriateľov.
-     */
-    public void useWeapon() {
-        this.gameManager.getPlayer().getPlayerGraphics().getHandGraphics().use();
-        CollisionDetector.handleWeaponHit(this.gameManager.getObjectManager(),  this.gameManager.getPlayer(), this.gameManager.getEnemyManager());
+
+    public EnemyManager getEnemyManager() {
+        return this.gameManager.getEnemyManager();
     }
     /**
      * Získava grafiku inventára.
@@ -221,8 +193,6 @@ public class GameGraphics extends JPanel {
         player.setHealth(player.getMaxHealth());
 
         this.gameManager.reset(this.cols, this.rows);
-
-        this.setWeaponHammer();
 
         this.inventoryGraphics = new InventoryGraphics(player);
 

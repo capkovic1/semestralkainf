@@ -77,7 +77,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        this.game.rotatePlayerToMouse(e.getX(), e.getY());
+        this.rotatePlayerToMouse(e.getX(), e.getY());
 
         int gridX = e.getX() / 20;
         int gridY = e.getY() / 20;
@@ -134,7 +134,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
             this.game.getInventory().selectSlot(5);
         }
         if (this.pressedKeys.contains(KeyEvent.VK_SPACE)) {
-            this.game.useWeapon();
+            this.useWeapon();
         }
         if (this.pressedKeys.contains(KeyEvent.VK_U)) {
             this.upgradeWeapon();
@@ -163,7 +163,28 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
             this.game.getMessageDisplay().showMessage("Not enough gold! (Need " + cost + ")");
         }
     }
+    /**
+     * Použije aktuálnu zbraň hráča, spustí animáciu a detekciu zásahu.
+     */
+    private void useWeapon() {
+        this.player.getPlayerGraphics().getHandGraphics().use();
+        CollisionDetector.handleWeaponHit(this.game.getObjectManager(),  this.player, this.game.getEnemyManager());
+    }
 
+    /**
+     * Nastaví uhol natočenia hráča tak, aby smeroval k pozícii myši.
+     * Následne sa prekreslí herná plocha.
+     *
+     * @param mouseX X súradnica myši v pixeloch.
+     * @param mouseY Y súradnica myši v pixeloch.
+     */
+    public void rotatePlayerToMouse(int mouseX, int mouseY) {
+        int playerPixelX = this.player.getX();
+        int playerPixelY = this.player.getY();
+        double angle = Math.atan2(mouseY - playerPixelY, mouseX - playerPixelX);
+        this.player.setAngle(Math.toDegrees(angle));
+        this.game.repaint();
+    }
     /**
      * Aktualizuje smer pohybu hráča podľa stlačených kláves WASD alebo šípok.
      * Nastavuje smer pohybu v hernej grafike.

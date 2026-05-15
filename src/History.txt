@@ -108,3 +108,8 @@ Time: 2026-05-15 13:38:55 ,TimeAlive: 00:04, Score: 1000
 Time: 2026-05-15 13:39:06 ,TimeAlive: 00:09, Score: 2500
 Time: 2026-05-15 13:39:09 ,TimeAlive: 00:02, Score: 0
 Time: 2026-05-15 13:40:37 ,TimeAlive: 01:27, Score: 13000
+Time: 2026-05-15 14:36:49 ,TimeAlive: 00:26, Score: 6060
+Time: 2026-05-15 14:48:15 ,TimeAlive: 00:05, Score: 1000
+Time: 2026-05-15 14:48:24 ,TimeAlive: 00:07, Score: 2000
+Time: 2026-05-15 14:54:04 ,TimeAlive: 01:21, Score: 23380
+Time: 2026-05-15 14:56:34 ,TimeAlive: 00:14, Score: 2750
