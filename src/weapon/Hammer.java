@@ -37,6 +37,11 @@ public class Hammer extends Weapon {
         return false;
     }
 
+        /**
+        * Získá grafiku pro zbraň typu Kladivo.
+        *
+        * @return Instance {@link HammerGraphics} reprezentující grafiku kladiva.
+        */
     @Override
     public HandGraphics getWeaponGraphics() {
         return new HammerGraphics();

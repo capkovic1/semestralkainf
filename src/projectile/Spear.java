@@ -6,9 +6,8 @@ import java.awt.Graphics;
 
 /**
  * Trieda {@code Spear} reprezentuje vrhací oštep, ktorý je podtriedou {@link Projectile}.
- * <p>
+ *
  * Oštep sa pohybuje smerom k cieľovej pozícii a po dosiahnutí cieľa sa deaktivuje.
- * </p>
  */
 public class Spear extends Projectile {
     /**
@@ -82,8 +81,13 @@ public class Spear extends Projectile {
         return super.isActive();
     }
 
+    /**
+     * Vykreslí oštep na danom grafe.
+     *
+     * @param g grafický kontext, na ktorom sa oštep vykreslí
+     */
+    @Override
     public void draw(Graphics g) {
         new SpearGraphics(this).draw(g);
     }
 }
-

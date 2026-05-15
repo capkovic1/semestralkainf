@@ -31,6 +31,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
 
     /**
      * Konštruktor nastaví referenciu na hernú grafiku pre interakciu s hrou.
+     *
      * @param game Inštancia triedy GameGraphics reprezentujúca hru.
      */
     public GameInputHandler(GameGraphics game) {
@@ -93,6 +94,14 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
         this.game.repaint();
     }
 
+    /**
+     * Pokúsi sa postaviť stavbu (wall/canon) ak má hráč dostatok surovín.
+     *
+     * @param name názov stavby
+     * @param structure inštancia stavby
+     * @param gridX x súradnica na mriežke
+     * @param gridY y súradnica na mriežke
+     */
     public void handleBuilding(String name  , Structure structure , int gridX , int gridY) {
         if (this.player.getStone() >= structure.getPrice()) {
             if (this.game.getObjectManager().canPlaceStructure(gridX, gridY, this.game.getPlayer())) {

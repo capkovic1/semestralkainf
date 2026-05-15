@@ -34,7 +34,11 @@ public class Bow extends Weapon {
         }
         return false;
     }
-
+    /**
+     * Získá grafiku pro zbraň typu Luk.
+     *
+     * @return Instance {@link BowGraphics} reprezentující grafiku luku.
+     */
     @Override
     public HandGraphics getWeaponGraphics() {
         return new BowGraphics();

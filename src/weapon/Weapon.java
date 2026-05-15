@@ -96,5 +96,11 @@ public abstract class Weapon {
     public int getDmgToStructures() {
         return this.dmgToStructures;
     }
+    /**
+     * Abstraktná metóda, ktorá musí být implementovaná v konkrétnych typoch zbraní.
+     * Slúži na získanie grafiky zbrane, ktorá bude použitá v hre.
+     *
+     * @return Instance {@link HandGraphics} reprezentující grafiku zbrane.
+     */
     public abstract HandGraphics getWeaponGraphics();
 }

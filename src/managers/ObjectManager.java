@@ -77,6 +77,11 @@ public class ObjectManager {
 
     }
 
+    /**
+     * Odstráni zničené materiály v okolí hráča na základe jeho dosahu zbrane.
+     *
+     * @param player hráč, ktorý ničí materiály
+     */
     public void removeDestroyedMaterial(Player player) {
         int hitRange = player.getWeapon().getRange();
         int size = 50;
@@ -109,6 +114,14 @@ public class ObjectManager {
         return CollisionDetector.checkCanPlaceStructure(x, y, player, this.structures, this.materials);
     }
 
+    /**
+     * Aktualizuje všetky štruktúry na mape, vrátane kanónov a nepriateľov.
+     * Odstraňuje zničené štruktúry a aktualizuje projektily.
+     *
+     * @param enemies zoznam nepriateľov na mape
+     * @param enemyManager manažér nepriateľov na správu ich stavu a správania
+     * @param player hráč, ktorý ovláda kanóny
+     */
     public void updateStructures(ArrayList<Enemy> enemies , EnemyManager enemyManager , Player player) {
         this.structures.removeIf(Structure::isDestroyed);
 
@@ -118,10 +131,18 @@ public class ObjectManager {
         ProjectileManager.getInstance().updateProjectiles(enemies, enemyManager, player);
     }
 
+    /**
+     * Obnoví stav manažéra objektov, odstráni všetky materiály a štruktúry.
+     */
     public void reset() {
         this.materials.clear();
         this.structures.clear();
     }
+    /**
+     * Pridá novú štruktúru (napr. kanón) do zoznamu štruktúr na mape.
+     *
+     * @param structure štruktúra, ktorá sa má pridať
+     */
     public void addStructure(Structure structure) {
         this.structures.add(structure);
     }

@@ -35,7 +35,11 @@ public class Hand extends Weapon {
         }
         return false;
     }
-
+    /**
+     * Získá grafiku pro zbraň typu Ruka.
+     *
+     * @return Instance {@link EmptyHandGraphics} reprezentující grafiku prázdné ruky.
+     */
     @Override
     public HandGraphics getWeaponGraphics() {
         return new EmptyHandGraphics();

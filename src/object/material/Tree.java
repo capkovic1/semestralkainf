@@ -25,9 +25,19 @@ public class Tree implements Material {
         this.x = x;
         this.y = y;
     }
+    /**
+     * Vráti X súradnicu stromu.
+     *
+     * @return X súradnica
+     */
     public int getX() {
         return this.x;
     }
+    /**
+     * Vráti Y súradnicu stromu.
+     *
+     * @return Y súradnica
+     */
     public int getY() {
         return this.y;
     }
@@ -43,11 +53,21 @@ public class Tree implements Material {
         return ResourceType.WOOD;
     }
 
+    /**
+     * Vykreslí strom pomocou grafiky {@link TreeGraphics}.
+     *
+     * @param g grafický kontext pro vykreslení
+     */
     @Override
     public void draw(Graphics g) {
         new TreeGraphics(this).draw(g);
     }
 
+    /**
+     * Vráti ohraničujúci obdĺžnik stromu (používané pre kolízie).
+     *
+     * @return ohraničujúci {@link Rectangle}
+     */
     public Rectangle getBounds() {
         int size = 40;
         return new Rectangle(this.x - size, this.y - size, size * 2, size * 2);

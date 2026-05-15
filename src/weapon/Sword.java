@@ -35,6 +35,11 @@ public class Sword extends Weapon {
         return upgrade;
     }
 
+        /**
+        * Získá grafiku pro zbraň typu Meč.
+        *
+        * @return Instance {@link SwordGraphics} reprezentující grafiku meče.
+        */
     @Override
     public HandGraphics getWeaponGraphics() {
         return new SwordGraphics();

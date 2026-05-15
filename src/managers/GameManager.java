@@ -4,7 +4,7 @@ import entities.player.Player;
 
 /**
  * Trieda GameManager je centrálny manažér pre hernú logiku,
- * ktorý koordinuje hráča, nepriateľov rôzneho typu, vlny nepriateľov a objekty hry.
+ * ktorý koordinuje hráča, nepriateľov, vlny nepriateľov a objekty hry.
  */
 public class GameManager {
 
@@ -17,6 +17,7 @@ public class GameManager {
 
     /**
      * Inicializuje hráča, manažérov nepriateľov, vlny a objekty.
+     *
      * @param player Inštancia hráča
      * @param cols počet stĺpcov mapy
      * @param rows počet riadkov mapy
@@ -36,6 +37,9 @@ public class GameManager {
 
     /**
      * Resetuje hru - zastaví vlny, vyčistí nepriateľov a objekty a znovu spustí vlny a generovanie objektov.
+     *
+     * @param cols počet stĺpcov mapy
+     * @param rows počet riadkov mapy
      */
     public void reset(int cols, int rows) {
         this.waveManager.stopWaves();
@@ -50,6 +54,11 @@ public class GameManager {
         this.objectManager.generateObjects(7, 8, cols, rows);
     }
 
+    /**
+     * Aktualizuje entitný stav (nepriateľov) a vracia, či niekto zomrel.
+     *
+     * @return {@code true}, ak aspoň jeden nepriateľ zomrel v tomto tik-u
+     */
     public boolean updateEntities() {
         return  this.enemyManager.updateEnemies(this.player);
     }
@@ -60,6 +69,9 @@ public class GameManager {
     public void updateObjects() {
         this.objectManager.updateStructures(this.enemyManager.getEnemyList(), this.enemyManager , this.player);
     }
+    /**
+     * Aktualizuje aktívne efekty pre hráča.
+     */
     public void updateEffects() {
         this.effectsManager.update(this.player);
     }
@@ -82,5 +94,4 @@ public class GameManager {
 
 
 }
-
 

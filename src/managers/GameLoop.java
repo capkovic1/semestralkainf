@@ -22,6 +22,17 @@ public class GameLoop {
     private final int rows;
     private final int cols;
 
+    /**
+     * Vytvorí hlavný herný cyklus, ktorý riadi aktualizácie v pravidelnom intervale.
+     *
+     * @param gameManager manažér hry
+     * @param inputHandler handler vstupov
+     * @param onRepaint volateľné na prekreslenie
+     * @param onGameOver volateľné pri konci hry
+     * @param startTime čas začiatku hry (pre históriu)
+     * @param rows počet riadkov mapy
+     * @param cols počet stĺpcov mapy
+     */
     public GameLoop(GameManager gameManager, GameInputHandler inputHandler, Runnable onRepaint, Runnable onGameOver, long startTime , int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
@@ -71,19 +82,34 @@ public class GameLoop {
 
         this.onRepaint.run();
     }
+    /**
+     * Regeneruje hráčove zdravie ak nie je plné.
+     */
     public void regeneratePlayer() {
         if (this.player.getHealth() < this.player.getMaxHealth()) {
             this.player.setHealth(this.player.getHealth() + 1);
         }
     }
+    /**
+     * Spustí herný cyklus (timer).
+     */
     public void start() {
         this.gameTimer.start();
     }
+    /**
+     * Zastaví herný cyklus, ak beží.
+     */
     public void stop() {
         if (this.gameTimer != null && this.gameTimer.isRunning()) {
             this.gameTimer.stop();
         }
     }
+    /**
+     * Reštartuje herný cyklus s novým input handlerom a časom začiatku.
+     *
+     * @param inputHandler nový input handler
+     * @param newStartTime nový čas začiatku pre históriu
+     */
     public void restart(GameInputHandler inputHandler, long newStartTime) {
         this.stop();
         this.inputHandler = inputHandler;

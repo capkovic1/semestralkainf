@@ -171,5 +171,11 @@ public abstract class Projectile {
      * @return {@code true}, ak by mal byť projektil odstránený, inak {@code false}
      */
     public abstract boolean shouldRemove();
+    /**
+     * Vykreslí projektil na zadaném grafickém kontextu.
+     * Každá podtrieda musí implementovat svou vlastní logiku pro vykreslení.
+     *
+     * @param g grafický kontext pro vykreslení
+     */
     public abstract void draw(Graphics g);
 }

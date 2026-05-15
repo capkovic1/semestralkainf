@@ -73,10 +73,19 @@ public class Canon implements Structure {
         return this.y;
     }
 
+    /**
+     * Vykreslí kanón pomocí grafiky {@link CanonGraphics}.
+     *  @param g grafický kontext pro vykreslení
+     */
     @Override
     public void draw(Graphics g) {
         new CanonGraphics(this).draw(g);
     }
+    /**
+     * Získá ohraničujúci obdĺžnik kanóna pro kolízie.
+     *
+     * @return Ohraničujúci {@link Rectangle}.
+     */
     public Rectangle getBounds() {
         return new Rectangle(this.x - 10, this.y - 10, 20, 20);
     }

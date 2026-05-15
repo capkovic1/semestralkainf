@@ -48,8 +48,13 @@ public class CanonBall extends Projectile {
     public boolean shouldRemove() {
         return this.getLifetime() <= 0 || this.getX() < 0 || this.getY() < 0;
     }
+    /**
+     * Vykreslí kanónovú guľu pomocou {@link CanonBallGraphics}.
+     *
+     * @param g grafický kontext
+     */
+    @Override
     public void draw(Graphics g) {
         new CanonBallGraphics(this).draw(g);
     }
 }
-

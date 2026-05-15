@@ -27,16 +27,31 @@ public class Wall implements Structure {
         this.y = y;
     }
 
+    /**
+     * Priebežná aktualizácia steny - momentálne bez správania.
+     *
+     * @param enemies zoznam nepriateľov (nevyužité)
+     */
     @Override
     public void update(ArrayList<Enemy> enemies) {
 
     }
 
+    /**
+     * Indikuje, či je stena zničená.
+     *
+     * @return {@code true} ak je zničená (momentálne vždy {@code false})
+     */
     @Override
     public boolean isDestroyed() {
         return false;
     }
 
+    /**
+     * Vráti cenu postavenia steny v kameňoch.
+     *
+     * @return cena steny
+     */
     @Override
     public int getPrice() {
         return 50;
@@ -59,11 +74,20 @@ public class Wall implements Structure {
     public int getY() {
         return this.y;
     }
-
+    /**
+     * Vykreslí stenu pomocí grafického objektu {@link WallGraphics}.
+     *
+     * @param g grafický kontext pro vykreslení
+     */
     @Override
     public void draw(Graphics g) {
         new WallGraphics(this).draw(g);
     }
+    /**
+     * Vráti ohraničujúci obdĺžnik steny pro kolízie.
+     *
+     * @return ohraničujúci {@link Rectangle}
+     */
     public Rectangle getBounds() {
         return new Rectangle(this.x - 10, this.y - 10, 20, 20);
     }

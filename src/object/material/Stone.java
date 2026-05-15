@@ -27,9 +27,19 @@ public class Stone implements Material {
         this.y = y;
     }
 
+    /**
+     * Vráti X súradnicu kamena.
+     *
+     * @return X súradnica
+     */
     public int getX() {
         return this.x;
     }
+    /**
+     * Vráti Y súradnicu kamena.
+     *
+     * @return Y súradnica
+     */
     public int getY() {
         return this.y;
     }
@@ -45,13 +55,21 @@ public class Stone implements Material {
         return ResourceType.STONE;
     }
 
-
+    /**
+     * Vráti ohraničujúci obdĺžnik kamena (používané pre kolízie).
+     *
+     * @return ohraničujúci {@link Rectangle}
+     */
     @Override
     public Rectangle getBounds() {
         int size = 40;
         return new Rectangle(this.x - size, this.y - size, size * 2, size * 2);
     }
 
+    /**
+     * Vykreslí kameň pomocí grafického objektu {@link StoneGraphic}.
+     * @param g grafický kontext pro vykreslení
+     */
     @Override
     public void draw(Graphics g) {
         new StoneGraphic(this).draw(g);

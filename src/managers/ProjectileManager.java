@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Trieda zodpovedná za správu všetkých projektilov v hre bez ohľadu na ich zdroj.
- * Aktualizuje pozície, počíta kolízie s nepriateľmi a odstraňuje neplatné projektily.
+ * Manažér projektilov zodpovedný za správu a aktualizáciu všetkých projektilov v hre.
+ *
+ * Udržiava interný zoznam projektilov, stará sa o ich pohyb, kolízie s nepriateľmi
+ * a ich odstránenie, keď už projektily nie sú potrebné.
  */
 public class ProjectileManager {
     private static ProjectileManager instance;
@@ -20,22 +22,31 @@ public class ProjectileManager {
     /**
      * Pridá nový projektil do správy.
      *
-     * @param projectile Projektil, ktorý sa má spravovať
+     * @param projectile projektil, ktorý sa má pridať
      */
     public void addProjectile(Projectile projectile) {
         this.projectiles.add(projectile);
     }
+
+    /**
+     * Singleton getter pre inštanciu ProjectileManager.
+     *
+     * @return jediná inštancia ProjectileManager
+     */
     public static ProjectileManager getInstance() {
         if (instance == null) {
             instance = new ProjectileManager();
         }
         return instance;
     }
+
     /**
-     * Aktualizuje všetky projektily - pohyb, kolízie s nepriateľmi, odstránenie.
+     * Aktualizuje všetky projektily: pohyb, kontrola kolízií s nepriateľmi/hráčom
+     * a odstránenie projektilov, ktoré zasiahli cieľ alebo sú neplatné.
      *
-     * @param enemies Zoznam všetkých nepriateľov v hre
-     * @param enemyManager EnemyManager pre pridávanie damage indikátorov
+     * @param enemies zoznam nepriateľov v hre
+     * @param enemyManager manažér nepriateľov (pre pridanie damage indikátorov)
+     * @param player hráč (na kontrolu kolícií projektilov s hráčom)
      */
     public void updateProjectiles(ArrayList<Enemy> enemies, EnemyManager enemyManager , Player player) {
         Iterator<Projectile> projIter = this.projectiles.iterator();
@@ -63,11 +74,11 @@ public class ProjectileManager {
     }
 
     /**
-     * Skontroluje či sa projektil zrazil s nepriateľom.
+     * Skontroluje kolíciu medzi projektilom a entitou. Pri zásahu aplikuje poškodenie.
      *
-     * @param projectile Projektil na skontrolenie
-     * @param entity Entita na skontrolenie
-     * @return {@code true}, ak došlo k zrážke, inak {@code false}
+     * @param projectile projektil na skontrolovanie
+     * @param entity entita, s ktorou sa má kontrolovať kolízia
+     * @return {@code true}, ak došlo k zásahu, inak {@code false}
      */
     private boolean checkProjectileCollision(Projectile projectile, Entity entity) {
         if (new Rectangle((int)projectile.getX() - 5, (int)projectile.getY() - 5, 10, 10).intersects(new Rectangle(entity.getX(), entity.getY(), 50, 50))) {
@@ -79,13 +90,12 @@ public class ProjectileManager {
     }
 
     /**
-     * Získa zoznam všetkých aktuálnych projektilov.
+     * Vráti zoznam všetkých aktuálnych projektilov.
      *
-     * @return Zoznam projektilov
+     * @return modifikovateľný zoznam projektilov
      */
     public ArrayList<Projectile> getProjectiles() {
         return this.projectiles;
     }
 
 }
-
