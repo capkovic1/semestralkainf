@@ -31,6 +31,8 @@ public class Frog extends Enemy {
     }
 
     /**
+     * Syntax z časovasu bol inšpirovany z https://www.baeldung.com/java-timer-and-timertask
+     *
      * Nastaví časovač, ktorý pravidelne obnovuje možnosť žaby skákať.
      * Skákanie je možné po uplynutí náhodného intervalu medzi 1 a 3 sekundami.
      */

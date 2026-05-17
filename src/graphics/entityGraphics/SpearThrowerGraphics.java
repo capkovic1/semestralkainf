@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda {@code SpearThrowerGraphics} zabezpečuje vykresľovanie grafiky
  * pre entitu SpearThrower (vrhač oštepov).
  * Grafika obsahuje telo, oči, pás a ruku vrhača,

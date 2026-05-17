@@ -115,3 +115,11 @@ Time: 2026-05-15 14:54:04 ,TimeAlive: 01:21, Score: 23380
 Time: 2026-05-15 14:56:34 ,TimeAlive: 00:14, Score: 2750
 Time: 2026-05-15 15:08:35 ,TimeAlive: 00:20, Score: 3500
 Time: 2026-05-15 15:11:12 ,TimeAlive: 00:43, Score: 12530
+Time: 2026-05-16 10:32:12 ,TimeAlive: 00:20, Score: 2500
+Time: 2026-05-16 14:48:49 ,TimeAlive: 00:17, Score: 3800
+Time: 2026-05-16 14:49:44 ,TimeAlive: 00:22, Score: 6490
+Time: 2026-05-16 14:51:15 ,TimeAlive: 00:41, Score: 16020
+Time: 2026-05-16 15:03:04 ,TimeAlive: 00:20, Score: 4280
+Time: 2026-05-16 15:05:07 ,TimeAlive: 02:00, Score: 51960
+Time: 2026-05-16 17:02:13 ,TimeAlive: 00:47, Score: 13850
+Time: 2026-05-17 13:06:39 ,TimeAlive: 00:21, Score: 4060

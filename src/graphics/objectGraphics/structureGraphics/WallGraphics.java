@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda zodpovedná za vykresľovanie grafiky steny,
  * ktorá pozostáva z obdĺžnikového tvaru so štruktúrou kameňov (pebblov).
  */

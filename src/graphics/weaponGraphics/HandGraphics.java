@@ -1,4 +1,4 @@
-package graphics.handGraphics;
+package graphics.weaponGraphics;
 
 import entities.player.Player;
 

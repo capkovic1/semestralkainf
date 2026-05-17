@@ -8,6 +8,7 @@ import java.awt.Polygon;
 
 /**
  * Táto trieda bola vygenerovaná AI
+ *
  * Trieda {@code SpearGraphics} zabezpečuje vykresľovanie grafiky oštepu.
  * Oštep je vykresľovaný podľa jeho pozície a uhla natočenia.
  */

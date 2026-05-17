@@ -1,4 +1,4 @@
-package graphics.handGraphics;
+package graphics.weaponGraphics;
 
 import entities.player.Player;
 import java.awt.Graphics2D;
@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda reprezentujúca grafiku meča drženého hráčom.
  * Zabezpečuje kreslenie meča a animáciu jeho švihu.
  */

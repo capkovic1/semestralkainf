@@ -1,4 +1,4 @@
-package graphics.handGraphics;
+package graphics.weaponGraphics;
 
 import entities.player.Player;
 import managers.ProjectileManager;
@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda BowGraphics zodpovedá za grafické vykreslenie luku s možnosťou
  * natiahnutia a vystrelenia šípu. Implementuje rozhranie HandGraphics.
  * Používa vnútorný timer na animáciu natiahnutia luku a zobrazenie šípu.

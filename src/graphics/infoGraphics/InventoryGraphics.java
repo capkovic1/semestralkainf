@@ -1,12 +1,6 @@
 package graphics.infoGraphics;
 
 import entities.player.Player;
-import graphics.entityGraphics.PlayerGraphics;
-import graphics.handGraphics.BowGraphics;
-import graphics.handGraphics.EmptyHandGraphics;
-import graphics.handGraphics.HandGraphics;
-import graphics.handGraphics.HammerGraphics;
-import graphics.handGraphics.SwordGraphics;
 import weapon.Bow;
 import weapon.Hammer;
 import weapon.Hand;
@@ -19,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.Font;
 
 /**
+ *
  * Trieda zodpovedná za vykresľovanie inventára hráča, výber zbraní
  * a ich grafickú reprezentáciu v hernom okne.
  * Inventár obsahuje pevne daný počet slotov so základnými zbraňami a
@@ -37,15 +32,9 @@ public class InventoryGraphics {
     private final Sword sword;
     private final Hand hand;
 
-    private final BowGraphics bowGraphics;
-    private final HammerGraphics hammerGraphics;
-    private final SwordGraphics swordGraphics;
-    private final HandGraphics handGraphics;
-
 
     private int selectedSlot = 0;
     private final Player player;
-    private final PlayerGraphics playerGraphics;
     /**
      * Konštruktor vytvára inventár pre daného hráča a inicializuje zbrane
      * spolu s ich grafickými reprezentáciami.
@@ -54,19 +43,15 @@ public class InventoryGraphics {
      */
     public InventoryGraphics(Player player ) {
         this.player = player;
-        this.playerGraphics = player.getPlayerGraphics();
 
         this.bow = new Bow(0, 20);
         this.hammer = new Hammer(30, 5);
         this.sword = new Sword(60, 20);
         this.hand = new Hand(30, 3);
-
-        this.bowGraphics = new BowGraphics();
-        this.hammerGraphics = new HammerGraphics();
-        this.swordGraphics = new SwordGraphics();
-        this.handGraphics = new EmptyHandGraphics();
     }
     /**
+     * Táto metóda bola vygenerovaná AI
+     *
      * Vykreslí inventár na spodnú časť obrazovky.
      * Zobrazí všetky sloty, ich čísla a názvy zbraní v každom slote.
      * Vybraný slot zvýrazní inou farbou.
@@ -145,19 +130,15 @@ public class InventoryGraphics {
             switch (slot) {
                 case 0:
                     this.player.setWeapon(this.hand);
-                    this.playerGraphics.setHandGraphics(this.handGraphics);
                     break;
                 case 1:
                     this.player.setWeapon(this.hammer);
-                    this.playerGraphics.setHandGraphics(this.hammerGraphics);
                     break;
                 case 2:
                     this.player.setWeapon(this.sword);
-                    this.playerGraphics.setHandGraphics(this.swordGraphics);
                     break;
                 case 3:
                     this.player.setWeapon(this.bow);
-                    this.playerGraphics.setHandGraphics(this.bowGraphics);
                     break;
                 case 4:
                 default:

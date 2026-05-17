@@ -8,6 +8,7 @@ import java.awt.Polygon;
 
 /**
  * Táto trieda bola vygenerovaná AI
+ *
  * Trieda {@code FrogGraphics} zabezpečuje vykresľovanie grafiky žaby.
  * Grafika je založená na súradniciach a uhloch žaby a vykresľuje jej telo,
  * oči, brucho, nohy a efekty smrti.

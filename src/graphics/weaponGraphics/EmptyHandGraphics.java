@@ -1,4 +1,4 @@
-package graphics.handGraphics;
+package graphics.weaponGraphics;
 
 import entities.player.Player;
 import java.awt.Color;
@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda EmptyHandGraphics reprezentuje grafické zobrazenie voľných rúk hráča,
  * ktoré môžu animovať úder (punch). Implementuje rozhranie HandGraphics.
  * Animácia úderu je riadená časovačom, ktorý posúva pozíciu rúk počas úderu.

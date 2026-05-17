@@ -29,6 +29,8 @@ public class SpearThrower extends Enemy {
         this.attackTimer = new Timer();
     }
     /**
+     * Časovač je inšpirované z AI
+     *
      * Zaútočí na cieľ, ak nie je v cooldown režime.
      * Vytvorí nový oštep a hodí ho na cieľové súradnice.
      * Po útoku nastane 2-sekundový cooldown.

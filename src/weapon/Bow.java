@@ -1,7 +1,7 @@
 package weapon;
 
-import graphics.handGraphics.BowGraphics;
-import graphics.handGraphics.HandGraphics;
+import graphics.weaponGraphics.BowGraphics;
+import graphics.weaponGraphics.HandGraphics;
 
 /**
  * Trieda predstavujúca zbraň typu Luk (Bow).

@@ -1,7 +1,7 @@
 package weapon;
 
-import graphics.handGraphics.HammerGraphics;
-import graphics.handGraphics.HandGraphics;
+import graphics.weaponGraphics.HammerGraphics;
+import graphics.weaponGraphics.HandGraphics;
 
 /**
  * Trieda predstavujúca zbraň typu Kladivo (Hammer).

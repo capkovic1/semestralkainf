@@ -31,6 +31,8 @@ public class DamageIndicator {
     }
 
     /**
+     * Táto metoda bola upravená AI
+     *
      * Vykreslí damage indikátor s fade-out efektom a pohybom nahor.
      *
      * @param g grafický 2D kontext na kreslenie

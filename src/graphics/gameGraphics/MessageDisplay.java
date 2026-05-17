@@ -7,6 +7,8 @@ import java.awt.Graphics;
 
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda zodpovedná za zobrazenie dočasných správ na obrazovke.
  * Správy sa zobrazujú na strede obrazovky s polopriehľadným pozadím.
  */

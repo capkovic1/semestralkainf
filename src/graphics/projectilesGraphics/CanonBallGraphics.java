@@ -8,6 +8,8 @@ import java.awt.Stroke;
 import java.awt.BasicStroke;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda zodpovedná za vykresľovanie grafiky guľky kanónu.
  */
 public class CanonBallGraphics implements ProjectileGraphics {

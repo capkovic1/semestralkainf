@@ -22,13 +22,14 @@ public class ActiveEffectsGraphics {
     public void drawActiveEffects(Graphics2D g, EffectsManager effectsManager) {
         ArrayList<Effects> activeEffects = effectsManager.getActiveEffects();
         int x = 10;
-        int y = 50;
+        int y = 60;
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 14));
 
         for (Effects effect : activeEffects) {
-            g.drawString(effect.getName() + " " + effect.getRemainingTime(), x, y);
+            double remainingSeconds = effect.getRemainingTime() / 1000.0;
+            g.drawString(effect.getName() + " " + String.format("%.1f", remainingSeconds) + "s", x, y);
             y += 20;
         }
     }

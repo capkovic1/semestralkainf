@@ -10,6 +10,8 @@ import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda ArrowGraphics zodpovedá za vykreslenie grafickej reprezentácie šípu.
  * Umožňuje vykresliť šíp s danou pozíciou, uhlom natočenia a dĺžkou.
  */

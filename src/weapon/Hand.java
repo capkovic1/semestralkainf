@@ -1,7 +1,7 @@
 package weapon;
 
-import graphics.handGraphics.EmptyHandGraphics;
-import graphics.handGraphics.HandGraphics;
+import graphics.weaponGraphics.EmptyHandGraphics;
+import graphics.weaponGraphics.HandGraphics;
 
 /**
  * Trieda predstavujúca zbraň typu Ruka (Hand).

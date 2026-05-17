@@ -3,7 +3,11 @@ package managers;
 import entities.player.Player;
 
 import javax.swing.Timer;
-
+/**
+ * Trieda GameLoop predstavuje hlavný herný cyklus, ktorý riadi aktualizácie a logiku hry v pravidelných intervaloch.
+ * Používa {@link Timer} na spúšťanie aktualizácií a spracováva vstupy, regeneráciu hráča, generovanie objektov,
+ * aktualizáciu nepriateľov, projektilov a efektov. Tiež kontroluje stav hráča a ukončuje hru pri strate zdravia.
+ */
 
 public class GameLoop {
     private Timer gameTimer;

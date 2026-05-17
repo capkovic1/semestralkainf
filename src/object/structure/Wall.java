@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Wall implements Structure {
     private final int x;
     private final int y;
+    private int lifetime;
 
     /**
      * Vytvorí novú stenu na daných súradniciach.
@@ -25,6 +26,7 @@ public class Wall implements Structure {
     public Wall(int x, int y) {
         this.x = x;
         this.y = y;
+        this.lifetime = 300;
     }
 
     /**
@@ -34,7 +36,7 @@ public class Wall implements Structure {
      */
     @Override
     public void update(ArrayList<Enemy> enemies) {
-
+        this.lifetime--;
     }
 
     /**
@@ -44,7 +46,7 @@ public class Wall implements Structure {
      */
     @Override
     public boolean isDestroyed() {
-        return false;
+        return this.lifetime <= 0;
     }
 
     /**

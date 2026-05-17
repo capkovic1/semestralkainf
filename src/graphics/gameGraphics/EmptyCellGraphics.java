@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda zodpovedná za vykresľovanie prázdnych buniek hernej mapy.
  * Vykresľuje základnú trávnatú plochu so štruktúrovanými lístkami trávy.
  * Používa cachovanie generovaných trávových listov pre dané bunky, aby

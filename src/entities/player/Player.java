@@ -2,8 +2,8 @@ package entities.player;
 
 import entities.Entity;
 import graphics.entityGraphics.PlayerGraphics;
-import graphics.handGraphics.EmptyHandGraphics;
-import graphics.handGraphics.HammerGraphics;
+import graphics.weaponGraphics.EmptyHandGraphics;
+import graphics.weaponGraphics.HammerGraphics;
 import resource.ResourceType;
 import weapon.Hand;
 import weapon.Weapon;

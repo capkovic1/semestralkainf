@@ -17,6 +17,7 @@ import java.util.Scanner;
  * Trieda GameHistory poskytuje funkcie na ukladanie a zobrazovanie histórie hier.
  * História sa ukladá do textového súboru a obsahuje dátum a čas,
  * dĺžku prežitia v hre a dosiahnuté skóre.
+ *
  * tato trieda bola upravena AI
  */
 public abstract class GameHistory {

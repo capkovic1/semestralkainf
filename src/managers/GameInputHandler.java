@@ -1,7 +1,7 @@
 package managers;
 
 import entities.player.Player;
-import graphics.gameGraphics.GameGraphics;
+import graphics.gameGraphics.GamePanel;
 import object.structure.Canon;
 import object.structure.Structure;
 import object.structure.Wall;
@@ -16,13 +16,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Debouncing pridaný pomocou AI , a tatiež prvotny navrh bol navrhnutý AI ktory sa nasledne upravoval
+ *
  * Trieda GameInputHandler spracováva vstupy od používateľa (klávesnica a myš)
  * a podľa nich ovláda pohyb hráča, rotáciu, výber inventára, stav zbraní a
  * stavať objekty ako stenu alebo kanón v hre.
  */
 public class GameInputHandler extends MouseAdapter implements KeyListener {
 
-    private final GameGraphics game;
+    private final GamePanel game;
     private final Player player;
 
     private final Set<Integer> pressedKeys = new HashSet<>();
@@ -37,7 +39,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      *
      * @param game Inštancia triedy GameGraphics reprezentujúca hru.
      */
-    public GameInputHandler(GameGraphics game) {
+    public GameInputHandler(GamePanel game) {
         this.player = game.getPlayer();
         this.game = game;
     }
@@ -190,7 +192,7 @@ public class GameInputHandler extends MouseAdapter implements KeyListener {
      * @param mouseX X súradnica myši v pixeloch.
      * @param mouseY Y súradnica myši v pixeloch.
      */
-    public void rotatePlayerToMouse(int mouseX, int mouseY) {
+    private void rotatePlayerToMouse(int mouseX, int mouseY) {
         int playerPixelX = this.player.getX();
         int playerPixelY = this.player.getY();
         double angle = Math.atan2(mouseY - playerPixelY, mouseX - playerPixelX);

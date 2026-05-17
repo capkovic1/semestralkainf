@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
+*Táto trieda bola vygenerovaná AI
+ *
  * Trieda zodpovedná za vykresľovanie grafiky kanónu na hraciu plochu.
  * Vykresľuje základné tvary kanónu, kovové platne, šrouby a hlaveň
  * s podporou rotácie a cachovania textúr pre zvýšenie výkonu.

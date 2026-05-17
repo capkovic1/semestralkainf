@@ -8,6 +8,7 @@ import java.awt.Polygon;
 
 /**
  * Táto trieda bola vygenerovaná AI
+ *
  * Trieda {@code WolfGraphics} zabezpečuje vykresľovanie grafiky
  * pre entitu Wolf (vlka).
  * Grafika obsahuje telo, oči, tesáky a uši vlka,

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda TreeGraphics zodpovedá za grafické znázornenie stromu.
  * Vykresľuje lístie stromu ako súbor elips rozmiestnených do kruhu.
  * Tiež uchováva entitu Wood, ktorá reprezentuje drevo stromu v hernej logike.

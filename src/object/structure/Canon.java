@@ -142,6 +142,8 @@ public class Canon implements Structure {
 
     /**
      * Nájde najbližšieho zombie ku kanónu.
+     * Metoda inspirovvana AI
+     *
      *
      * @param enemies Zoznam všetkých zombie.
      * @return Najbližší zombie, alebo {@code null}, ak zoznam je prázdny.
@@ -172,6 +174,7 @@ public class Canon implements Structure {
         int startX = this.x * 20 + 20;
         int startY = this.y * 20 + 20;
         int projectileSpeed = 8;
+
         CanonBall ball = new CanonBall(startX, startY, projectileSpeed * Math.cos(angleRad), projectileSpeed * Math.sin(angleRad), this.damage);
         ProjectileManager.getInstance().addProjectile(ball);
     }

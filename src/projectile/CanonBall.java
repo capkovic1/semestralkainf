@@ -9,8 +9,6 @@ import java.awt.Graphics;
  * ktorá sa pohybuje po hernej ploche s danou rýchlosťou a spôsobuje poškodenie.
  */
 public class CanonBall extends Projectile {
-    private final double dx;
-    private final double dy;
 
     /**
      * Vytvorí novú kanónovú guľu na pozícii (startX, startY) s daným posunom (dx, dy) a poškodením.
@@ -23,8 +21,8 @@ public class CanonBall extends Projectile {
      */
     public CanonBall(double startX, double startY, double dx, double dy, int damage) {
         super(startX, startY, 8, damage);
-        this.dx = dx;
-        this.dy = dy;
+        super.setDx(dx);
+        super.setDy(dy);
         this.setLifetime(120);
     }
 
@@ -33,8 +31,8 @@ public class CanonBall extends Projectile {
      */
     @Override
     public void update() {
-        this.setX(this.getX() + this.dx);
-        this.setY(this.getY() + this.dy);
+        this.setX(this.getX() + super.getDx());
+        this.setY(this.getY() + super.getDy());
         this.decreaseLifetime();
     }
 

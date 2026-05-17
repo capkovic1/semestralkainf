@@ -8,7 +8,6 @@ import entities.enemies.Wolf;
 import entities.enemies.Zombie;
 import entities.player.Player;
 import graphics.infoGraphics.DamageIndicator;
-import graphics.entityGraphics.EnemyGraphics;
 
 import resource.ResourceType;
 
@@ -27,7 +26,6 @@ import java.util.Random;
  */
 public class EnemyManager {
     private final ArrayList<Enemy> enemyList;
-    private final ArrayList<EnemyGraphics> graphicsList;
     private final ArrayList<DamageIndicator> damageIndicators;
 
     /**
@@ -35,7 +33,6 @@ public class EnemyManager {
      */
     public EnemyManager() {
         this.enemyList = new ArrayList<>();
-        this.graphicsList = new ArrayList<>();
         this.damageIndicators = new ArrayList<>();
     }
 
@@ -61,10 +58,7 @@ public class EnemyManager {
                 default -> new Zombie(300, 2, x, y, 2);
             };
 
-            EnemyGraphics graphics = enemy.getGraphics();
-
             this.enemyList.add(enemy);
-            this.graphicsList.add(graphics);
         }
     }
 
@@ -77,19 +71,17 @@ public class EnemyManager {
      */
     public boolean updateEnemies(Player player) {
         Iterator<Enemy> enemyIterator = this.enemyList.iterator();
-        Iterator<EnemyGraphics> graphicsIterator = this.graphicsList.iterator();
+
         boolean someoneDied = false;
 
         this.damageIndicators.removeIf(DamageIndicator::isExpired);
 
-        while (enemyIterator.hasNext() && graphicsIterator.hasNext()) {
+        while (enemyIterator.hasNext() ) {
             Enemy enemy = enemyIterator.next();
-            graphicsIterator.next();
 
             if (enemy.isDead()) {
                 player.addResource(ResourceType.GOLD, enemy.getGoldReward());
                 enemyIterator.remove();
-                graphicsIterator.remove();
                 someoneDied = true;
                 continue;
             }
@@ -117,14 +109,11 @@ public class EnemyManager {
         for (DamageIndicator indicator : this.damageIndicators) {
             indicator.draw(g2d);
         }
-        for (int i = 0; i < this.enemyList.size(); i++) {
-            Enemy enemy = this.enemyList.get(i);
-            EnemyGraphics graphics = this.graphicsList.get(i);
-
+        for (Enemy enemy : this.enemyList) {
             if (!enemy.isDead()) {
-                graphics.draw(g);
+                enemy.getGraphics().draw(g);
             } else {
-                graphics.drawDeathEffect(g);
+                enemy.getGraphics().drawDeathEffect(g);
             }
         }
     }
@@ -144,7 +133,6 @@ public class EnemyManager {
      */
     public void clearEnemies() {
         this.enemyList.clear();
-        this.graphicsList.clear();
     }
 
     /**

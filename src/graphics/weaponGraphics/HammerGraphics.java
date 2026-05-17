@@ -1,4 +1,4 @@
-package graphics.handGraphics;
+package graphics.weaponGraphics;
 
 import entities.player.Player;
 
@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda HammerGraphics reprezentuje grafické zobrazenie kladiva v ruke hráča.
  * Implementuje animáciu švihu kladiva pomocou časovača a otáčania grafiky.
  * Trieda implementuje rozhranie HandGraphics.

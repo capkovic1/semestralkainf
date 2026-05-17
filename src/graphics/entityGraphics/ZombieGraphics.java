@@ -8,6 +8,7 @@ import java.awt.BasicStroke;
 
 /**
  * Táto trieda bola vygenerovaná AI
+ *
  * Trieda {@code ZombieGraphics} zabezpečuje vykresľovanie grafiky
  * pre entitu Zombie (zombie).
  * Grafika zobrazuje telo, oči, rany a ústa zombie,

@@ -11,6 +11,8 @@ import java.awt.geom.GeneralPath;
 import java.util.Random;
 
 /**
+ * Táto trieda bola vygenerovaná AI
+ *
  * Trieda StoneGraphic zabezpečuje vykresľovanie kamienka (stone)
  * so "náhodným" nepravidelným tvarom pomocou GeneralPath.
  */

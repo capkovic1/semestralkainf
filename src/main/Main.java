@@ -1,7 +1,7 @@
 package main;
 
 import entities.player.Player;
-import graphics.gameGraphics.GameGraphics;
+import graphics.gameGraphics.GamePanel;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,7 +13,7 @@ public class Main {
 
         Player player = new Player(5, 5,  5);
 
-        GameGraphics gameGraphics = new GameGraphics(player);
+        GamePanel gameGraphics = new GamePanel(player);
 
         JFrame frame = new JFrame("2D Hra");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

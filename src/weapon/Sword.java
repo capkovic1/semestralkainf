@@ -1,7 +1,7 @@
 package weapon;
 
-import graphics.handGraphics.HandGraphics;
-import graphics.handGraphics.SwordGraphics;
+import graphics.weaponGraphics.HandGraphics;
+import graphics.weaponGraphics.SwordGraphics;
 
 /**
  * Trieda predstavujúca zbraň typu Meč (Sword).

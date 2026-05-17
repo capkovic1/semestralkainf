@@ -1,6 +1,6 @@
 package weapon;
 
-import graphics.handGraphics.HandGraphics;
+import graphics.weaponGraphics.HandGraphics;
 
 /**
  * Trieda predstavujúca základnú zbraň s úrovňou, dosahom, poškodením

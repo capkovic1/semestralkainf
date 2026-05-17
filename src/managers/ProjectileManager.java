@@ -49,26 +49,26 @@ public class ProjectileManager {
      * @param player hráč (na kontrolu kolícií projektilov s hráčom)
      */
     public void updateProjectiles(ArrayList<Enemy> enemies, EnemyManager enemyManager , Player player) {
-        Iterator<Projectile> projIter = this.projectiles.iterator();
+        Iterator<Projectile> projectileIterator = this.projectiles.iterator();
 
-        while (projIter.hasNext()) {
-            Projectile proj = projIter.next();
-            proj.update();
+        while (projectileIterator.hasNext()) {
+            Projectile projectile = projectileIterator.next();
+            projectile.update();
 
             boolean hit = false;
             for (Enemy enemy : enemies) {
-                if (this.checkProjectileCollision(proj, enemy) ) {
-                    enemyManager.addDamageIndicator(enemy, proj.getDamage());
+                if (this.checkProjectileCollision(projectile, enemy) ) {
+                    enemyManager.addDamageIndicator(enemy, projectile.getDamage());
                     hit = true;
                     break;
                 }
             }
-            if (this.checkProjectileCollision(proj, player)) {
-                enemyManager.addDamageIndicator(player, proj.getDamage());
+            if (this.checkProjectileCollision(projectile, player)) {
+                enemyManager.addDamageIndicator(player, projectile.getDamage());
                 hit = true;
             }
-            if (hit || proj.shouldRemove()) {
-                projIter.remove();
+            if (hit || projectile.shouldRemove()) {
+                projectileIterator.remove();
             }
         }
     }

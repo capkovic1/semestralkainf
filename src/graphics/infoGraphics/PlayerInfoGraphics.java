@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 
 /**
+ * Táto trieda bola upravená AI
+ *
  * Trieda zodpovedná za vykresľovanie informácií o hráčovi,
  * ako sú jeho zdroje, herný čas a ukazovateľ zdravia.
  */
